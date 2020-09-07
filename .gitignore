@@ -1,2 +1,6 @@
-/target/
+# dependencies
 /node_modules/
+/.yarn/
+
+# production
+/target/
