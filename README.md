@@ -5,7 +5,7 @@
 ```bash
 $ docker pull ubuntu:latest
 $ docker build -t ashoka .
-$ docker run --rm -it --network host -v `p│wd`:/workspace ashoka
+$ docker run --rm -it --network host -v `pwd`:/workspace ashoka
 $ ./build.sh
 ```
 
