@@ -8,11 +8,11 @@ use diesel::{
 };
 
 use super::super::errors::Result;
-use super::{schema::schema_migrations, Connection, ID};
+use super::{schema::schema_migrations, Connection};
 
 #[derive(Queryable)]
 pub struct Item {
-    pub id: ID,
+    pub id: i64,
     pub version: String,
     pub name: String,
     pub up: String,
