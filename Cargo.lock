@@ -509,6 +509,7 @@ dependencies = [
  "futures-executor",
  "futures-util",
  "git2",
+ "handlebars",
  "hex",
  "humantime 2.0.1",
  "jsonwebtoken",
@@ -522,7 +523,6 @@ dependencies = [
  "mime",
  "mime_guess",
  "nix",
- "openssl-sys",
  "percent-encoding 2.1.0",
  "r2d2",
  "rand 0.7.3",
@@ -1875,6 +1875,7 @@ dependencies = [
  "pest",
  "pest_derive",
  "quick-error 2.0.0",
+ "rhai",
  "serde",
  "serde_json",
 ]
@@ -2141,6 +2142,11 @@ name = "instant"
 version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5b141fdc7836c525d4d594027d318c84161ca17aaf8113ab1f81ab93ae897485"
+dependencies = [
+ "js-sys",
+ "wasm-bindgen",
+ "web-sys",
+]
 
 [[package]]
 name = "iovec"
@@ -2772,15 +2778,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "77af24da69f9d9341038eba93a073b1fdaaa1b788221b00a69bce9e762cb32de"
 
 [[package]]
-name = "openssl-src"
-version = "111.10.2+1.1.1g"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a287fdb22e32b5b60624d4a5a7a02dbe82777f730ec0dbc42a0554326fef5a70"
-dependencies = [
- "cc",
-]
-
-[[package]]
 name = "openssl-sys"
 version = "0.9.58"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2789,7 +2786,6 @@ dependencies = [
  "autocfg 1.0.1",
  "cc",
  "libc",
- "openssl-src",
  "pkg-config",
  "vcpkg",
 ]
@@ -3432,6 +3428,18 @@ checksum = "11834e137f3b14e309437a8276714eed3a80d1ef894869e510f2c0c0b98b9f4a"
 dependencies = [
  "hostname 0.3.1",
  "quick-error 1.2.3",
+]
+
+[[package]]
+name = "rhai"
+version = "0.18.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ce6b581cc1ca2445d3eb409358dc703f296ac1cc22b0b064c02a15be82d515ad"
+dependencies = [
+ "instant",
+ "num-traits",
+ "serde",
+ "smallvec 1.4.2",
 ]
 
 [[package]]

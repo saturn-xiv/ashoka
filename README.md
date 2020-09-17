@@ -85,3 +85,4 @@ $ ./build.sh
 
 - [Alibaba Java Coding Guidelines](https://github.com/alibaba/p3c)
 - [An emoji guide for your commit messages](https://gitmoji.carloscuesta.me/)
+- [Announcing Snowflake](https://blog.twitter.com/engineering/en_us/a/2010/announcing-snowflake.html)

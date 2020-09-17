@@ -4,3 +4,6 @@
 
 # production
 /target/
+
+# misc
+/tmp/
