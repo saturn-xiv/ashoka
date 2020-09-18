@@ -92,13 +92,18 @@ features = ["json"]
 version = "0.17"
 features = ["r2d2"]
 
+[dependencies.diesel]
+version = "1"
+default-features = false
+features = ["chrono", "serde_json", "uuid", "network-address", "numeric", "r2d2", "postgres", "64-column-tables"]
+
+[dependencies.diesel_migrations]
+version = "1"
+features = ["postgres"]
+
 [dependencies.rss]
 version = "1"
 features = ["from_url"]
-
-[dependencies.diesel]
-version = "1"
-features = ["chrono", "serde_json", "uuid", "numeric", "r2d2", "postgres", "mysql", "sqlite"]
 
 [dependencies.handlebars]
 version = "3"

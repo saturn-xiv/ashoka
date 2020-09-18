@@ -9,6 +9,30 @@ $ docker run --rm -it --network host -v `pwd`:/workspace ashoka
 $ ./build.sh
 ```
 
+- postgresql
+
+```bash
+$ sudo su - postgres
+$ psql
+> CREATE USER who-am-i WITH PASSWORD 'change-me';
+> CREATE DATABASE db-name WITH ENCODING='UTF8';
+> GRANT ALL PRIVILEGES ON DATABASE db-name TO who-am-i;
+```
+
+- rabbitmq
+
+```shell
+rabbitmq-plugins enable rabbitmq_management # enable admin
+rabbitmqctl change_password guest change-me # change guest user's password
+rabbitmqctl add_user who-am-i change-me # create new user
+rabbitmqctl set_user_tags who-am-i administrator # apply admin role to user
+rabbitmqctl list_vhosts # list all virtual hosts
+rabbitmqctl add_vhost v-host # add virtual hosts
+rabbitmqctl delete_vhost v-host # delete virtual hosts
+# apply all virtual vhost privileges to user
+rabbitmqctl set_permissions -p v-host who-am-i ".*" ".*" ".*"
+```
+
 ### Mock test
 
 - [MinIO is a high performance object storage server compatible with Amazon S3 APIs](https://github.com/minio/minio)

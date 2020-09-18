@@ -1,15 +1,12 @@
-pub mod schema;
-
 use chrono::{NaiveDateTime, Utc};
 use diesel::{insert_into, prelude::*, update};
 use serde::{de::DeserializeOwned, ser::Serialize};
 
-use super::{crypto::Secret, errors::Result, orm::Connection};
-
-use self::schema::settings;
-
-pub const UP: &str = include_str!("up.sql");
-pub const DOWN: &str = include_str!("down.sql");
+use super::{
+    crypto::Secret,
+    errors::Result,
+    orm::{schema::settings, Connection},
+};
 
 #[derive(Queryable)]
 pub struct Item {

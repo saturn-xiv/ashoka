@@ -1,5 +1,4 @@
 pub mod locale;
-pub mod schema;
 
 use failure::Error;
 use handlebars::Handlebars;
@@ -8,9 +7,6 @@ use serde::ser::Serialize;
 use super::orm::Connection;
 
 use self::locale::Dao;
-
-pub const UP: &str = include_str!("up.sql");
-pub const DOWN: &str = include_str!("down.sql");
 
 pub trait I18n {
     fn exist(&self, lang: &str) -> bool;

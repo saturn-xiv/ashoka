@@ -1,18 +1,18 @@
-pub mod migration;
 pub mod schema;
 
 use std::default::Default;
 use std::fmt;
+use std::io::stdout;
 
 use diesel::{sql_query, sql_types::Text, RunQueryDsl};
 
 use super::errors::Result;
 
+embed_migrations!("migrations");
+
 // https://www.postgresql.org/docs/current/runtime-config-logging.html
 // /var/lib/postgres/data/postgresql.conf: log_statement = 'all'
 pub type Connection = diesel::pg::PgConnection;
-
-pub const UP: &str = include_str!("up.sql");
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -60,7 +60,12 @@ pub type PooledConnection =
 impl Config {
     pub fn open(&self) -> Result<Pool> {
         let manager = diesel::r2d2::ConnectionManager::<Connection>::new(&self.to_string()[..]);
-        Ok(Pool::new(manager)?)
+        let pool = Pool::new(manager)?;
+        {
+            let db = pool.get()?;
+            embedded_migrations::run_with_output(&db, &mut stdout())?;
+        }
+        Ok(pool)
     }
 }
 

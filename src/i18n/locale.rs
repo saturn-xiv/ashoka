@@ -2,8 +2,10 @@ use chrono::{NaiveDateTime, Utc};
 use diesel::{delete, insert_into, prelude::*, update};
 use yaml_rust::{Yaml, YamlLoader};
 
-use super::super::{errors::Result, orm::Connection};
-use super::schema::locales;
+use super::super::{
+    errors::Result,
+    orm::{schema::locales, Connection},
+};
 
 #[derive(Queryable, Serialize)]
 #[serde(rename_all = "camelCase")]
