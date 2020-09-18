@@ -126,7 +126,7 @@ pub async fn launch(cfg: Config) -> Result<()> {
                 CookieSession::signed(&cookie)
                     .name(NAME)
                     .http_only(true)
-                    .max_age_time(ChronoDuration::hours(1))
+                    .max_age(ChronoDuration::hours(1).num_seconds())
                     .path("/")
                     .secure(cfg!(not(debug_assertions))),
             )
