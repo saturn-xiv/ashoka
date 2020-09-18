@@ -36,6 +36,7 @@ extern crate futures_util;
 extern crate git2;
 extern crate hex;
 extern crate humantime;
+extern crate ini;
 extern crate jsonwebtoken;
 extern crate juniper;
 extern crate lettre;
@@ -62,12 +63,11 @@ extern crate url;
 extern crate uuid;
 extern crate validator;
 extern crate xml;
-extern crate yaml_rust;
 
 #[macro_use]
 pub mod macros;
 
-// pub mod app;
+pub mod app;
 pub mod cache;
 pub mod crypto;
 pub mod dict;

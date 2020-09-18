@@ -27,7 +27,6 @@ mime = "0.3"
 hex = "0.4"
 log = "0.4"
 sitemap = "0.4"
-yaml-rust = "0.4"
 serde-xml-rs = "0.4"
 toml = "0.5"
 env_logger = "0.7"
@@ -46,6 +45,7 @@ validator_derive = "0.10"
 base64 = "0.12"
 git2 = "0.13"
 juniper = "0.14"
+rust-ini = "0.15"
 nix = "0.18"
 rusoto_core = "0.45"
 rusoto_credential = "0.45"
@@ -95,7 +95,7 @@ features = ["r2d2"]
 [dependencies.diesel]
 version = "1"
 default-features = false
-features = ["chrono", "serde_json", "uuid", "network-address", "numeric", "r2d2", "postgres", "64-column-tables"]
+features = ["chrono", "serde_json", "uuid", "numeric", "r2d2", "postgres", "128-column-tables"]
 
 [dependencies.diesel_migrations]
 version = "1"

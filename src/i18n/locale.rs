@@ -1,6 +1,5 @@
 use chrono::{NaiveDateTime, Utc};
 use diesel::{delete, insert_into, prelude::*, update};
-use yaml_rust::{Yaml, YamlLoader};
 
 use super::super::{
     errors::Result,
@@ -28,13 +27,7 @@ pub struct New<'a> {
     pub updated_at: &'a NaiveDateTime,
 }
 
-pub struct File<'a> {
-    pub lang: &'a str,
-    pub body: &'a str,
-}
-
 pub trait Dao {
-    fn sync(&self, files: &[File]) -> Result<(usize, usize)>;
     fn languages(&self) -> Result<Vec<String>>;
     fn count(&self, lang: &str) -> Result<i64>;
     fn all(&self) -> Result<Vec<Item>>;
@@ -46,87 +39,7 @@ pub trait Dao {
     fn update(&self, id: i64, code: &str, message: &str) -> Result<()>;
 }
 
-fn loop_yaml(
-    db: &Connection,
-    lang: &str,
-    prefix: Option<String>,
-    node: Yaml,
-) -> Result<(usize, usize)> {
-    let mut find = 0;
-    let mut inserted = 0;
-    let sep = ".";
-    match node {
-        Yaml::String(v) => {
-            let k = match prefix {
-                Some(p) => p,
-                None => "".to_string(),
-            };
-            // debug!("find {} {} => {}", lang, k, v);
-            find += 1;
-
-            let cnt: i64 = locales::dsl::locales
-                .count()
-                .filter(locales::dsl::lang.eq(lang))
-                .filter(locales::dsl::code.eq(&k))
-                .get_result(db)?;
-            if cnt == 0 {
-                inserted += 1;
-                insert_into(locales::dsl::locales)
-                    .values(&New {
-                        lang,
-                        code: &k,
-                        message: &v,
-                        updated_at: &Utc::now().naive_utc(),
-                    })
-                    .execute(db)?;
-            }
-        }
-        Yaml::Hash(h) => {
-            for (k, v) in h {
-                match k {
-                    Yaml::String(k) => {
-                        let (i, f) = loop_yaml(
-                            db,
-                            lang,
-                            Some(match prefix {
-                                Some(ref p) => p.clone() + sep + &k,
-                                None => k,
-                            }),
-                            v,
-                        )?;
-                        inserted += i;
-                        find += f;
-                    }
-                    k => {
-                        error!("bad key {:?}", k);
-                    }
-                }
-            }
-        }
-        k => {
-            error!("bad key {:?}", k);
-        }
-    };
-    Ok((inserted, find))
-}
-
 impl Dao for Connection {
-    fn sync(&self, items: &[File]) -> Result<(usize, usize)> {
-        let mut find = 0;
-        let mut inserted = 0;
-
-        for it in items {
-            info!("find locale {}", it.lang);
-            for node in YamlLoader::load_from_str(it.body)? {
-                let (i, f) = loop_yaml(&self, it.lang, None, node)?;
-                inserted += i;
-                find += f;
-            }
-        }
-
-        Ok((inserted, find))
-    }
-
     fn languages(&self) -> Result<Vec<String>> {
         Ok(locales::dsl::locales
             .select(locales::dsl::lang)

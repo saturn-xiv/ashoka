@@ -6,7 +6,7 @@ use super::{
     queue::Config as RabbitMQConfig, storage::Config as S3,
 };
 
-// include!(concat!(env!("OUT_DIR"), "/env.rs"));
+include!(concat!(env!("OUT_DIR"), "/env.rs"));
 
 pub const NAME: &str = env!("CARGO_PKG_NAME");
 pub const DESCRIPTION: &str = env!("CARGO_PKG_DESCRIPTION");
