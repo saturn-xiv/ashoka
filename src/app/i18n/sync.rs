@@ -3,11 +3,13 @@ use std::ops::Deref;
 
 use clap::{App, SubCommand};
 use diesel::Connection as DieselConnection;
-use failure::Error;
 use ini::Ini;
 
 use super::super::super::{
-    env::Config, errors::Result, i18n::locale::Dao as LocaleDao, orm::Connection,
+    env::Config,
+    errors::{Error, Result},
+    i18n::locale::Dao as LocaleDao,
+    orm::Connection,
 };
 
 pub const COMMAND_NAME: &str = "i18n:sync";

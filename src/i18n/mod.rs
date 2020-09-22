@@ -1,6 +1,5 @@
 pub mod locale;
 
-use failure::Error;
 use handlebars::Handlebars;
 use serde::ser::Serialize;
 
@@ -11,7 +10,6 @@ use self::locale::Dao;
 pub trait I18n {
     fn exist(&self, lang: &str) -> bool;
     fn tr<S: Serialize>(&self, lang: &str, code: &str, args: &Option<S>) -> Option<String>;
-    fn e<C: Into<String>, S: Serialize>(&self, lang: &str, code: C, args: &Option<S>) -> Error;
     fn t<C: Into<String>, S: Serialize>(&self, lang: &str, code: C, args: &Option<S>) -> String;
 }
 
@@ -36,11 +34,6 @@ impl I18n for Connection {
             };
         }
         None
-    }
-
-    fn e<C: Into<String>, S: Serialize>(&self, lang: &str, code: C, args: &Option<S>) -> Error {
-        let msg = self.t(lang, code, args);
-        format_err!("{}", msg)
     }
 
     fn t<C: Into<String>, S: Serialize>(&self, lang: &str, code: C, args: &Option<S>) -> String {

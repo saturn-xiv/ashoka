@@ -1,9 +1,10 @@
 use std::path::Path;
 use std::process::Command;
 
+use actix_web::http::StatusCode;
 use serde::de::DeserializeOwned;
 
-use super::super::errors::Result;
+use super::super::errors::{Error, Result};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Dictionary {
@@ -42,10 +43,8 @@ impl StarDict {
         info!("execute command: {}", cmd);
         let out = Command::new("sh").arg("-c").arg(cmd).output()?;
         if !out.status.success() {
-            return Err(format_err!(
-                "sdcv failed: {}",
-                String::from_utf8(out.stderr)?
-            ));
+            error!("{}", String::from_utf8(out.stderr)?);
+            return Err(Error::Http(StatusCode::INTERNAL_SERVER_ERROR));
         }
         let it = serde_json::from_slice(&out.stdout)?;
         Ok(it)

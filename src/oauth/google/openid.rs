@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use reqwest::Client;
 
-use super::super::super::errors::Result;
+use super::super::super::errors::{Error, Result};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct User {
@@ -57,7 +57,9 @@ impl super::Web {
             return Ok(res.json().await?);
         }
 
-        Err(format_err!("{:?}", res))
+        error!("{:?}", res);
+
+        Err(Error::Http(res.status()))
     }
 }
 

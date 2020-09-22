@@ -1,7 +1,6 @@
 use std::path::Path;
 use std::{fs, io::Read};
 
-use failure::SyncFailure;
 use serde::de::DeserializeOwned;
 
 use super::errors::Result;
@@ -18,7 +17,7 @@ pub fn from_xml<P: AsRef<Path>, T: DeserializeOwned>(file: P) -> Result<T> {
         }
     };
     // let buf = &buf[len..];
-    let it = serde_xml_rs::from_reader(&buf[len..]).map_err(SyncFailure::new)?;
+    let it = serde_xml_rs::from_reader(&buf[len..])?;
     Ok(it)
 }
 

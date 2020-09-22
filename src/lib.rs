@@ -13,8 +13,6 @@ extern crate diesel;
 #[macro_use]
 extern crate diesel_migrations;
 #[macro_use]
-extern crate failure;
-#[macro_use]
 extern crate serde_json;
 #[macro_use]
 extern crate actix_web;
@@ -73,7 +71,7 @@ pub mod crypto;
 pub mod dict;
 pub mod env;
 pub mod errors;
-// pub mod graphql;
+pub mod graphql;
 pub mod i18n;
 pub mod image_magick;
 pub mod jwt;

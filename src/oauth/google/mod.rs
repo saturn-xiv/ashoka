@@ -4,13 +4,13 @@ use std::collections::HashMap;
 use std::fmt;
 use std::str::FromStr;
 
-use failure::Error as FailureError;
+use actix_web::http::StatusCode;
 use rand::Rng;
 use reqwest::Client;
 use serde::de::DeserializeOwned;
 use url::{form_urlencoded, Url};
 
-use super::super::errors::Result;
+use super::super::errors::{Error, Result};
 
 /// https://developers.google.com/identity/protocols/OAuth2WebServer
 /// https://developers.google.com/identity/protocols/OpenIDConnect
@@ -122,7 +122,8 @@ impl Web {
             return Ok(res.json().await?);
         }
 
-        Err(format_err!("{:?}", res))
+        error!("{:?}", res);
+        Err(Error::Http(res.status()))
     }
 }
 
@@ -140,7 +141,7 @@ impl fmt::Display for Code {
 }
 
 impl FromStr for Code {
-    type Err = FailureError;
+    type Err = Error;
 
     fn from_str(s: &str) -> Result<Self> {
         let it = Url::parse(s)?;
@@ -149,8 +150,9 @@ impl FromStr for Code {
             return Ok(Self(v.to_string()));
         }
         if let Some(v) = query.get(Self::ERROR) {
-            return Err(format_err!("{}", v));
+            error!("{}", v);
+            return Err(Error::Http(StatusCode::INTERNAL_SERVER_ERROR));
         }
-        Err(format_err!("bad code {}", s))
+        Err(Error::Http(StatusCode::BAD_REQUEST))
     }
 }

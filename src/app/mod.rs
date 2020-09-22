@@ -3,9 +3,14 @@ pub mod generate;
 pub mod http;
 pub mod i18n;
 
+use actix_web::http::StatusCode;
 use clap::{self, SubCommand};
 
-use super::{env, errors::Result, parser};
+use super::{
+    env,
+    errors::{Error, Result},
+    parser,
+};
 
 pub fn launch() -> Result<()> {
     let cfg = "config.toml";
@@ -32,7 +37,7 @@ pub fn launch() -> Result<()> {
     }
 
     if sodiumoxide::init().is_err() {
-        return Err(format_err!("sodium init failed"));
+        return Err(Error::Http(StatusCode::INTERNAL_SERVER_ERROR));
     }
 
     if matches.subcommand_matches(generate::config::NAME).is_some() {

@@ -13,7 +13,7 @@ use super::super::{
         policy::{Dao as PolicyDao, Role},
         user::Item as User,
     },
-    queue::rabbitmq::RabbitMQ,
+    queue::RabbitMQ,
 };
 
 pub struct Context {

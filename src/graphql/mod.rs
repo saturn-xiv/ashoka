@@ -20,9 +20,9 @@ use super::{
     crypto::Crypto,
     errors::Result,
     jwt::Jwt,
-    orm::{Pool as Db, ID as TID},
+    orm::Pool as Db,
     plugins::nut::request::CurrentUser,
-    queue::rabbitmq::RabbitMQ,
+    queue::RabbitMQ,
     request::{ClientIp, Locale, Token},
 };
 
@@ -30,38 +30,38 @@ pub type Schema = RootNode<'static, query::Query, mutation::Mutation>;
 
 pub const SOURCE: &str = "/graphql";
 
-pub struct ID(pub TID);
+// pub struct ID(pub i64);
 
-impl From<TID> for ID {
-    fn from(item: TID) -> Self {
-        Self(item)
-    }
-}
+// impl From<i64> for ID {
+//     fn from(item: i64) -> Self {
+//         Self(item)
+//     }
+// }
 
-impl FromStr for ID {
-    type Err = ParseIntError;
+// impl FromStr for ID {
+//     type Err = ParseIntError;
 
-    fn from_str(s: &str) -> StdResult<Self, Self::Err> {
-        Ok(Self(s.parse()?))
-    }
-}
+//     fn from_str(s: &str) -> StdResult<Self, Self::Err> {
+//         Ok(Self(s.parse()?))
+//     }
+// }
 
-juniper::graphql_scalar!(ID where Scalar = <S> {
-    description: "ROW ID"
+// juniper::graphql_scalar!(ID where Scalar = <S> {
+//     description: "ROW ID"
 
-    resolve(&self) -> Value {
-        Value::scalar(self.0.to_string())
-    }
+//     resolve(&self) -> Value {
+//         Value::scalar(self.0.to_string())
+//     }
 
-    from_input_value(v: &InputValue) -> Option<ID> {
-        v.as_scalar_value::<String>()
-         .and_then(|s| s.parse().ok())
-    }
+//     from_input_value(v: &InputValue) -> Option<ID> {
+//         v.as_scalar_value::<String>()
+//          .and_then(|s| s.parse().ok())
+//     }
 
-    from_str<'a>(value: ScalarToken<'a>) -> ParseScalarResult<'a, S> {
-        <String as ParseScalarValue<S>>::from_str(value)
-    }
-});
+//     from_str<'a>(value: ScalarToken<'a>) -> ParseScalarResult<'a, S> {
+//         <String as ParseScalarValue<S>>::from_str(value)
+//     }
+// });
 
 pub struct I64(pub i64);
 

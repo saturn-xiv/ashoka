@@ -2,6 +2,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use amq_protocol_uri::{AMQPAuthority, AMQPUri, AMQPUserInfo};
 
+use actix_web::http::StatusCode;
 use futures_util::stream::StreamExt;
 use lapin::{
     message::Delivery, options::*, types::FieldTable, BasicProperties, Channel, Connection,
@@ -11,7 +12,7 @@ use mime::APPLICATION_JSON;
 use serde::{de::DeserializeOwned, ser::Serialize};
 use uuid::Uuid;
 
-use super::errors::Result;
+use super::errors::{Error, Result};
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
@@ -35,7 +36,7 @@ impl Task {
             let it = serde_json::from_slice(&self.payload)?;
             return Ok(it);
         }
-        Err(format_err!("bad task message type {}", self.content_type))
+        Err(Error::Http(StatusCode::BAD_REQUEST))
     }
 }
 
@@ -170,5 +171,5 @@ pub fn handle_message<H: Handler>(msg: Delivery, hnd: &H) -> Result<()> {
         }
     }
 
-    Err(format_err!("bad task message"))
+    Err(Error::Http(StatusCode::BAD_REQUEST))
 }

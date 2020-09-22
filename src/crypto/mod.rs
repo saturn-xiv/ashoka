@@ -2,12 +2,13 @@
 
 pub mod ssha512;
 
+use actix_web::http::StatusCode;
 use sodiumoxide::{
     crypto::{pwhash, secretbox},
     randombytes,
 };
 
-use super::errors::Result;
+use super::errors::{Error, Result};
 
 pub trait Random {
     fn bytes(l: usize) -> Vec<u8>;
@@ -49,7 +50,7 @@ impl Crypto {
         let key: Result<Vec<u8>> = key.into();
         match secretbox::Key::from_slice(&key?) {
             Some(key) => Ok(Self { key }),
-            None => Err(format_err!("bad secret key")),
+            None => Err(Error::Http(StatusCode::NOT_IMPLEMENTED)),
         }
     }
 }
@@ -68,7 +69,7 @@ impl Password for Crypto {
             pwhash::MEMLIMIT_INTERACTIVE,
         ) {
             Ok(cip) => Ok(cip[..].to_vec()),
-            Err(_) => Err(format_err!("generate password")),
+            Err(_) => Err(Error::Http(StatusCode::NOT_IMPLEMENTED)),
         }
     }
 
@@ -88,12 +89,11 @@ impl Secret for Crypto {
     }
 
     fn decrypt(&self, cipher: &[u8], nonce: &[u8]) -> Result<Vec<u8>> {
-        match secretbox::Nonce::from_slice(nonce) {
-            Some(nonce) => match secretbox::open(cipher, &nonce, &self.key) {
-                Ok(buf) => Ok(buf),
-                Err(_) => Err(format_err!("bad nonce")),
-            },
-            None => Err(format_err!("empty nonce")),
+        if let Some(nonce) = secretbox::Nonce::from_slice(nonce) {
+            if let Ok(buf) = secretbox::open(cipher, &nonce, &self.key) {
+                return Ok(buf);
+            }
         }
+        Err(Error::Http(StatusCode::BAD_REQUEST))
     }
 }
