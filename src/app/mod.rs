@@ -55,11 +55,7 @@ pub fn launch() -> Result<()> {
 
     if let Some(matches) = matches.subcommand_matches(generate::nginx::COMMAND_NAME) {
         let name = matches.value_of(generate::nginx::ARG_SERVER_NAME).unwrap();
-        return generate::nginx::run(
-            name.to_string(),
-            cfg.http.port,
-            matches.is_present(generate::nginx::ARG_HTTPS),
-        );
+        return generate::nginx::run(name.to_string(), cfg.http.port);
     }
 
     if matches

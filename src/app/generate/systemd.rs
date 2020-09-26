@@ -21,7 +21,6 @@ pub const COMMAND_ABOUT: &str = "Generate systemd service.conf";
 struct Config<'a> {
     user: &'a str,
     group: &'a str,
-    name: &'a str,
     root: &'a str,
     description: &'a str,
 }
@@ -35,7 +34,6 @@ pub fn run() -> Result<()> {
     let tpl = Config {
         user: &Uid::current().to_string(),
         group: &Gid::current().to_string(),
-        name: NAME,
         description: DESCRIPTION,
         root: &format!("{}", cur.display()),
     }

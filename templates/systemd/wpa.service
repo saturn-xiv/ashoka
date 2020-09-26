@@ -1,9 +1,0 @@
-[Unit]
-Description=WPA supplicant for %i
-Before=network.target
-
-[Service]
-ExecStart=/sbin/wpa_supplicant -D nl80211 -i %i -c /etc/wpa_supplicant/wpa_supplicant-%i.conf
-
-[Install]
-WantedBy=multi-user.target

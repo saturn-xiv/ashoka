@@ -18,14 +18,6 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name(COMMAND_NAME)
         .about(COMMAND_ABOUT)
         .arg(
-            clap::Arg::with_name(ARG_HTTPS)
-                .short("s")
-                .long("ssl")
-                .value_name("HTTPS")
-                .help("Enable https?")
-                .takes_value(false),
-        )
-        .arg(
             clap::Arg::with_name(ARG_SERVER_NAME)
                 .required(true)
                 .short("n")
@@ -39,20 +31,16 @@ pub fn command<'a, 'b>() -> App<'a, 'b> {
 #[derive(Template)]
 #[template(path = "nginx.conf", escape = "none")]
 struct Config<'a> {
-    name: &'a str,
     domain: &'a str,
     root: &'a str,
     port: u16,
-    ssl: bool,
 }
 
-pub fn run(domain: String, port: u16, ssl: bool) -> Result<()> {
+pub fn run(domain: String, port: u16) -> Result<()> {
     let cur = current_dir()?;
     let tpl = Config {
         domain: &domain,
-        name: NAME,
         port,
-        ssl,
         root: &format!("{}", cur.display()),
     }
     .render()?;
