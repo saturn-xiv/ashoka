@@ -1,9 +1,10 @@
+
 # dependencies
 /node_modules/
 
+# testing
+
 # production
-/target/
+/build/
 
 # misc
-/tmp/
-/config.toml

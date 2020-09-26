@@ -2,6 +2,8 @@
 
 set -e
 
+# yarn create react-app dashboard --template typescript
+
 yarn add \
     urijs @types/urijs \
     js-cookie  @types/js-cookie \
