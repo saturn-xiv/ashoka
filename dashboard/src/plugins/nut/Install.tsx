@@ -1,39 +1,25 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import PersonAddOutlined from "@material-ui/icons/PersonAddOutlined";
-import Checkbox from "@material-ui/core/Checkbox";
-import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import SupervisorAccountOutlined from "@material-ui/icons/SupervisorAccountOutlined";
 import { useIntl } from "react-intl";
-import { Link as RouterLink } from "react-router-dom";
 
-import Application from "../../../layouts/application";
-import Form, { Submit } from "../../../layouts/form";
-import { NavLink as SignIn } from "./SignIn";
+import Application from "../../layouts/application";
+import Form, { Submit } from "../../layouts/form";
 
-export const NavLink = () => {
-  const intl = useIntl();
-  return (
-    <Link component={RouterLink} to="/users/sign-up">
-      {intl.formatMessage({ id: "nut.users.sign-up.nav" })}
-    </Link>
-  );
-};
-
-const Component = () => {
+export default function SignUp() {
   const intl = useIntl();
 
   return (
     <Application
-      icon={<PersonAddOutlined />}
-      title={intl.formatMessage({ id: "nut.users.sign-up.title" })}
+      icon={<SupervisorAccountOutlined />}
+      title={intl.formatMessage({ id: "nut.install.title" })}
     >
       <Form>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              autoComplete="fname"
               name="firstName"
               variant="outlined"
               required
@@ -51,7 +37,6 @@ const Component = () => {
               id="lastName"
               label="Last Name"
               name="lastName"
-              autoComplete="lname"
             />
           </Grid>
           <Grid item xs={12}>
@@ -62,7 +47,6 @@ const Component = () => {
               id="email"
               label="Email Address"
               name="email"
-              autoComplete="email"
             />
           </Grid>
           <Grid item xs={12}>
@@ -74,25 +58,18 @@ const Component = () => {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label={intl.formatMessage({ id: "nut.users.sign-up.agreed" })}
             />
           </Grid>
         </Grid>
         <Submit />
         <Grid container justifyContent="flex-end">
           <Grid item>
-            <SignIn />
+            <Link href="#" variant="body2">
+              Already have an account? Sign in
+            </Link>
           </Grid>
         </Grid>
       </Form>
     </Application>
   );
-};
-
-export default Component;
+}

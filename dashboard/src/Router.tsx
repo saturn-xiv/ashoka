@@ -1,19 +1,17 @@
-import React, { Component, lazy } from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import routes from "./plugins";
+import Loading from "./plugins/nut/Loading";
 
 interface IProps {
   basename: string;
 }
 
-interface IState {}
-
-class Widget extends Component<IProps, IState> {
-  render() {
-    const { basename } = this.props;
-    return (
-      <Router basename={basename}>
+const Component = (props: IProps) => {
+  return (
+    <Router basename={props.basename}>
+      <Suspense fallback={<Loading />}>
         <Switch>
           {routes.map((it) => (
             <Route
@@ -30,9 +28,9 @@ class Widget extends Component<IProps, IState> {
           />
           <Route component={lazy(() => import("./plugins/nut/NotFound"))} />
         </Switch>
-      </Router>
-    );
-  }
-}
+      </Suspense>
+    </Router>
+  );
+};
 
-export default Widget;
+export default Component;
