@@ -19,7 +19,6 @@ yarn add \
     react-intl \
     redux react-redux @types/react-redux \
     react-router-dom @types/react-router-dom \
-    @loadable/component @types/loadable__component \
     validate.js react-dropzone \
     react-syntax-highlighter @types/react-syntax-highlighter \
     @material-ui/core@next @material-ui/icons@next fontsource-roboto 

@@ -5,7 +5,6 @@
   "homepage": "/my",
   "proxy": "http://localhost:8080",
   "dependencies": {
-    "@loadable/component": "^5.13.2",
     "@material-ui/core": "next",
     "@material-ui/icons": "next",
     "@testing-library/jest-dom": "^4.2.4",
@@ -15,7 +14,6 @@
     "@types/jest": "^24.0.0",
     "@types/js-cookie": "^2.2.6",
     "@types/jwt-decode": "^2.2.1",
-    "@types/loadable__component": "^5.13.1",
     "@types/lodash": "^4.14.161",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
@@ -52,7 +50,7 @@
     "react-scripts": "3.4.3",
     "react-syntax-highlighter": "^13.5.3",
     "redux": "^4.0.5",
-    "typescript": "~3.7.2",
+    "typescript": "^4.0.3",
     "urijs": "^1.19.2",
     "validate.js": "^0.13.1"
   },
