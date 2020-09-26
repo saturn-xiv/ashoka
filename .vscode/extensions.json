@@ -7,6 +7,5 @@
         "editorconfig.editorconfig",
         "rust-lang.rust",
         "bungcip.better-toml",
-        "adpyke.vscode-sql-formatter",
     ]
 }
