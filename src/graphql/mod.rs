@@ -5,7 +5,6 @@ pub mod query;
 use std::num::ParseIntError;
 use std::result::Result as StdResult;
 use std::str::FromStr;
-use std::sync::Mutex;
 
 use actix_web::{web, HttpResponse};
 use chrono::{NaiveDateTime, Utc};
@@ -29,39 +28,6 @@ use super::{
 pub type Schema = RootNode<'static, query::Query, mutation::Mutation>;
 
 pub const SOURCE: &str = "/graphql";
-
-// pub struct ID(pub i64);
-
-// impl From<i64> for ID {
-//     fn from(item: i64) -> Self {
-//         Self(item)
-//     }
-// }
-
-// impl FromStr for ID {
-//     type Err = ParseIntError;
-
-//     fn from_str(s: &str) -> StdResult<Self, Self::Err> {
-//         Ok(Self(s.parse()?))
-//     }
-// }
-
-// juniper::graphql_scalar!(ID where Scalar = <S> {
-//     description: "ROW ID"
-
-//     resolve(&self) -> Value {
-//         Value::scalar(self.0.to_string())
-//     }
-
-//     from_input_value(v: &InputValue) -> Option<ID> {
-//         v.as_scalar_value::<String>()
-//          .and_then(|s| s.parse().ok())
-//     }
-
-//     from_str<'a>(value: ScalarToken<'a>) -> ParseScalarResult<'a, S> {
-//         <String as ParseScalarValue<S>>::from_str(value)
-//     }
-// });
 
 pub struct I64(pub i64);
 
@@ -212,13 +178,13 @@ pub async fn post(
     params: Params,
 ) -> Result<HttpResponse> {
     let db = (services.0).get()?;
-    let ch = (services.1).get()?;
+    let ch = (services.1).get_ref().clone();
     let body = web::block(move || {
         let res = data.execute(
             &st,
             &context::Context {
                 db,
-                cache: Mutex::new(ch),
+                cache: ch,
                 queue: (services.2).into_inner(),
                 crypto: (services.3).into_inner(),
                 jwt: (services.4).into_inner(),

@@ -8,10 +8,7 @@ use askama::Template;
 use clap::{App, SubCommand};
 use nix::unistd::{Gid, Uid};
 
-use super::super::super::{
-    env::{DESCRIPTION, NAME},
-    errors::Result,
-};
+use super::super::super::{env::DESCRIPTION, errors::Result};
 
 pub const COMMAND_NAME: &str = "generate:systemd";
 pub const COMMAND_ABOUT: &str = "Generate systemd service.conf";

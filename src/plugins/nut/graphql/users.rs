@@ -3,14 +3,13 @@ use std::ops::Deref;
 use actix_web::http::StatusCode;
 use chrono::{Duration, NaiveDate, NaiveDateTime};
 use diesel::Connection;
-use failure::Error as FailureError;
 use juniper::{GraphQLInputObject, GraphQLObject};
 use validator::Validate;
 
 use super::super::super::super::{
     crypto::Crypto,
     errors::{Error, Result},
-    graphql::{context::Context, Pager, Pagination},
+    graphql::{context::Context, Pager, Pagination, I64},
     i18n::I18n,
     jwt::Jwt,
     orm::Connection as Db,
@@ -59,7 +58,7 @@ impl SignIn {
 
         let uid = user.uid.clone();
         let name = user.real_name.clone();
-        db.transaction::<_, FailureError, _>(move || {
+        db.transaction::<_, Error, _>(move || {
             UserDao::sign_in(db, user.id, &ctx.client_ip)?;
             __i18n_l!(
                 db,
@@ -147,7 +146,7 @@ impl SignUp {
             ));
         }
 
-        let user = db.transaction::<_, FailureError, _>(move || {
+        let user = db.transaction::<_, Error, _>(move || {
             UserDao::sign_up::<Crypto>(
                 db,
                 &self.real_name,
@@ -294,7 +293,7 @@ impl TokenForm {
 
         let token = ctx.jwt.parse::<Token>(&self.token)?.claims;
         if token.act != Action::Confirm {
-            return Err(Error::Http(StatusCode::NOT_ACCEPTABLE).into());
+            return Err(Error::Http(StatusCode::NOT_ACCEPTABLE, None));
         }
 
         let it = UserDao::by_uid(db, &token.uid)?;
@@ -306,7 +305,7 @@ impl TokenForm {
             ));
         }
 
-        db.transaction::<_, FailureError, _>(move || {
+        db.transaction::<_, Error, _>(move || {
             UserDao::confirm(db, it.id)?;
             __i18n_l!(
                 db,
@@ -325,13 +324,13 @@ impl TokenForm {
         let db = ctx.db.deref();
         let token = ctx.jwt.parse::<Token>(&self.token)?.claims;
         if token.act != Action::Unlock {
-            return Err(Error::Http(StatusCode::NOT_ACCEPTABLE).into());
+            return Err(Error::Http(StatusCode::NOT_ACCEPTABLE, None));
         }
         let it = UserDao::by_uid(db, &token.uid)?;
         if None == it.locked_at {
             return Err(__i18n_e!(db, &ctx.locale, "nut.errors.user.is-not-lock"));
         }
-        db.transaction::<_, FailureError, _>(move || {
+        db.transaction::<_, Error, _>(move || {
             UserDao::lock(db, it.id, false)?;
             __i18n_l!(
                 db,
@@ -361,7 +360,7 @@ impl ResetPassword {
 
         let token = ctx.jwt.parse::<Token>(&self.token)?.claims;
         if token.act != Action::ResetPassword {
-            return Err(Error::Http(StatusCode::NOT_ACCEPTABLE).into());
+            return Err(Error::Http(StatusCode::NOT_ACCEPTABLE, None));
         }
 
         let it = UserDao::by_uid(db, &token.uid)?;
@@ -393,7 +392,7 @@ impl ChangePassword {
         let user = ctx.current_user()?;
 
         user.auth::<Crypto>(&self.current_password)?;
-        db.transaction::<_, FailureError, _>(move || {
+        db.transaction::<_, Error, _>(move || {
             UserDao::password::<Crypto>(db, user.id, &self.new_password)?;
             __i18n_l!(
                 db,
@@ -503,7 +502,7 @@ impl CurrentUser {
 
 #[derive(GraphQLObject)]
 pub struct Log {
-    pub id: i64,
+    pub id: I64,
     pub ip: String,
     pub message: String,
     pub created_at: NaiveDateTime,
@@ -544,15 +543,15 @@ impl Logs {
 pub struct Lock;
 
 impl Lock {
-    pub fn execute(ctx: &Context, id: i64) -> Result<()> {
+    pub fn execute(ctx: &Context, id: I64) -> Result<()> {
         ctx.administrator()?;
         let db = ctx.db.deref();
 
         let user = id.0;
         if PolicyDao::is(db, user, &Role::Root) {
-            return Err(Error::Http(StatusCode::FORBi64DEN).into());
+            return Err(Error::Http(StatusCode::FORBIDDEN, None));
         }
-        db.transaction::<_, FailureError, _>(move || {
+        db.transaction::<_, Error, _>(move || {
             UserDao::lock(db, user, true)?;
             __i18n_l!(db, user, &ctx.client_ip, &ctx.locale, "nut.logs.user.lock")?;
             Ok(())
@@ -563,7 +562,7 @@ impl Lock {
 
 #[derive(GraphQLObject)]
 pub struct User {
-    pub id: i64,
+    pub id: I64,
     pub real_name: String,
     pub nick_name: String,
     pub email: String,
@@ -604,13 +603,13 @@ pub struct Apply {
 }
 
 impl Apply {
-    pub fn execute(&self, ctx: &Context, id: i64) -> Result<()> {
+    pub fn execute(&self, ctx: &Context, id: I64) -> Result<()> {
         self.validate()?;
         let db = ctx.db.deref();
         ctx.administrator()?;
 
         let user = UserDao::by_id(db, id.0)?;
-        db.transaction::<_, FailureError, _>(move || {
+        db.transaction::<_, Error, _>(move || {
             PolicyDao::apply(
                 db,
                 user.id,
@@ -640,13 +639,13 @@ pub struct Deny {
 }
 
 impl Deny {
-    pub fn execute(&self, ctx: &Context, id: i64) -> Result<()> {
+    pub fn execute(&self, ctx: &Context, id: I64) -> Result<()> {
         self.validate()?;
         let db = ctx.db.deref();
         ctx.administrator()?;
 
         let user = UserDao::by_id(db, id.0)?;
-        db.transaction::<_, FailureError, _>(move || {
+        db.transaction::<_, Error, _>(move || {
             PolicyDao::deny(db, user.id, &self.role.parse()?, &self.resource)?;
             __i18n_l!(
                 db,

@@ -58,8 +58,7 @@ impl super::Web {
         }
 
         error!("{:?}", res);
-
-        Err(Error::Http(res.status()))
+        Err(Error::Http(res.status(), None))
     }
 }
 

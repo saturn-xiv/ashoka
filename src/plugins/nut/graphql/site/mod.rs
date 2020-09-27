@@ -3,13 +3,16 @@ pub mod status;
 use std::ops::Deref;
 
 use diesel::Connection;
-use failure::Error as FailureError;
 use juniper::{GraphQLInputObject, GraphQLObject};
-use validator::Validate;
 
 use super::super::super::super::{
-    cache::Provider, crypto::Crypto, errors::Result, graphql::context::Context,
-    orm::Connection as Db, queue::Task, settings::Dao as SettingDao,
+    cache::Provider,
+    crypto::Crypto,
+    errors::{Error, Result},
+    graphql::context::Context,
+    orm::Connection as Db,
+    queue::Task,
+    settings::Dao as SettingDao,
 };
 use super::super::tasks::send_email;
 use super::locales::Update as UpdateLocale;
@@ -37,7 +40,7 @@ impl Info {
         self.save(db, &ctx.locale)
     }
     pub fn save(&self, db: &Db, lang: &str) -> Result<()> {
-        db.transaction::<_, FailureError, _>(|| {
+        db.transaction::<_, Error, _>(|| {
             UpdateLocale::save(db, lang, Self::TITLE, &self.title)?;
             UpdateLocale::save(db, lang, Self::SUBHEAD, &self.subhead)?;
             UpdateLocale::save(db, lang, Self::DESCRIPTION, &self.description)?;
@@ -176,12 +179,11 @@ impl send_email::Config {
 }
 
 pub struct ClearCache;
+
 impl ClearCache {
     pub fn execute(ctx: &Context) -> Result<()> {
         ctx.administrator()?;
-        if let Ok(mut ch) = ctx.cache.lock() {
-            ch.clear()?;
-        }
+        ctx.cache.clear()?;
         Ok(())
     }
 }

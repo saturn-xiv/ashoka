@@ -1,7 +1,6 @@
 use std::fmt;
 use std::ops::{Deref, DerefMut};
 
-use actix_web::http::StatusCode;
 use chrono::NaiveDateTime;
 use diesel::{
     prelude::*,
@@ -9,13 +8,10 @@ use diesel::{
     sql_types::{BigInt, Text, Timestamp},
 };
 use juniper::GraphQLObject;
-use r2d2_redis::redis::cmd;
+use redis::cmd;
 
 use super::super::super::super::super::{
-    errors::{Error, Result},
-    graphql::context::Context,
-    orm::Connection as DbConnection,
-    sys,
+    errors::Result, graphql::context::Context, orm::Connection as DbConnection,
 };
 
 const MB: u64 = 1024 * 1024;
@@ -25,7 +21,6 @@ pub struct Status {
     os: Os,
     redis: String,
     database: Vec<String>,
-    network: Vec<Network>,
 }
 
 impl Status {
@@ -33,18 +28,14 @@ impl Status {
         ctx.administrator()?;
         let db = ctx.db.deref();
 
-        let redis: Result<String> = match ctx.cache.lock() {
-            Ok(ref mut ch) => {
-                let ch = ch.deref_mut();
-                let ch = ch.deref_mut();
-                Ok(cmd("info").query::<String>(ch)?)
-            }
-            Err(_) => Err(Error::Http(StatusCode::FORBIDDEN).into()),
-        };
         Ok(Status {
             os: Os::new()?,
-            network: Network::new()?,
-            redis: redis?,
+            redis: {
+                let mut db = ctx.cache.get()?;
+                let db = db.deref_mut();
+                let it = cmd("info").query::<String>(db)?;
+                it
+            },
             database: Self::db(db)?,
         })
     }
@@ -88,7 +79,7 @@ pub struct Swap {
 
 impl Os {
     pub fn new() -> Result<Self> {
-        let un = sys::uts_name();
+        let un = nix::sys::utsname::uname();
 
         let uts = Uts {
             machine: un.machine().to_string(),
@@ -98,14 +89,14 @@ impl Os {
             version: un.version().to_string(),
         };
 
-        let si = sys::sys_info()?;
+        let si = nix::sys::sysinfo::sysinfo()?;
         let uptime = format!("{:?}", si.uptime());
         let process_count = si.process_count() as i32;
 
         let (l1, l2, l3) = si.load_average();
 
         Ok(Os {
-            pid: sys::pid() as i32,
+            pid: std::process::id() as i32,
             uts,
             uptime,
             process_count,
@@ -119,38 +110,6 @@ impl Os {
                 total: (si.swap_total() / MB) as i32,
             },
         })
-    }
-}
-
-#[derive(GraphQLObject)]
-pub struct Network {
-    pub name: String,
-    pub ip4: Option<String>,
-    pub ip6: Option<String>,
-    pub mac: Option<String>,
-}
-
-impl Network {
-    pub fn new() -> Result<Vec<Self>> {
-        let mut items = Vec::new();
-        for it in sys::network::interfaces()? {
-            items.push(Self {
-                ip4: match sys::network::ip4(&it) {
-                    Some(v) => Some(v.to_string()),
-                    None => None,
-                },
-                ip6: match sys::network::ip6(&it) {
-                    Some(v) => Some(v.to_string()),
-                    None => None,
-                },
-                mac: match sys::network::mac(&it) {
-                    Ok(v) => Some(v.to_hex_string()),
-                    Err(_) => None,
-                },
-                name: it,
-            });
-        }
-        Ok(items)
     }
 }
 
@@ -179,17 +138,6 @@ impl fmt::Display for PgDatabase {
     }
 }
 impl Status {
-    #[cfg(feature = "mysql")]
-    fn db(_db: &DbConnection) -> Result<Vec<String>> {
-        let items = Vec::new();
-        Ok(items)
-    }
-    #[cfg(feature = "sqlite")]
-    fn db(_db: &DbConnection) -> Result<Vec<String>> {
-        let items = Vec::new();
-        Ok(items)
-    }
-    #[cfg(feature = "postgresql")]
     fn db(db: &DbConnection) -> Result<Vec<String>> {
         let mut items = Vec::new();
         for it in sql_query(r###"SELECT version() as "version", now() as "timestamp""###)

@@ -3,9 +3,7 @@ use std::ops::Deref;
 use actix_multipart::Multipart;
 use actix_web::{http::StatusCode, web, HttpResponse, Responder};
 use chrono::NaiveDateTime;
-use failure::Error as FailureError;
-use futures::future::{ready, Ready};
-use futures::{Future, StreamExt};
+use futures::StreamExt;
 use juniper::GraphQLObject;
 use uuid::Uuid;
 
@@ -23,47 +21,44 @@ use super::super::{
     request::CurrentUser,
 };
 
-// #[post("/attachments")]
-// pub async fn create() -> Box<Future<Item = HttpResponse, Error = FailureError>> {
-//     ready(Ok(HttpResponse::Ok().body("Hey there!")))
-// }
-// pub async fn create(
-//     user: CurrentUser,
-//     db: web::Data<DbPool>,
-//     s3: web::Data<S3>,
-//     mut payload: Multipart,
-// ) -> Result<impl Responder> {
-// let db = db.get()?;
-// let db = db.deref();
-// let s3 = s3.deref();
-// while let Some(item) = payload.next().await {
-//     let mut field = item.map_err(Error::Multipart)?;
-//     let ct = field.content_type().clone();
-//     if let Some(cd) = field.content_disposition() {
-//         if let Some(ref name) = cd.get_name() {
-//             match *name {
-//                 "file" => {
-//                     if let Some(name) = cd.get_filename() {
-//                         let mut body = Vec::new();
-//                         while let Some(chunk) = field.next().await {
-//                             let buf = chunk.map_err(Error::Multipart)?;
-//                             body.append(&mut buf.to_vec());
-//                         }
-//                         let bucket = user.0.nick_name.clone();
-//                         let key = Uuid::new_v4().to_string();
-//                         let size = body.len() as i64;
-//                         s3.put(&bucket, &key, body).await?;
-//                         let url = s3.get(&bucket, &key).await?;
-//                         AttachmentDao::create(db, user.0.id, name, &ct, &url, size)?;
-//                     }
-//                 }
-//                 _ => warn!("unknown form key {:?}", name),
-//             }
-//         }
-//     }
-// }
-//     Ok(HttpResponse::Ok().json(()))
-// }
+#[post("/attachments")]
+pub async fn create(
+    user: CurrentUser,
+    db: web::Data<DbPool>,
+    s3: web::Data<S3>,
+    mut payload: Multipart,
+) -> Result<impl Responder> {
+    let db = db.get()?;
+    let db = db.deref();
+    let s3 = s3.deref();
+    while let Some(item) = payload.next().await {
+        let mut field = item?;
+        let ct = field.content_type().clone();
+        if let Some(cd) = field.content_disposition() {
+            if let Some(ref name) = cd.get_name() {
+                match *name {
+                    "file" => {
+                        if let Some(name) = cd.get_filename() {
+                            let mut body = Vec::new();
+                            while let Some(chunk) = field.next().await {
+                                let buf = chunk?;
+                                body.append(&mut buf.to_vec());
+                            }
+                            let bucket = user.0.nick_name.clone();
+                            let key = Uuid::new_v4().to_string();
+                            let size = body.len() as i64;
+                            s3.put(&bucket, &key, body).await?;
+                            let url = s3.get(&bucket, &key).await?;
+                            AttachmentDao::create(db, user.0.id, name, &ct, &url, size)?;
+                        }
+                    }
+                    _ => warn!("unknown form key {:?}", name),
+                }
+            }
+        }
+    }
+    Ok(HttpResponse::Ok().json(()))
+}
 
 #[derive(GraphQLObject)]
 pub struct Attachment {
@@ -105,7 +100,7 @@ impl Attachment {
         if it.user_id == user || PolicyDao::is(db, user, &Role::Admin) {
             return Ok(it);
         }
-        Err(Error::Http(StatusCode::FORBIDDEN).into())
+        Err(Error::Http(StatusCode::FORBIDDEN, None))
     }
 }
 

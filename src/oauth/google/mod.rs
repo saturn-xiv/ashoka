@@ -123,7 +123,7 @@ impl Web {
         }
 
         error!("{:?}", res);
-        Err(Error::Http(res.status()))
+        Err(Error::Http(res.status(), None))
     }
 }
 
@@ -151,8 +151,11 @@ impl FromStr for Code {
         }
         if let Some(v) = query.get(Self::ERROR) {
             error!("{}", v);
-            return Err(Error::Http(StatusCode::INTERNAL_SERVER_ERROR));
+            return Err(Error::Http(
+                StatusCode::INTERNAL_SERVER_ERROR,
+                Some(v.to_string()),
+            ));
         }
-        Err(Error::Http(StatusCode::BAD_REQUEST))
+        Err(Error::Http(StatusCode::BAD_REQUEST, None))
     }
 }

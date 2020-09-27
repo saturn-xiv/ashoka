@@ -50,7 +50,10 @@ impl Crypto {
         let key: Result<Vec<u8>> = key.into();
         match secretbox::Key::from_slice(&key?) {
             Some(key) => Ok(Self { key }),
-            None => Err(Error::Http(StatusCode::NOT_IMPLEMENTED)),
+            None => Err(Error::Http(
+                StatusCode::NOT_IMPLEMENTED,
+                Some("parse key".to_string()),
+            )),
         }
     }
 }
@@ -69,7 +72,10 @@ impl Password for Crypto {
             pwhash::MEMLIMIT_INTERACTIVE,
         ) {
             Ok(cip) => Ok(cip[..].to_vec()),
-            Err(_) => Err(Error::Http(StatusCode::NOT_IMPLEMENTED)),
+            Err(_) => Err(Error::Http(
+                StatusCode::NOT_IMPLEMENTED,
+                Some("password hash".to_string()),
+            )),
         }
     }
 
@@ -94,6 +100,9 @@ impl Secret for Crypto {
                 return Ok(buf);
             }
         }
-        Err(Error::Http(StatusCode::BAD_REQUEST))
+        Err(Error::Http(
+            StatusCode::BAD_REQUEST,
+            Some("decrypt".to_string()),
+        ))
     }
 }

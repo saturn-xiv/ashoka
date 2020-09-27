@@ -37,7 +37,10 @@ pub fn launch() -> Result<()> {
     }
 
     if sodiumoxide::init().is_err() {
-        return Err(Error::Http(StatusCode::INTERNAL_SERVER_ERROR));
+        return Err(Error::Http(
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Some("init sodium".to_string()),
+        ));
     }
 
     if matches.subcommand_matches(generate::config::NAME).is_some() {

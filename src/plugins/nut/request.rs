@@ -62,7 +62,7 @@ impl CurrentUser {
     pub fn parse(token: Auth, db: web::Data<DbPool>, jwt: web::Data<Arc<Jwt>>) -> Result_<User> {
         let token = jwt.parse::<Token>(&token.0)?;
         if token.claims.act != Action::SignIn {
-            return Err(Error::Http(StatusCode::BAD_REQUEST).into());
+            return Err(Error::Http(StatusCode::BAD_REQUEST, None));
         }
         let db = db.get()?;
         let db = db.deref();

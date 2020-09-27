@@ -36,7 +36,10 @@ impl Task {
             let it = serde_json::from_slice(&self.payload)?;
             return Ok(it);
         }
-        Err(Error::Http(StatusCode::BAD_REQUEST))
+        Err(Error::Http(
+            StatusCode::BAD_REQUEST,
+            Some(format!("unsupport task content type {}", self.content_type)),
+        ))
     }
 }
 
@@ -171,5 +174,8 @@ pub fn handle_message<H: Handler>(msg: Delivery, hnd: &H) -> Result<()> {
         }
     }
 
-    Err(Error::Http(StatusCode::BAD_REQUEST))
+    Err(Error::Http(
+        StatusCode::BAD_REQUEST,
+        Some("bad message format".to_string()),
+    ))
 }

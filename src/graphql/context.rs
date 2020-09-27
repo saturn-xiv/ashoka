@@ -1,10 +1,10 @@
 use std::ops::Deref;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
 use actix_web::http::StatusCode;
 
 use super::super::{
-    cache::PooledConnection as Cache,
+    cache::Pool as Cache,
     crypto::Crypto,
     errors::{Error, Result},
     jwt::Jwt,
@@ -19,8 +19,8 @@ use super::super::{
 pub struct Context {
     pub locale: String,
     pub db: Db,
+    pub cache: Cache,
     pub jwt: Arc<Jwt>,
-    pub cache: Mutex<Cache>,
     pub crypto: Arc<Crypto>,
     pub queue: Arc<RabbitMQ>,
     pub token: Option<String>,
@@ -34,12 +34,13 @@ impl Context {
     pub fn current_user(&self) -> Result<&User> {
         self.current_user
             .as_ref()
-            .ok_or_else(|| Error::Http(StatusCode::FORBIDDEN).into())
+            .ok_or_else(|| Error::Http(StatusCode::FORBIDDEN, None))
     }
 
     pub fn administrator(&self) -> Result<&User> {
         self.can(&Role::Admin)
     }
+
     pub fn can(&self, role: &Role) -> Result<&User> {
         let db = self.db.deref();
         if let Some(ref it) = self.current_user {
@@ -47,6 +48,6 @@ impl Context {
                 return Ok(it);
             }
         }
-        Err(Error::Http(StatusCode::FORBIDDEN).into())
+        Err(Error::Http(StatusCode::FORBIDDEN, None))
     }
 }

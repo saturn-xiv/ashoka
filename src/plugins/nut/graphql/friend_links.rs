@@ -6,13 +6,13 @@ use validator::Validate;
 
 use super::super::super::super::{
     errors::Result,
-    graphql::{context::Context, I16, ID},
+    graphql::{context::Context, I16, I64},
 };
 use super::super::models::friend_link::{Dao as FriendLinkDao, Item};
 
 #[derive(GraphQLObject)]
 pub struct FriendLink {
-    pub id: ID,
+    pub id: I64,
     pub title: String,
     pub home: String,
     pub logo: String,
@@ -42,7 +42,7 @@ impl FriendLink {
             .collect::<_>())
     }
 
-    pub fn show(ctx: &Context, id: ID) -> Result<Self> {
+    pub fn show(ctx: &Context, id: I64) -> Result<Self> {
         let db = ctx.db.deref();
         Ok(FriendLinkDao::by_id(db, id.0)?.into())
     }
@@ -67,7 +67,7 @@ impl Form {
         FriendLinkDao::create(db, &self.title, &self.home, &self.logo, self.position.0)?;
         Ok(())
     }
-    pub fn update(&self, ctx: &Context, id: i64) -> Result<()> {
+    pub fn update(&self, ctx: &Context, id: I64) -> Result<()> {
         self.validate()?;
         ctx.administrator()?;
         let db = ctx.db.deref();
@@ -87,7 +87,7 @@ impl Form {
 pub struct Destory;
 
 impl Destory {
-    pub fn execute(ctx: &Context, id: ID) -> Result<()> {
+    pub fn execute(ctx: &Context, id: I64) -> Result<()> {
         ctx.administrator()?;
         let db = ctx.db.deref();
         FriendLinkDao::delete(db, id.0)?;

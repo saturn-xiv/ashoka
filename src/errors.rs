@@ -11,6 +11,7 @@ pub enum Error {
     StdIo(std::io::Error),
 
     Askama(askama::Error),
+    ActixMultipart(actix_multipart::MultipartError),
     ActixWebBlockingSerdeJson(actix_web::error::BlockingError<serde_json::Error>),
     Base64Decode(base64::DecodeError),
     DieselMigrationsRun(diesel_migrations::RunMigrationsError),
@@ -20,6 +21,8 @@ pub enum Error {
     Lapin(lapin::Error),
     LettreEmail(lettre_email::error::Error),
     LettreSmtp(lettre::smtp::error::Error),
+    MimeFromStr(mime::FromStrError),
+    Nix(nix::Error),
     R2d2(r2d2::Error),
     Redis(redis::RedisError),
     Reqwest(reqwest::Error),
@@ -34,8 +37,9 @@ pub enum Error {
     TomlDe(toml::de::Error),
     TomlSer(toml::ser::Error),
     UrlParse(url::ParseError),
+    Validator(validator::ValidationErrors),
 
-    Http(StatusCode),
+    Http(StatusCode, Option<String>),
 }
 
 impl fmt::Display for Error {
@@ -45,6 +49,7 @@ impl fmt::Display for Error {
             Self::StdIo(v) => v.fmt(f),
 
             Self::Askama(v) => v.fmt(f),
+            Self::ActixMultipart(v) => v.fmt(f),
             Self::ActixWebBlockingSerdeJson(v) => v.fmt(f),
             Self::Base64Decode(v) => v.fmt(f),
             Self::DieselMigrationsRun(v) => v.fmt(f),
@@ -54,6 +59,8 @@ impl fmt::Display for Error {
             Self::Lapin(v) => v.fmt(f),
             Self::LettreEmail(v) => v.fmt(f),
             Self::LettreSmtp(v) => v.fmt(f),
+            Self::MimeFromStr(v) => v.fmt(f),
+            Self::Nix(v) => v.fmt(f),
             Self::R2d2(v) => v.fmt(f),
             Self::Redis(v) => v.fmt(f),
             Self::Reqwest(v) => v.fmt(f),
@@ -68,7 +75,12 @@ impl fmt::Display for Error {
             Self::TomlDe(v) => v.fmt(f),
             Self::TomlSer(v) => v.fmt(f),
             Self::UrlParse(v) => v.fmt(f),
-            Self::Http(v) => v.fmt(f),
+            Self::Validator(v) => v.fmt(f),
+
+            Self::Http(v, r) => match r {
+                Some(r) => r.fmt(f),
+                None => v.fmt(f),
+            },
         }
     }
 }
@@ -228,6 +240,30 @@ impl From<serde_xml_rs::Error> for Error {
     }
 }
 
+impl From<nix::Error> for Error {
+    fn from(err: nix::Error) -> Self {
+        Self::Nix(err)
+    }
+}
+
+impl From<validator::ValidationErrors> for Error {
+    fn from(err: validator::ValidationErrors) -> Self {
+        Self::Validator(err)
+    }
+}
+
+impl From<mime::FromStrError> for Error {
+    fn from(err: mime::FromStrError) -> Self {
+        Self::MimeFromStr(err)
+    }
+}
+
+impl From<actix_multipart::MultipartError> for Error {
+    fn from(err: actix_multipart::MultipartError) -> Self {
+        Self::ActixMultipart(err)
+    }
+}
+
 impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
         HttpResponseBuilder::new(self.status_code())
@@ -236,7 +272,7 @@ impl ResponseError for Error {
     }
     fn status_code(&self) -> StatusCode {
         match *self {
-            Self::Http(it) => it,
+            Self::Http(it, _) => it,
             _ => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }

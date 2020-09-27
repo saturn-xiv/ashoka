@@ -95,9 +95,8 @@ impl Provider for Pool {
     fn clear(&self) -> Result<()> {
         let mut db = self.get()?;
         let db = db.deref_mut();
-        debug!("flushdb");
         let rst = cmd("flushdb").query::<String>(db)?;
-        info!("{}", rst);
+        info!("flushdb {}", rst);
         Ok(())
     }
 }

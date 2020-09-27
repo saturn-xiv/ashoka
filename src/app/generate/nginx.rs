@@ -7,7 +7,7 @@ use std::path::Path;
 use askama::Template;
 use clap::{App, SubCommand};
 
-use super::super::super::{env::NAME, errors::Result};
+use super::super::super::errors::Result;
 
 pub const COMMAND_NAME: &str = "generate:nginx";
 pub const COMMAND_ABOUT: &str = "Generate nginx.conf";

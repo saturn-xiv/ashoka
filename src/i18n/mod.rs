@@ -1,9 +1,10 @@
 pub mod locale;
 
+use actix_web::http::StatusCode;
 use handlebars::Handlebars;
 use serde::ser::Serialize;
 
-use super::orm::Connection;
+use super::{errors::Error, orm::Connection};
 
 use self::locale::Dao;
 
@@ -11,6 +12,7 @@ pub trait I18n {
     fn exist(&self, lang: &str) -> bool;
     fn tr<S: Serialize>(&self, lang: &str, code: &str, args: &Option<S>) -> Option<String>;
     fn t<C: Into<String>, S: Serialize>(&self, lang: &str, code: C, args: &Option<S>) -> String;
+    fn e<C: Into<String>, S: Serialize>(&self, lang: &str, code: C, args: &Option<S>) -> Error;
 }
 
 impl I18n for Connection {
@@ -42,5 +44,12 @@ impl I18n for Connection {
             Some(msg) => msg,
             None => format!("{}.{}", lang, code),
         }
+    }
+
+    fn e<C: Into<String>, S: Serialize>(&self, lang: &str, code: C, args: &Option<S>) -> Error {
+        Error::Http(
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Some(self.t(lang, code, args)),
+        )
     }
 }

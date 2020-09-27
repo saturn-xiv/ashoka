@@ -69,14 +69,15 @@ impl fmt::Display for Item {
 
 impl Item {
     pub fn available(&self) -> Result<()> {
+        let who = self.to_string();
         if self.deleted_at.is_some() {
-            return Err(Error::Http(StatusCode::NOT_FOUND));
+            return Err(Error::Http(StatusCode::NOT_FOUND, Some(who)));
         }
         if self.locked_at.is_some() {
-            return Err(Error::Http(StatusCode::LOCKED));
+            return Err(Error::Http(StatusCode::LOCKED, Some(who)));
         }
         if self.confirmed_at.is_none() {
-            return Err(Error::Http(StatusCode::FORBIDDEN));
+            return Err(Error::Http(StatusCode::FORBIDDEN, Some(who)));
         }
         Ok(())
     }
@@ -86,7 +87,10 @@ impl Item {
                 return Ok(());
             }
         }
-        Err(Error::Http(StatusCode::UNAUTHORIZED))
+        Err(Error::Http(
+            StatusCode::UNAUTHORIZED,
+            Some(self.to_string()),
+        ))
     }
 }
 

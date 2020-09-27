@@ -6,13 +6,13 @@ use validator::Validate;
 
 use super::super::super::super::{
     errors::Result,
-    graphql::{context::Context, I16},
+    graphql::{context::Context, I16, I64},
 };
 use super::super::models::card::{Dao as CardDao, Item};
 
 #[derive(GraphQLObject)]
 pub struct Card {
-    pub id: i64,
+    pub id: I64,
     pub title: String,
     pub body: String,
     pub media_type: String,
@@ -50,7 +50,7 @@ impl Card {
             .collect::<_>())
     }
 
-    pub fn show(ctx: &Context, id: i64) -> Result<Self> {
+    pub fn show(ctx: &Context, id: I64) -> Result<Self> {
         let db = ctx.db.deref();
         Ok(CardDao::by_id(db, id.0)?.into())
     }
@@ -95,7 +95,7 @@ impl Form {
         )?;
         Ok(())
     }
-    pub fn update(&self, ctx: &Context, id: i64) -> Result<()> {
+    pub fn update(&self, ctx: &Context, id: I64) -> Result<()> {
         self.validate()?;
         ctx.administrator()?;
         let db = ctx.db.deref();
@@ -119,7 +119,7 @@ impl Form {
 pub struct Destory;
 
 impl Destory {
-    pub fn execute(ctx: &Context, id: i64) -> Result<()> {
+    pub fn execute(ctx: &Context, id: I64) -> Result<()> {
         ctx.administrator()?;
         let db = ctx.db.deref();
         CardDao::delete(db, id.0)?;

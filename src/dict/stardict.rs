@@ -43,8 +43,9 @@ impl StarDict {
         info!("execute command: {}", cmd);
         let out = Command::new("sh").arg("-c").arg(cmd).output()?;
         if !out.status.success() {
-            error!("{}", String::from_utf8(out.stderr)?);
-            return Err(Error::Http(StatusCode::INTERNAL_SERVER_ERROR));
+            let reason = String::from_utf8(out.stderr)?;
+            error!("{}", reason);
+            return Err(Error::Http(StatusCode::INTERNAL_SERVER_ERROR, Some(reason)));
         }
         let it = serde_json::from_slice(&out.stdout)?;
         Ok(it)

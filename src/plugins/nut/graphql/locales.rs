@@ -2,7 +2,6 @@ use std::ops::Deref;
 
 use chrono::NaiveDateTime;
 use juniper::{GraphQLInputObject, GraphQLObject};
-use validator::Validate;
 
 use super::super::super::super::{
     errors::Result,
