@@ -27,7 +27,6 @@ use super::models::{
 
 #[derive(GraphQLInputObject, Validate)]
 pub struct Install {
-    pub title: String,
     pub site: site::Info,
     pub administrator: users::SignUp,
 }

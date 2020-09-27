@@ -14,7 +14,6 @@ export interface ISite {
   copyright?: string;
   languages?: string[];
   version?: string;
-  uptime?: string;
 }
 
 export interface ISideBar {

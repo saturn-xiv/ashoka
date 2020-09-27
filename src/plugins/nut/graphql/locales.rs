@@ -1,6 +1,6 @@
 use std::ops::Deref;
 
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Utc};
 use juniper::{GraphQLInputObject, GraphQLObject};
 
 use super::super::super::super::{
@@ -30,6 +30,18 @@ impl From<LocaleItem> for Locale {
 }
 
 impl Locale {
+    pub fn get(ctx: &Context, code: &String) -> Self {
+        let db = ctx.db.deref();
+        if let Ok(it) = LocaleDao::by_lang_and_code(db, &ctx.locale, code) {
+            return it.into();
+        }
+        Self {
+            id: 0.into(),
+            code: code.clone(),
+            message: "".to_string(),
+            updated_at: Utc::now().naive_local(),
+        }
+    }
     pub fn index(ctx: &Context) -> Result<Vec<Self>> {
         let db = ctx.db.deref();
         Ok(LocaleDao::by_lang(db, &ctx.locale)?

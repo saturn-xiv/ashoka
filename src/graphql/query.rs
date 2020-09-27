@@ -65,6 +65,10 @@ impl Query {
         let items = nut::graphql::locales::Locale::index(context)?;
         Ok(items)
     }
+    #[graphql(description = "Get locale item")]
+    fn getLocale(context: &Context, code: String) -> nut::graphql::locales::Locale {
+        nut::graphql::locales::Locale::get(context, &code)
+    }
 
     #[graphql(description = "List attachments")]
     fn indexAttachment(

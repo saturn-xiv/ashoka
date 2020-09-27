@@ -40,7 +40,7 @@ const Component = (props: IProps) => {
         {props.children}
       </div>
       <Box mt={5}>
-        <Copyright />
+        <Copyright title={props.title} />
       </Box>
     </Container>
   );

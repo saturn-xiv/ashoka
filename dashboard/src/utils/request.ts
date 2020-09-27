@@ -1,8 +1,6 @@
 import { get as getToken } from "./token";
 
-export const backend = (u: string): string => `/api${u}`;
-
-export const options = (method: string, body?: any): RequestInit => {
+const options = (method: string, body?: any): RequestInit => {
   var headers: HeadersInit = new Headers();
   headers.set("Authorization", `Bearer ${getToken()}`);
   // https://github.github.io/fetch/#options
@@ -21,7 +19,7 @@ export const options = (method: string, body?: any): RequestInit => {
   return it;
 };
 
-export const parse = (res: any) => {
+const parse = (res: any) => {
   return res.ok
     ? res.json()
     : res.text().then((err: any) => {
@@ -30,7 +28,7 @@ export const parse = (res: any) => {
 };
 
 export const download = (path: string, name: string) => {
-  return fetch(backend(path), options("GET"))
+  return fetch(path, options("GET"))
     .then((response) => response.blob())
     .then((blob) => {
       const url = URL.createObjectURL(blob);
@@ -47,17 +45,17 @@ export const download = (path: string, name: string) => {
     });
 };
 
-export const get = (path: string) =>
-  fetch(backend(path), options("GET")).then(parse);
+// export const get = (path: string) =>
+//   fetch(backend(path), options("GET")).then(parse);
 
-export const delete_ = (path: string) =>
-  fetch(backend(path), options("DELETE")).then(parse);
+// export const delete_ = (path: string) =>
+//   fetch(backend(path), options("DELETE")).then(parse);
 
-export const post = (path: string, body: any) =>
-  fetch(backend(path), options("POST", body)).then(parse);
+export const graphql = (body: any) =>
+  fetch("/graphql", options("POST", body)).then(parse);
 
-export const patch = (path: string, body: any) =>
-  fetch(backend(path), options("PATCH", body)).then(parse);
+// export const patch = (path: string, body: any) =>
+//   fetch(backend(path), options("PATCH", body)).then(parse);
 
-export const put = (path: string, body: any) =>
-  fetch(backend(path), options("PUT", body)).then(parse);
+// export const put = (path: string, body: any) =>
+//   fetch(backend(path), options("PUT", body)).then(parse);
