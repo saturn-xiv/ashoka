@@ -17,13 +17,13 @@ const Component = (props: IProps) => {
             <Route
               key={it.path}
               path={it.path}
-              exact={true}
+              exact
               component={lazy(it.component)}
             />
           ))}
           <Route
             path="/"
-            exact={true}
+            exact
             component={lazy(() => import("./plugins/nut/Home"))}
           />
           <Route component={lazy(() => import("./plugins/nut/NotFound"))} />

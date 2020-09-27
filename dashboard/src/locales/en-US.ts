@@ -3,9 +3,19 @@ export default {
   "languages.zh-Hans": "简体中文",
   "languages.zh-Hant": "繁體中文",
 
+  "flashes.success": "Successed!",
+  "flashes.fail": "Failed!",
+
   "buttons.submit": "Submit",
 
-  "attributes.email": "Email",
+  "validators.first-name": "First name length must between 2~20",
+  "validators.last-name": "Last name length must between 2~20",
+  "validators.email": "Please input a valid email address",
+  "validators.password": "Password length must between 6~32",
+  "validators.password-confirmation":
+    "Password confirmation must equal with password",
+
+  "attributes.email": "Email Address",
   "attributes.first-name": "First name",
   "attributes.last-name": "Last name",
   "attributes.password": "Password",

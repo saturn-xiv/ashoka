@@ -15,7 +15,7 @@ import { NavLink as SignIn } from "./SignIn";
 export const NavLink = () => {
   const intl = useIntl();
   return (
-    <Link component={RouterLink} to="/users/sign-up">
+    <Link component={RouterLink} to="/users/sign-up" variant="body2">
       {intl.formatMessage({ id: "nut.users.sign-up.nav" })}
     </Link>
   );
@@ -29,7 +29,7 @@ const Component = () => {
       icon={<PersonAddOutlined />}
       title={intl.formatMessage({ id: "nut.users.sign-up.title" })}
     >
-      <Form>
+      <Form onSubmit={() => {}}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
