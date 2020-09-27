@@ -19,13 +19,13 @@ const options = (method: string, body?: any): RequestInit => {
   return it;
 };
 
-const parse = (res: any) => {
-  return res.ok
-    ? res.json()
-    : res.text().then((err: any) => {
-        throw err;
-      });
-};
+// const parse = (res: any) => {
+//   return res.ok
+//     ? res.json()
+//     : res.text().then((err: any) => {
+//         throw err;
+//       });
+// };
 
 export const download = (path: string, name: string) => {
   return fetch(path, options("GET"))
@@ -52,7 +52,21 @@ export const download = (path: string, name: string) => {
 //   fetch(backend(path), options("DELETE")).then(parse);
 
 export const graphql = (body: any) =>
-  fetch("/graphql", options("POST", body)).then(parse);
+  fetch("/graphql", options("POST", body)).then((res: any) => {
+    return res.ok
+      ? res.json().then((rst: any) => {
+          if (rst.errors) {
+            throw rst.errors.map((it: any) => it.message).join("\n");
+          }
+          if (rst.data) {
+            return rst.data;
+          }
+          return rst;
+        })
+      : res.text().then((err: any) => {
+          throw err;
+        });
+  });
 
 // export const patch = (path: string, body: any) =>
 //   fetch(backend(path), options("PATCH", body)).then(parse);

@@ -1,4 +1,5 @@
 import { SnackbarOrigin } from "@material-ui/core/Snackbar";
+import { Color as AlertColor } from "@material-ui/core/Alert";
 
 export const USER_SIGN_IN = "user.sign-in";
 export const USER_SIGN_OUT = "user.sign-out";
@@ -28,6 +29,7 @@ export interface ISideBar {
 
 export interface ISnackBar {
   message?: string;
+  severity?: AlertColor;
   timeout?: number;
   origin?: SnackbarOrigin;
 }

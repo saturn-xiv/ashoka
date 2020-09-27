@@ -3,6 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import HomeIcon from "@material-ui/icons/Home";
 import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/core/Alert";
 import { useSelector, useDispatch } from "react-redux";
 
 import { refresh, IState as IApplicationState, openSnackBar } from "../actions";
@@ -44,9 +45,8 @@ const Component = (props: IProps) => {
           copyright: "site.copyright",
         },
         query: QUERY,
-      }).then((rst) => {
-        if (rst.data) {
-          const it = rst.data;
+      })
+        .then((it) => {
           dispatch(
             refresh({
               version: it.about.version,
@@ -56,12 +56,27 @@ const Component = (props: IProps) => {
               copyright: it.copyright.message,
             })
           );
-        }
-      });
+        })
+        .catch((e) =>
+          dispatch(
+            openSnackBar({
+              message: e,
+              severity: "error",
+            })
+          )
+        );
     }
   }, [dispatch, siteInfo]);
 
   document.title = `${props.title} | ${siteInfo.subhead} | ${siteInfo.title}`;
+
+  const closeSnackBar = () => {
+    dispatch(
+      openSnackBar({
+        message: undefined,
+      })
+    );
+  };
   return (
     <>
       <Snackbar
@@ -73,15 +88,12 @@ const Component = (props: IProps) => {
         }
         autoHideDuration={snackBar?.timeout || 6000}
         open={snackBar?.message !== undefined}
-        onClose={() => {
-          dispatch(
-            openSnackBar({
-              message: undefined,
-            })
-          );
-        }}
-        message={snackBar?.message}
-      />
+        onClose={closeSnackBar}
+      >
+        <Alert variant="filled" severity={snackBar?.severity}>
+          {snackBar?.message}
+        </Alert>
+      </Snackbar>
       <Typography variant="body2" color="textSecondary" align="center">
         {siteInfo.copyright}
         <Link

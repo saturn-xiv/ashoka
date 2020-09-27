@@ -34,6 +34,7 @@ const Component = () => {
     dispatch(
       openSnackBar({
         message: intl.formatMessage({ id: "flashes.success" }),
+        severity: "success",
       })
     );
   };
