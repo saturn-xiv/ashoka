@@ -1,13 +1,18 @@
+import { SnackbarOrigin } from "@material-ui/core/Snackbar";
+
 export const USER_SIGN_IN = "user.sign-in";
 export const USER_SIGN_OUT = "user.sign-out";
 export const SITE_REFRESH = "site.refresh";
 export const SIDE_BAR_OPEN = "side-bar.open";
+export const SNACK_BAR_OPEN = "snack-bar.open";
 
 export interface IState {
   siteInfo: ISite;
   currentUser: IUser;
   sideBar: ISideBar;
+  snackBar: ISnackBar;
 }
+
 export interface ISite {
   title?: string;
   subhead?: string;
@@ -20,6 +25,13 @@ export interface ISideBar {
   current?: string;
   menus?: string[];
 }
+
+export interface ISnackBar {
+  message?: string;
+  timeout?: number;
+  origin?: SnackbarOrigin;
+}
+
 export interface IUser {
   uid?: string;
   name?: string;
@@ -44,11 +56,17 @@ export interface ISideBarOpenAction {
   payload: string[];
 }
 
+export interface ISnackBarOpenAction {
+  type: typeof SNACK_BAR_OPEN;
+  payload: ISnackBar;
+}
+
 export type ActionTypes =
   | ISiteRefreshAction
   | IUserSignInAction
   | IUserSignOutAction
-  | ISideBarOpenAction;
+  | ISideBarOpenAction
+  | ISnackBarOpenAction;
 
 export const refresh = (payload: ISite): ActionTypes => {
   return {
@@ -73,6 +91,13 @@ export const signOut = (): ActionTypes => {
 export const openSideBar = (payload: string[]): ActionTypes => {
   return {
     type: SIDE_BAR_OPEN,
+    payload,
+  };
+};
+
+export const openSnackBar = (payload: ISnackBar): ActionTypes => {
+  return {
+    type: SNACK_BAR_OPEN,
     payload,
   };
 };

@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import HomeIcon from "@material-ui/icons/Home";
-import { Helmet } from "react-helmet";
+import Snackbar from "@material-ui/core/Snackbar";
 import { useSelector, useDispatch } from "react-redux";
 
-import { refresh, IState as IApplicationState } from "../actions";
+import { refresh, IState as IApplicationState, openSnackBar } from "../actions";
 import { graphql } from "../utils/request";
 
 interface IProps {
@@ -32,7 +32,9 @@ query($title: String!, $subhead: String!, $copyright: String!) {
 
 const Component = (props: IProps) => {
   const siteInfo = useSelector((state: IApplicationState) => state.siteInfo);
+  const snackBar = useSelector((state: IApplicationState) => state.snackBar);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (siteInfo.version === undefined) {
       graphql({
@@ -58,13 +60,28 @@ const Component = (props: IProps) => {
       });
     }
   }, [dispatch, siteInfo]);
+
+  document.title = `${props.title} | ${siteInfo.subhead} | ${siteInfo.title}`;
   return (
     <>
-      <Helmet>
-        <title>
-          {`${props.title} | ${siteInfo.subhead} | ${siteInfo.title}`}
-        </title>
-      </Helmet>
+      <Snackbar
+        anchorOrigin={
+          snackBar?.origin || {
+            horizontal: "center",
+            vertical: "top",
+          }
+        }
+        autoHideDuration={snackBar?.timeout || 6000}
+        open={snackBar?.message !== undefined}
+        onClose={() => {
+          dispatch(
+            openSnackBar({
+              message: undefined,
+            })
+          );
+        }}
+        message={snackBar?.message}
+      />
       <Typography variant="body2" color="textSecondary" align="center">
         {siteInfo.copyright}
         <Link
@@ -76,7 +93,9 @@ const Component = (props: IProps) => {
           <HomeIcon fontSize="small" />
         </Link>
         &copy;
-        {new Date().getFullYear()}.
+        {new Date().getFullYear()}
+        &reg;
+        {siteInfo.version}
       </Typography>
     </>
   );

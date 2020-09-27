@@ -1,21 +1,7 @@
 import React, { ReactNode } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import { SnackbarOrigin } from "@material-ui/core/Snackbar";
 import { useIntl } from "react-intl";
-
-export interface IMessageBar {
-  message?: string;
-  timeout?: number;
-  show?: boolean;
-  origin?: SnackbarOrigin;
-  onClose?: () => void;
-}
-export const MessageBarOrign: SnackbarOrigin = {
-  horizontal: "center",
-  vertical: "top",
-};
-export const MessageBarTimeout: number = 6000;
 
 export const RULES = {
   firstName: {

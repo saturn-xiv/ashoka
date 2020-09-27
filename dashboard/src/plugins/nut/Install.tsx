@@ -1,19 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import SupervisorAccountOutlined from "@material-ui/icons/SupervisorAccountOutlined";
-import Snackbar from "@material-ui/core/Snackbar";
 import { useIntl } from "react-intl";
 import { useForm, Controller } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
+import { openSnackBar } from "../../actions";
 import Application from "../../layouts/application";
-import Form, {
-  Submit,
-  MessageBarOrign,
-  MessageBarTimeout,
-  IMessageBar,
-  RULES,
-} from "../../layouts/form";
+import Form, { Submit, RULES } from "../../layouts/form";
 import { NavLink as SignIn } from "./users/SignIn";
 
 interface IFormInput {
@@ -25,8 +20,8 @@ interface IFormInput {
 
 const Component = () => {
   const intl = useIntl();
+  const dispatch = useDispatch();
   const { errors, control, setError, handleSubmit } = useForm();
-  const [messageBar, setMessageBar] = useState<IMessageBar>();
 
   const onSubmit = (data: IFormInput) => {
     if (data.password !== data.passwordConfirmation) {
@@ -36,13 +31,11 @@ const Component = () => {
       });
       return;
     }
-
-    setMessageBar(
-      Object.assign({}, messageBar, {
+    dispatch(
+      openSnackBar({
         message: intl.formatMessage({ id: "flashes.success" }),
       })
     );
-    console.log(data);
   };
 
   return (
@@ -50,19 +43,6 @@ const Component = () => {
       icon={<SupervisorAccountOutlined />}
       title={intl.formatMessage({ id: "nut.install.title" })}
     >
-      <Snackbar
-        anchorOrigin={MessageBarOrign}
-        autoHideDuration={MessageBarTimeout}
-        open={messageBar?.message !== undefined}
-        onClose={() =>
-          setMessageBar(
-            Object.assign({}, messageBar, {
-              message: undefined,
-            })
-          )
-        }
-        message={messageBar?.message}
-      />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
