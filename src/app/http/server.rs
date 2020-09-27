@@ -104,7 +104,7 @@ pub async fn launch(cfg: Config) -> Result<()> {
                     .secure(cfg!(not(debug_assertions))),
             )
             .configure(nut::html::mount)
-            .service(web::scope("/forum").configure(forum::html::mount))
+            .configure(forum::html::mount)
             .service(web::resource(graphql::SOURCE).route(web::post().to(graphql::post)))
             .service(web::resource("/graphiql").route(web::get().to(graphql::get)))
             .service(actix_files::Files::new("/3rd", "node_modules").use_last_modified(true))
