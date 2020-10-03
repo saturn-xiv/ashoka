@@ -1,4 +1,8 @@
+import URI from "urijs";
+
 import { get as getToken } from "./token";
+
+export const home_url = () => URI(window.location.href).path("/").toString();
 
 const options = (method: string, body?: any): RequestInit => {
   var headers: HeadersInit = new Headers();

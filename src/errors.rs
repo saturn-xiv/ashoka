@@ -16,7 +16,7 @@ pub enum Error {
     Base64Decode(base64::DecodeError),
     DieselMigrationsRun(diesel_migrations::RunMigrationsError),
     DieselResult(diesel::result::Error),
-    IniParse(ini::ini::ParseError),
+    IniParse(ini::ParseError),
     JsonWebToken(jsonwebtoken::errors::Error),
     Lapin(lapin::Error),
     LettreEmail(lettre_email::error::Error),
@@ -169,8 +169,8 @@ impl From<askama::Error> for Error {
     }
 }
 
-impl From<ini::ini::ParseError> for Error {
-    fn from(err: ini::ini::ParseError) -> Self {
+impl From<ini::ParseError> for Error {
+    fn from(err: ini::ParseError) -> Self {
         Self::IniParse(err)
     }
 }
