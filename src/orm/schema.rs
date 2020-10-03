@@ -207,8 +207,8 @@ table! {
 table! {
     users (id) {
         id -> Int8,
-        real_name -> Varchar,
-        nick_name -> Varchar,
+        first_name -> Varchar,
+        last_name -> Varchar,
         email -> Varchar,
         password -> Nullable<Bytea>,
         uid -> Varchar,

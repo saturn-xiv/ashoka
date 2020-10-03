@@ -12,6 +12,10 @@ import Form, { Submit, RULES } from "../../layouts/form";
 import { NavLink as SignIn } from "./users/SignIn";
 
 interface IFormInput {
+  title: string;
+  subhead: string;
+  description: string;
+  copyright: string;
   firstName: string;
   lastName: string;
   password: string;

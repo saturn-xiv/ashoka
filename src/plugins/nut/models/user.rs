@@ -39,8 +39,8 @@ impl fmt::Display for Type {
 #[serde(rename_all = "camelCase")]
 pub struct Item {
     pub id: i64,
-    pub real_name: String,
-    pub nick_name: String,
+    pub first_name: String,
+    pub last_name: String,
     pub email: String,
     pub password: Option<Vec<u8>>,
     pub uid: String,
@@ -63,11 +63,18 @@ pub struct Item {
 
 impl fmt::Display for Item {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
-        write!(fmt, "{}<{}>", self.real_name, self.email)
+        write!(
+            fmt,
+            "{} {}<{}>",
+            self.first_name, self.last_name, self.email
+        )
     }
 }
 
 impl Item {
+    pub fn real_name(&self) -> String {
+        format!("{} {}", self.first_name, self.last_name)
+    }
     pub fn available(&self) -> Result<()> {
         let who = self.to_string();
         if self.deleted_at.is_some() {
@@ -97,8 +104,8 @@ impl Item {
 #[derive(Insertable)]
 #[table_name = "users"]
 pub struct New<'a> {
-    pub real_name: &'a str,
-    pub nick_name: &'a str,
+    pub first_name: &'a str,
+    pub last_name: &'a str,
     pub email: &'a str,
     pub password: Option<&'a [u8]>,
     pub uid: &'a str,
@@ -112,14 +119,13 @@ pub trait Dao {
     fn by_id(&self, id: i64) -> Result<Item>;
     fn by_uid(&self, uid: &str) -> Result<Item>;
     fn by_email(&self, email: &str) -> Result<Item>;
-    fn by_nick_name(&self, nick_name: &str) -> Result<Item>;
-    fn set_profile(&self, id: i64, real_name: &str, logo: &str) -> Result<()>;
+    fn set_profile(&self, id: i64, first_name: &str, last_name: &str, logo: &str) -> Result<()>;
     fn sign_in(&self, id: i64, ip: &str) -> Result<()>;
     fn google(&self, access_token: &str, token: &IdToken, ip: &str) -> Result<Item>;
     fn sign_up<T: Password>(
         &self,
-        real_name: &str,
-        nick_name: &str,
+        first_name: &str,
+        last_name: &str,
         email: &str,
         password: &str,
     ) -> Result<()>;
@@ -152,26 +158,20 @@ impl Dao for Connection {
         Ok(it)
     }
 
-    fn by_nick_name(&self, nick_name: &str) -> Result<Item> {
-        let it = users::dsl::users
-            .filter(users::dsl::nick_name.eq(nick_name.trim()))
-            .first(self)?;
-        Ok(it)
-    }
-
     fn google(&self, access_token: &str, id_token: &IdToken, ip: &str) -> Result<Item> {
         let now = Utc::now().naive_utc();
+        let type_ = Type::Google.to_string();
         let it = match users::dsl::users
             .filter(users::dsl::provider_id.eq(&id_token.sub))
-            .filter(users::dsl::provider_type.eq(&Type::Google.to_string()))
+            .filter(users::dsl::provider_type.eq(&type_))
             .first::<Item>(self)
         {
             Ok(it) => {
-                if let Some(ref name) = id_token.name {
-                    update(users::dsl::users.filter(users::dsl::id.eq(it.id)))
-                        .set(users::dsl::real_name.eq(&name))
-                        .execute(self)?;
-                }
+                // if let Some(ref name) = id_token.name {
+                //     update(users::dsl::users.filter(users::dsl::id.eq(it.id)))
+                //         .set(users::dsl::first_name.eq(&name))
+                //         .execute(self)?;
+                // }
                 if let Some(ref email) = id_token.email {
                     update(users::dsl::users.filter(users::dsl::id.eq(it.id)))
                         .set(users::dsl::email.eq(&email))
@@ -192,11 +192,11 @@ impl Dao for Connection {
                 let uid = Uuid::new_v4().to_string();
                 insert_into(users::dsl::users)
                     .values(&New {
-                        real_name: &match id_token.name {
+                        first_name: &match id_token.name {
                             Some(ref v) => v.clone(),
                             None => "Guest".to_string(),
                         },
-                        nick_name: &format!("g{}", id_token.sub),
+                        last_name: &type_,
                         email: &email,
                         password: None,
                         provider_type: &Type::Google.to_string(),
@@ -247,17 +247,16 @@ impl Dao for Connection {
     }
     fn sign_up<T: Password>(
         &self,
-        real_name: &str,
-        nick_name: &str,
+        first_name: &str,
+        last_name: &str,
         email: &str,
         password: &str,
     ) -> Result<()> {
         let email = email.trim().to_lowercase();
-        let nick_name = nick_name.trim();
         insert_into(users::dsl::users)
             .values(&New {
-                real_name,
-                nick_name,
+                first_name: &first_name.trim().to_lowercase(),
+                last_name: &last_name.trim().to_lowercase(),
                 email: &email,
                 password: Some(&T::sum(password.as_bytes())?),
                 provider_type: &Type::Email.to_string(),
@@ -285,11 +284,12 @@ impl Dao for Connection {
         Ok(())
     }
 
-    fn set_profile(&self, id: i64, real_name: &str, logo: &str) -> Result<()> {
+    fn set_profile(&self, id: i64, first_name: &str, last_name: &str, logo: &str) -> Result<()> {
         let now = Utc::now().naive_utc();
         update(users::dsl::users.filter(users::dsl::id.eq(id)))
             .set((
-                users::dsl::real_name.eq(real_name),
+                users::dsl::first_name.eq(first_name),
+                users::dsl::last_name.eq(last_name),
                 users::dsl::logo.eq(logo),
                 users::dsl::updated_at.eq(&now),
             ))

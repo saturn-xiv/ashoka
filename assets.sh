@@ -20,6 +20,7 @@ yarn add \
     validate.js react-dropzone \
     react-syntax-highlighter @types/react-syntax-highlighter \
     @material-ui/core@next @material-ui/icons@next @material-ui/styles@next \
-    @emotion/styled @emotion/core fontsource-roboto 
+    @emotion/styled @emotion/core fontsource-roboto \
+    typescript
 
 exit 0

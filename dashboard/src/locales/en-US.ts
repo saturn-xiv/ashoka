@@ -7,6 +7,9 @@ export default {
   "flashes.fail": "Failed!",
 
   "buttons.submit": "Submit",
+  "buttons.finish": "Finish",
+  "buttons.back": "Back",
+  "buttons.continue": "Continue",
 
   "validators.first-name": "First name length must between 2~20",
   "validators.last-name": "Last name length must between 2~20",
@@ -20,6 +23,10 @@ export default {
   "attributes.last-name": "Last name",
   "attributes.password": "Password",
   "attributes.password-confirmation": "Password confirmation",
+  "attributes.title": "Title",
+  "attributes.subhead": "Subhead",
+  "attributes.description": "Description",
+  "attributes.copyright": "Copyright",
 
   "nut.users.sign-in.title": "Sign in",
   "nut.users.sign-in.nav": "Already have an account? Sign in",

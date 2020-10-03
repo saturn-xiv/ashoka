@@ -1,7 +1,7 @@
 CREATE TABLE users(
     id BIGSERIAL PRIMARY KEY,
-    real_name VARCHAR(32) NOT NULL,
-    nick_name VARCHAR(32) NOT NULL,
+    first_name VARCHAR(32) NOT NULL,
+    last_name VARCHAR(32) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password BYTEA,
     uid VARCHAR(36) NOT NULL,
@@ -22,9 +22,9 @@ CREATE TABLE users(
     updated_at TIMESTAMP NOT NULL
 );
 
-CREATE INDEX idx_users_real_name ON users(real_name);
+CREATE INDEX idx_users_first_name ON users(first_name);
 
-CREATE UNIQUE INDEX idx_users_nick_name ON users(nick_name);
+CREATE INDEX idx_users_last_name ON users(last_name);
 
 CREATE UNIQUE INDEX idx_users_email ON users(email);
 

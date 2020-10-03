@@ -44,7 +44,7 @@ pub async fn create(
                                 let buf = chunk?;
                                 body.append(&mut buf.to_vec());
                             }
-                            let bucket = user.0.nick_name.clone();
+                            let bucket = user.0.email.clone();
                             let key = Uuid::new_v4().to_string();
                             let size = body.len() as i64;
                             s3.put(&bucket, &key, body).await?;

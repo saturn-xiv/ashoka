@@ -168,8 +168,8 @@ impl send_email::Config {
                 send_email::NAME,
                 Task::new(&send_email::Task {
                     email: user.email.clone(),
-                    name: user.real_name.clone(),
-                    subject: format!("Hi, {}", user.real_name),
+                    name: user.real_name(),
+                    subject: format!("Hi, {}", user.first_name),
                     body: "This is a test email.".to_string(),
                 })?,
             )

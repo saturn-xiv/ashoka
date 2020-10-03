@@ -56,7 +56,7 @@ fn sync(db: &Connection) -> Result<(usize, usize)> {
                         k,
                     );
                     debug!("find {} = {}", k, v);
-                    if let Err(_) = LocaleDao::by_lang_and_code(db, lang, &code) {
+                    if LocaleDao::by_lang_and_code(db, lang, &code).is_err() {
                         LocaleDao::create(db, lang, &code, v)?;
                         inserted += 1;
                     }

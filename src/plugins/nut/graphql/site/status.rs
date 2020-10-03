@@ -33,8 +33,7 @@ impl Status {
             redis: {
                 let mut db = ctx.cache.get()?;
                 let db = db.deref_mut();
-                let it = cmd("info").query::<String>(db)?;
-                it
+                cmd("info").query::<String>(db)?
             },
             database: Self::db(db)?,
         })

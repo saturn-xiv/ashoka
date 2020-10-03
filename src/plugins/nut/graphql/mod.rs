@@ -27,7 +27,7 @@ use super::models::{
 
 #[derive(GraphQLInputObject, Validate)]
 pub struct Install {
-    pub site: site::Info,
+    pub site: Option<site::Info>,
     pub administrator: users::SignUp,
 }
 
@@ -66,7 +66,9 @@ impl Install {
             }
             Ok(())
         })?;
-        self.site.save(db, &ctx.locale)?;
+        if let Some(ref it) = self.site {
+            it.save(db, &ctx.locale)?;
+        }
         Ok(())
     }
 }

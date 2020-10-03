@@ -30,14 +30,14 @@ impl From<LocaleItem> for Locale {
 }
 
 impl Locale {
-    pub fn get(ctx: &Context, code: &String) -> Self {
+    pub fn get(ctx: &Context, code: &str) -> Self {
         let db = ctx.db.deref();
         if let Ok(it) = LocaleDao::by_lang_and_code(db, &ctx.locale, code) {
             return it.into();
         }
         Self {
             id: 0.into(),
-            code: code.clone(),
+            code: code.to_string(),
             message: "".to_string(),
             updated_at: Utc::now().naive_local(),
         }

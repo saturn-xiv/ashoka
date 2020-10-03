@@ -28,7 +28,7 @@ use super::super::{
 #[derive(GraphQLInputObject, Validate)]
 pub struct SignIn {
     #[validate(length(min = 1))]
-    pub id: String,
+    pub email: String,
     #[validate(length(min = 1))]
     pub password: String,
 }
@@ -41,7 +41,7 @@ impl SignIn {
             db,
             &ctx.locale,
             "nut.errors.user.is-not-exist",
-            &json!({"id": self.id})
+            &json!({"email": self.email})
         ));
         let user = user?;
         if let Err(e) = user.auth::<Crypto>(&self.password) {
@@ -50,14 +50,14 @@ impl SignIn {
                 user.id,
                 &ctx.client_ip,
                 &ctx.locale,
-                "nut.logs.user.sign-in.failed"
+                "nut.logs.user.sign-in.wrong-password"
             )?;
             return Err(e);
         }
         user.available()?;
 
         let uid = user.uid.clone();
-        let name = user.real_name.clone();
+        let name = user.real_name();
         db.transaction::<_, Error, _>(move || {
             UserDao::sign_in(db, user.id, &ctx.client_ip)?;
             __i18n_l!(
@@ -85,10 +85,7 @@ impl SignIn {
     }
 
     fn select(&self, db: &Db) -> Option<UserItem> {
-        if let Ok(it) = UserDao::by_nick_name(db, &self.id) {
-            return Some(it);
-        }
-        if let Ok(it) = UserDao::by_email(db, &self.id) {
+        if let Ok(it) = UserDao::by_email(db, &self.email) {
             return Some(it);
         }
         None
@@ -98,9 +95,9 @@ impl SignIn {
 #[derive(GraphQLInputObject, Validate)]
 pub struct SignUp {
     #[validate(length(min = 2, max = 32))]
-    pub real_name: String,
+    pub first_name: String,
     #[validate(length(min = 2, max = 32))]
-    pub nick_name: String,
+    pub last_name: String,
     #[validate(length(min = 1, max = 255), email)]
     pub email: String,
     #[validate(length(min = 6, max = 32))]
@@ -134,23 +131,15 @@ impl SignUp {
                 db,
                 &ctx.locale,
                 "nut.errors.user.already-exist",
-                &json!({"id": self.email})
-            ));
-        }
-        if UserDao::by_nick_name(db, &self.nick_name).is_ok() {
-            return Err(__i18n_e!(
-                db,
-                &ctx.locale,
-                "nut.errors.user.already-exist",
-                &json!({"id": self.nick_name})
+                &json!({"email": self.email})
             ));
         }
 
         let user = db.transaction::<_, Error, _>(move || {
             UserDao::sign_up::<Crypto>(
                 db,
-                &self.real_name,
-                &self.nick_name,
+                &self.first_name,
+                &self.last_name,
                 &self.email,
                 &self.password,
             )?;
@@ -253,7 +242,7 @@ impl EmailForm {
             None,
             &Token {
                 uid: user.uid.clone(),
-                sub: user.real_name.clone(),
+                sub: user.real_name(),
                 act: act.clone(),
                 nbf,
                 exp,
@@ -261,7 +250,7 @@ impl EmailForm {
         )?;
 
         let args =
-            Some(json!({ "name": user.real_name, "home": home, "expire":expire, "token":token }));
+            Some(json!({ "name": user.first_name, "home": home, "expire":expire, "token":token }));
         let subject = I18n::t(db, lang, format!("nut.mailer.users.{}.subject", act), &args);
         let body = I18n::t(db, lang, format!("nut.mailer.users.{}.body", act), &args);
 
@@ -270,7 +259,7 @@ impl EmailForm {
                 send_email::NAME,
                 Task::new(&send_email::Task {
                     email: user.email.clone(),
-                    name: user.real_name.clone(),
+                    name: user.first_name.clone(),
                     subject,
                     body,
                 })?,
@@ -428,7 +417,9 @@ impl SignOut {
 #[derive(GraphQLInputObject, Validate)]
 pub struct Profile {
     #[validate(length(min = 2, max = 32))]
-    pub real_name: String,
+    pub first_name: String,
+    #[validate(length(min = 2, max = 32))]
+    pub last_name: String,
     #[validate(length(min = 1))]
     pub logo: String,
 }
@@ -439,7 +430,7 @@ impl Profile {
         let db = ctx.db.deref();
         let user = ctx.current_user()?;
 
-        UserDao::set_profile(db, user.id, &self.real_name, &self.logo)?;
+        UserDao::set_profile(db, user.id, &self.first_name, &self.last_name, &self.logo)?;
         Ok(())
     }
 }
@@ -478,8 +469,8 @@ impl Policy {
 
 #[derive(GraphQLObject)]
 pub struct CurrentUser {
-    pub nick_name: String,
-    pub real_name: String,
+    pub first_name: String,
+    pub last_name: String,
     pub email: String,
     pub policies: Vec<Policy>,
 }
@@ -489,8 +480,8 @@ impl CurrentUser {
         let user = ctx.current_user()?;
         let db = ctx.db.deref();
         Ok(Self {
-            nick_name: user.nick_name.clone(),
-            real_name: user.real_name.clone(),
+            first_name: user.first_name.clone(),
+            last_name: user.last_name.clone(),
             email: user.email.clone(),
             policies: PolicyDao::all(db, user.id)?
                 .into_iter()
@@ -563,8 +554,8 @@ impl Lock {
 #[derive(GraphQLObject)]
 pub struct User {
     pub id: I64,
-    pub real_name: String,
-    pub nick_name: String,
+    pub first_name: String,
+    pub last_name: String,
     pub email: String,
     pub logo: String,
     pub updated_at: NaiveDateTime,
@@ -574,8 +565,8 @@ impl From<UserItem> for User {
     fn from(it: UserItem) -> Self {
         Self {
             id: it.id.into(),
-            real_name: it.real_name,
-            nick_name: it.nick_name,
+            first_name: it.first_name,
+            last_name: it.last_name,
             email: it.email,
             logo: it.logo,
             updated_at: it.updated_at,
