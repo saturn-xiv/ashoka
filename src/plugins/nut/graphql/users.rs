@@ -26,6 +26,7 @@ use super::super::{
 };
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersSignIn")]
 pub struct SignIn {
     #[validate(length(min = 1))]
     pub email: String,
@@ -93,6 +94,7 @@ impl SignIn {
 }
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersSignUp")]
 pub struct SignUp {
     #[validate(length(min = 2, max = 32))]
     pub first_name: String,
@@ -158,6 +160,7 @@ impl SignUp {
 }
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersEmailForm")]
 pub struct EmailForm {
     #[validate(length(min = 1))]
     pub email: String,
@@ -270,6 +273,7 @@ impl EmailForm {
 }
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersTokenForm")]
 pub struct TokenForm {
     #[validate(length(min = 1))]
     pub token: String,
@@ -335,6 +339,7 @@ impl TokenForm {
 }
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersResetPassword")]
 pub struct ResetPassword {
     #[validate(length(min = 1))]
     pub token: String,
@@ -367,6 +372,7 @@ impl ResetPassword {
 }
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersChangePassword")]
 pub struct ChangePassword {
     #[validate(length(min = 1))]
     pub current_password: String,
@@ -415,6 +421,7 @@ impl SignOut {
 }
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersUpdateProfile")]
 pub struct Profile {
     #[validate(length(min = 2, max = 32))]
     pub first_name: String,
@@ -585,6 +592,7 @@ impl User {
     }
 }
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersApplyPolicy")]
 pub struct Apply {
     #[validate(length(min = 1))]
     pub role: String,
@@ -623,6 +631,7 @@ impl Apply {
     }
 }
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UsersDenyPolicy")]
 pub struct Deny {
     #[validate(length(min = 1))]
     pub role: String,

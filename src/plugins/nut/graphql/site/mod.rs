@@ -18,6 +18,7 @@ use super::super::tasks::send_email;
 use super::locales::Update as UpdateLocale;
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "UpdateSiteInfo")]
 pub struct Info {
     #[validate(length(min = 1))]
     pub title: String,

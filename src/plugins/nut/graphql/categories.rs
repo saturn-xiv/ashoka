@@ -51,6 +51,7 @@ impl Category {
 }
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "CategoryForm")]
 pub struct Form {
     #[validate(length(min = 1))]
     pub name: String,

@@ -52,6 +52,7 @@ impl Locale {
 }
 
 #[derive(GraphQLInputObject, Validate)]
+#[graphql(name = "LocaleForm")]
 pub struct Update {
     #[validate(length(min = 1))]
     pub code: String,
