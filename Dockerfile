@@ -22,11 +22,11 @@
 # CMD ["/bin/zsh", "-l"]
 
 
-FROM ubuntu:xenial
+FROM ubuntu:latest
 LABEL maintainer="Jeremy Zheng"
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV UBUNTU xenial
+ENV UBUNTU focal
 
 RUN apt update
 RUN apt -y install software-properties-common
@@ -74,6 +74,7 @@ RUN sh -c ". $HOME/.profile \
     && npm install -g yarn"
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 
+RUN pip3 install --user --upgrade pip
 RUN pip3 install --user conan
 RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
 
