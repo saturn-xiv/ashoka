@@ -13,8 +13,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 # set(OPENSSL_USE_STATIC_LIBS TRUE)
 # set(OPENSSL_MSVC_STATIC_RT TRUE)
 
-include_directories("$ENV{HOME}/local/vcpkg/installed/x64-linux/include")
-link_directories("$ENV{HOME}/local/vcpkg/installed/x64-linux/lib")
+# include_directories("$ENV{HOME}/local/vcpkg/installed/x64-linux/include")
+# link_directories("$ENV{HOME}/local/vcpkg/installed/x64-linux/lib")
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -42,6 +45,7 @@ target_link_libraries(ashoka
     ${CMAKE_THREAD_LIBS_INIT}
     ${Boost_LIBRARIES}    
     ${OPENSSL_SSL_LIBRARIES}
+    ${CONAN_LIBS}
     pq hiredis sqlite3 rabbitmq
-    Poco::Foundation Poco::Net Poco::NetSSL Poco::JSON Poco::Crypto Poco::XML
+    Poco::Foundation Poco::Net Poco::NetSSL Poco::JSON Poco::Crypto Poco::XML    
 )

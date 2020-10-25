@@ -2,6 +2,8 @@
 
 set -e
 
+# sudo apt install -y g++-9
+
 echo "check package vcpkg"
 export VCPKG_HOME=$HOME/local/vcpkg
 if [ ! -d $VCPKG_HOME ]
@@ -23,17 +25,12 @@ for p in "${packages[@]}"
 do
     echo "check package $p(x64)"
     $VCPKG_HOME/vcpkg install --triplet=x64-linux $p
-done
 
-# https://stackoverflow.com/questions/55204593/how-to-specify-cmake-version-used-by-vcpkg
-# https://github.com/microsoft/vcpkg/issues/9570
-
-export VCPKG_FORCE_SYSTEM_BINARIES=1
-sudo apt install -y g++-9
-for p in "${packages[@]}"
-do
+    # https://stackoverflow.com/questions/55204593/how-to-specify-cmake-version-used-by-vcpkg
+    # https://github.com/microsoft/vcpkg/issues/9570
     echo "check package $p(arm)"
-    $VCPKG_HOME/vcpkg install --triplet=arm-linux $p
+    VCPKG_FORCE_SYSTEM_BINARIES=1 $VCPKG_HOME/vcpkg install --triplet=arm-linux $p
 done
+
 
 exit 0

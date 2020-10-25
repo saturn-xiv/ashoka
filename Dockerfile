@@ -36,6 +36,7 @@ RUN apt -y upgrade
 # https://wiki.ubuntu.com/ToolChain
 RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
+    python3 python3-pip \
     build-essential  binutils-multiarch cmake clang \
     linux-libc-dev-armel-cross gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
@@ -73,8 +74,12 @@ RUN sh -c ". $HOME/.profile \
     && npm install -g yarn"
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 
-ADD vcpkg.sh /vcpkg.sh
-RUN bash /vcpkg.sh
+RUN pip3 install --user conan
+RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
+
+# ADD vcpkg.sh /vcpkg.sh
+# RUN bash /vcpkg.sh
+ADD profiles $HOME/.conan/profiles
 
 VOLUME /workspace
 WORKDIR /workspace
