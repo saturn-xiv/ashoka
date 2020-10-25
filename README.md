@@ -8,8 +8,8 @@ Saraca asoca (the ashoka tree)
 $ docker build -t ashoka .
 $ docker run --rm -it --network host -v `pwd`:/workspace ashoka
 > mkdir build && cd build
-> conan install --build=missing .. --profile arm
-> conan install --build=missing .. --profile amd64
+> conan install --build=missing .. --profile ../arm
+> conan install --build=missing .. --profile ../x64
 > cmake -DCMAKE_BUILD_TYPE=Release ..
 > make -j
 ```

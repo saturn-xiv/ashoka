@@ -37,8 +37,9 @@ RUN apt -y upgrade
 RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
     python3 python3-pip \
+    g++-10 \
     build-essential  binutils-multiarch cmake clang \
-    linux-libc-dev-armel-cross gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+    linux-libc-dev-armel-cross g++-10-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
 RUN dpkg --add-architecture armhf
 RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU main restricted universe multiverse" > /etc/apt/sources.list
@@ -80,7 +81,6 @@ RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
 
 # ADD vcpkg.sh /vcpkg.sh
 # RUN bash /vcpkg.sh
-ADD profiles $HOME/.conan/profiles
 
 VOLUME /workspace
 WORKDIR /workspace
