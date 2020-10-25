@@ -29,12 +29,32 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update
 RUN apt -y upgrade
-RUN apt -y install zsh git locales pkg-config \
+RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
-    build-essential cmake clang \
+    build-essential  binutils-multiarch cmake clang \
     gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
-RUN apt-get -y autoremove
-RUN apt-get -y clean
+
+RUN dpkg --add-architecture armhf
+# ENV UBUNTU xenial
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU main restricted" > /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates main restricted" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU universe" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates universe" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-backports main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://security.ubuntu.com/ubuntu/ $UBUNTU-security main restricted" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://security.ubuntu.com/ubuntu/ $UBUNTU-security universe" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://security.ubuntu.com/ubuntu/ $UBUNTU-security multiverse" >> /etc/apt/sources.list
+
+# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-security main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-updates main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-backports main restricted universe multiverse" >> /etc/apt/sources.list
+
+RUN apt update
+RUN apt -y autoremove
+RUN apt -y clean
 
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen

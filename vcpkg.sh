@@ -11,7 +11,7 @@ then
 fi
 
 declare -a triplets=(
-    # arm-linux
+    arm-linux
     x64-linux
 )
 
