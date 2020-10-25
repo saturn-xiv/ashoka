@@ -10,27 +10,29 @@ then
     $VCPKG_HOME/bootstrap-vcpkg.sh
 fi
 
-declare -a triplets=(
-    arm-linux
-    x64-linux
-)
-
 declare -a packages=(
     libpq
     sqlite3
     hiredis
     librabbitmq
-    poco
     boost 
+    poco
 )
 
 for p in "${packages[@]}"
 do
-    for t in "${triplets[@]}"
-    do
-        echo "check package $p($t)"
-        $VCPKG_HOME/vcpkg install --triplet=$t $p
-    done
+    echo "check package $p(x64)"
+    $VCPKG_HOME/vcpkg install --triplet=x64-linux $p
+done
+
+# https://stackoverflow.com/questions/55204593/how-to-specify-cmake-version-used-by-vcpkg
+# https://github.com/microsoft/vcpkg/issues/9570
+
+export VCPKG_FORCE_SYSTEM_BINARIES=1
+for p in "${packages[@]}"
+do
+    echo "check package $p(arm)"
+    $VCPKG_HOME/vcpkg install --triplet=arm-linux $p
 done
 
 exit 0
