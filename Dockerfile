@@ -22,11 +22,13 @@
 # CMD ["/bin/zsh", "-l"]
 
 
-FROM ubuntu:latest
+FROM ubuntu:xenial
 LABEL maintainer="Jeremy Zheng"
 
+ENV UBUNTU xenial
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
 RUN apt update
 RUN apt -y upgrade
 RUN apt -y install zsh git locales pkg-config rsync openssh-client \
@@ -35,9 +37,8 @@ RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
 RUN dpkg --add-architecture armhf
-# ENV UBUNTU xenial
-# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU main restricted" > /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates main restricted" >> /etc/apt/sources.list
+RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU main restricted" > /etc/apt/sources.list
+RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates main restricted" >> /etc/apt/sources.list
 # RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU universe" >> /etc/apt/sources.list
 # RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates universe" >> /etc/apt/sources.list
 # RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU multiverse" >> /etc/apt/sources.list
@@ -51,7 +52,6 @@ RUN dpkg --add-architecture armhf
 # RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-security main restricted universe multiverse" >> /etc/apt/sources.list
 # RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-updates main restricted universe multiverse" >> /etc/apt/sources.list
 # RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-backports main restricted universe multiverse" >> /etc/apt/sources.list
-
 RUN apt update
 RUN apt -y autoremove
 RUN apt -y clean
