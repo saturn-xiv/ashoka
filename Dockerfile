@@ -27,18 +27,17 @@ LABEL maintainer="Jeremy Zheng"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV UBUNTU xenial
-ENV GCC_VERSION 9
 
 RUN apt update
 RUN apt -y install software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
 RUN apt update
 RUN apt -y upgrade
+# https://wiki.ubuntu.com/ToolChain
 RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
     build-essential  binutils-multiarch cmake clang \
-    g++-$GCC_VERSION gcc-$GCC_VERSION \
-    gcc-$GCC_VERSION-arm-linux-gnueabihf g++-$GCC_VERSION-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+    linux-libc-dev-armel-cross gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
 RUN dpkg --add-architecture armhf
 RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU main restricted universe multiverse" > /etc/apt/sources.list

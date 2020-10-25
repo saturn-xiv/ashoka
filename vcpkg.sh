@@ -29,6 +29,7 @@ done
 # https://github.com/microsoft/vcpkg/issues/9570
 
 export VCPKG_FORCE_SYSTEM_BINARIES=1
+sudo apt install -y g++-9
 for p in "${packages[@]}"
 do
     echo "check package $p(arm)"
