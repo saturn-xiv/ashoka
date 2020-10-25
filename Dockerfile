@@ -25,35 +25,29 @@
 FROM ubuntu:xenial
 LABEL maintainer="Jeremy Zheng"
 
-ENV UBUNTU xenial
 ENV DEBIAN_FRONTEND noninteractive
+ENV UBUNTU xenial
+ENV GCC_VERSION 9
 
-RUN apt -u install software-properties-common
+RUN apt update
+RUN apt -y install software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
 RUN apt update
 RUN apt -y upgrade
 RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
     build-essential  binutils-multiarch cmake clang \
-    gcc-9 \
-    gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+    g++-$GCC_VERSION gcc-$GCC_VERSION \
+    gcc-$GCC_VERSION-arm-linux-gnueabihf g++-$GCC_VERSION-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
 RUN dpkg --add-architecture armhf
-RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU main restricted" > /etc/apt/sources.list
-RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates main restricted" >> /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU universe" >> /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates universe" >> /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU multiverse" >> /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates multiverse" >> /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-backports main restricted universe multiverse" >> /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://security.ubuntu.com/ubuntu/ $UBUNTU-security main restricted" >> /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://security.ubuntu.com/ubuntu/ $UBUNTU-security universe" >> /etc/apt/sources.list
-# RUN echo "deb [arch=amd64] http://security.ubuntu.com/ubuntu/ $UBUNTU-security multiverse" >> /etc/apt/sources.list
-
+RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU main restricted universe multiverse" > /etc/apt/sources.list
+RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-updates main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $UBUNTU-security main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU main restricted universe multiverse" >> /etc/apt/sources.list
 RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-security main restricted universe multiverse" >> /etc/apt/sources.list
-# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-updates main restricted universe multiverse" >> /etc/apt/sources.list
-# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-backports main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $UBUNTU-updates main restricted universe multiverse" >> /etc/apt/sources.list
+
 RUN apt update
 RUN apt -y autoremove
 RUN apt -y clean
