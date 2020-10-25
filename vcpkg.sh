@@ -11,12 +11,11 @@ then
 fi
 
 declare -a triplets=(
-    arm-linux
+    # arm-linux
     x64-linux
 )
 
 declare -a packages=(
-    openssl
     libpq
     sqlite3
     hiredis

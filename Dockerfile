@@ -29,8 +29,10 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update
 RUN apt -y upgrade
-RUN apt -y install zsh build-essential git cmake clang locales pkg-config \
-    vim sudo tzdata pwgen curl zip unzip wget
+RUN apt -y install zsh git locales pkg-config \
+    vim sudo tzdata pwgen curl zip unzip wget \
+    build-essential cmake clang \
+    gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 RUN apt-get -y autoremove
 RUN apt-get -y clean
 
@@ -57,7 +59,7 @@ RUN sh -c ". $HOME/.profile \
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 
 ADD vcpkg.sh /vcpkg.sh
-# RUN bash /vcpkg.sh
+RUN bash /vcpkg.sh
 
 VOLUME /workspace
 WORKDIR /workspace
