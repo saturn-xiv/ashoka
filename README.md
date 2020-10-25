@@ -5,13 +5,10 @@ Saraca asoca (the ashoka tree)
 ## Development
 
 ```bash
-$ sudo apt-get update
-$ sudo apt-get install git build-essential tar curl zip unzip
-$ bash env.sh # ensure all packages installed
-$ mkdir build
-$ cd build
-$ CXX=clang++ CC=clang cmake -DCMAKE_TOOLCHAIN_FILE=$HOME/local/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release ..
-$ make -j
+$ docker build -t ashoka .
+$ docker run --rm -it --network host -v `pwd`:/workspace ashoka
+> CXX=clang++ CC=clang cmake -DCMAKE_TOOLCHAIN_FILE=$HOME/local/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release ..
+> make -j
 ```
 
 ```bash

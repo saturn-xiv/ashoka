@@ -10,6 +10,11 @@ then
     $VCPKG_HOME/bootstrap-vcpkg.sh
 fi
 
+declare -a triplets=(
+    arm-linux
+    x64-linux
+)
+
 declare -a packages=(
     openssl
     libpq
@@ -19,10 +24,14 @@ declare -a packages=(
     poco
     boost 
 )
-for i in "${packages[@]}"
+
+for p in "${packages[@]}"
 do
-    echo "check package $i"
-    $VCPKG_HOME/vcpkg install $i
+    for t in "${triplets[@]}"
+    do
+        echo "check package $p($t)"
+        $VCPKG_HOME/vcpkg install --triplet=$t $p
+    done
 done
 
 exit 0
