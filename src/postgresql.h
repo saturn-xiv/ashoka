@@ -7,33 +7,33 @@
 #include <Poco/Exception.h>
 #include <Poco/LogStream.h>
 #include <Poco/Util/LayeredConfiguration.h>
-#include <pqxx/except>
-#include <pqxx/pqxx>
+// #include <pqxx/except>
+// #include <pqxx/pqxx>
 
 namespace ashoka
 {
     namespace postgresql
     {
 
-        template <typename T>
-        class Callback
-        {
-        public:
-            virtual T execute(pqxx::work *tx) const = 0;
-        };
+        // template <typename T>
+        // class Callback
+        // {
+        // public:
+        //     virtual T execute(pqxx::work *tx) const = 0;
+        // };
 
         class Connection
         {
             Connection(const Poco::Util::LayeredConfiguration &config, Poco::LogStream &logger);
             ~Connection();
 
-            void ping();
+            //     void ping();
 
-            template <typename T>
-            T call(Callback<T> *cb);
+            //     template <typename T>
+            //     T call(Callback<T> *cb);
 
-        private:
-            pqxx::connection *connection;
+            // private:
+            //     pqxx::connection *connection;
         };
     } // namespace postgresql
 } // namespace ashoka

@@ -22,7 +22,7 @@ namespace ashoka
         Poco::LogStream &logger;
         Redis *redis;
     };
-} // namespace ashoka
 
 } // namespace ashoka
+
 #endif
