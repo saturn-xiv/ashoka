@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 include(ExternalProject)
 
-SET(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/local/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# SET(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/local/vcpkg/scripts/buildsystems/vcpkg.cmake")
 
 project(ashoka VERSION 0.1.0)
 
