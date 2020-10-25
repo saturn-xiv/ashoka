@@ -1,9 +1,9 @@
 [settings]
 os=Linux
 os_build=Linux
-arch=x86_64
+arch=armv7hf
 arch_build=x86_64
-compiler=arm-arm-linux-gnueabihf-gcc-10
+compiler=gcc
 compiler.version=10
 compiler.libcxx=libstdc++11
 build_type=Release
