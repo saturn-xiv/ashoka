@@ -1,0 +1,13 @@
+#ifndef ASHOKA_CONFIG_H_
+#define ASHOKA_CONFIG_H_
+
+// clang-format off
+#define ASHOKA_PROJECT_NAME "@CMAKE_PROJECT_NAME@"
+#define ASHOKA_VERSION_MAJOR @ashoka_VERSION_MAJOR@
+#define ASHOKA_VERSION_MINOR @ashoka_VERSION_MINOR@
+#define ASHOKA_VERSION_PATCH @ashoka_VERSION_PATCH@
+#define ASHOKA_VERSION "v@ashoka_VERSION_MAJOR@.@ashoka_VERSION_MINOR@.@ashoka_VERSION_PATCH@"
+#define ASHOKA_GIT_VERSION "@GIT_REV@"
+// clang-format on
+
+#endif
