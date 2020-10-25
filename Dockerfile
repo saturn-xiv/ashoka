@@ -79,8 +79,10 @@ RUN pip3 install --user --upgrade pip
 RUN pip3 install --user conan
 RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
 
-# ADD vcpkg.sh /vcpkg.sh
-# RUN bash /vcpkg.sh
+RUN git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
+RUN sh -c ". $HOME/.profile \
+    && cd $HOME/workspace/ashoka \
+    && sh cocan.sh"
 
 VOLUME /workspace
 WORKDIR /workspace
