@@ -8,8 +8,9 @@ Saraca asoca (the ashoka tree)
 $ docker build -t ashoka .
 $ docker run --rm -it --network host -v `pwd`:/workspace ashoka
 > ./build.sh
-> dpkg -i ashoka.deb
-> dpkg -L ashoka
+> dpkg -i ashoka.deb # show
+> dpkg -L ashoka # install
+> dpkg -r ashoka # uninstall
 ```
 
 ```bash

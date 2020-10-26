@@ -1,3 +1,5 @@
 /build/
 /tmp/
-/ubuntu/boot/
+/ubuntu/etc/
+/ubuntu/bin/
+/*.deb
