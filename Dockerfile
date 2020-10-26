@@ -38,7 +38,7 @@ RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
     python3 python3-pip \
     g++-10 \
-    build-essential  binutils-multiarch cmake clang \
+    build-essential libtool automake autoconf binutils-multiarch cmake clang \
     linux-libc-dev-armel-cross g++-10-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 
 RUN dpkg --add-architecture armhf
@@ -80,7 +80,7 @@ RUN pip3 install --user conan
 RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
 
 RUN git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
-RUN apt -y install xtrans-dev
+RUN sudo apt -y install libgl1-mesa-dev
 RUN sh -c ". $HOME/.profile \
     && cd $HOME/workspace/ashoka \
     && git checkout cpp \
