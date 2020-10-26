@@ -1,5 +1,6 @@
 #include "server.h"
 #include "router.h"
+#include "utils.h"
 
 void ashoka::ServerApplication::initialize(Poco::Util::Application &self)
 {
@@ -56,10 +57,7 @@ int ashoka::ServerApplication::main(const std::vector<std::string> &args)
 {
     Poco::Util::Application &app = Poco::Util::Application::instance();
 
-    if (!isInteractive())
-    {
-        // TODO write to syslog
-    }
+    ashoka::utils::init_logging(!isInteractive());
 
     if (command == Command::HTTP)
     {
