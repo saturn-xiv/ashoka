@@ -13,7 +13,7 @@ libgit2/1.0.1
 libssh2/1.9.0
 imgui/1.79
 libsodium/1.0.18@bincrafters/stable # fix --host
-libmpg123/1.25.13@bincrafters/stable
+libmpg123/1.25.10@bincrafters/stable # ‘defopt’ undeclared
 # sfml/2.5.1@bincrafters/stable
 
 [generators]
