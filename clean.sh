@@ -1,6 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+
+
+declare -a protocols=(
+    hardware
+)
+
+for i in "${protocols[@]}"
+do
+    echo "gernerate $i"
+    protoc -I protos --grpc_out=src --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` protos/$i.proto
+    protoc -I protos --cpp_out=src protos/$i.proto   
+done
 
 rm -rfv build
 mkdir -pv build
