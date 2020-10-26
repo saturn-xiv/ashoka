@@ -83,8 +83,8 @@ RUN git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
 RUN sh -c ". $HOME/.profile \
     && cd $HOME/workspace/ashoka \
     && git checkout cpp \
-    && conan install --build=missing .. --profile ../x64 \
-    && conan install --build=missing .. --profile ../arm"
+    && conan install --build=missing .. --profile x64 \
+    && conan install --build=missing .. --profile arm"
 
 VOLUME /workspace
 WORKDIR /workspace
