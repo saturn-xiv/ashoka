@@ -32,13 +32,9 @@ target_include_directories(ashoka
 )
 set_target_properties(ashoka PROPERTIES LINK_FLAGS_RELEASE -s)
 target_link_libraries(ashoka 
-    ${CMAKE_THREAD_LIBS_INIT}
-    # poco
-    # Boost::system Boost::filesystem Boost::regex Boost::timer Boost::date_time Boost::chrono Boost::random Boost::log
-    
+    ${CMAKE_THREAD_LIBS_INIT}    
     ${Boost_LIBRARIES}    
     ${OPENSSL_SSL_LIBRARIES}
     ${CONAN_LIBS}
-    pq hiredis sqlite3 rabbitmq
-    # Poco::Foundation Poco::Net Poco::NetSSL Poco::JSON Poco::Crypto Poco::XML    
+    pq hiredis sqlite3 rabbitmq    
 )
