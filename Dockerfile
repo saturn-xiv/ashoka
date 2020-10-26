@@ -80,7 +80,8 @@ RUN pip3 install --user conan
 RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
 
 RUN git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
-RUN sudo apt -y install libgl1-mesa-dev
+# RUN sudo apt -y install xorg-dev libgl1-mesa-dev \
+#     libxcb-render-util0-dev libxcb-xkb-dev libxcb-icccm4-dev libxcb-image0-dev
 RUN sh -c ". $HOME/.profile \
     && cd $HOME/workspace/ashoka \
     && git checkout cpp \
