@@ -80,10 +80,10 @@ RUN pip3 install --user conan
 RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
 
 RUN git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
-RUN sh -c ". $HOME/.profile \
-    && cd $HOME/workspace/ashoka \
-    && git checkout cpp \
-    && ./cocan.sh"
+# RUN sh -c ". $HOME/.profile \
+#     && cd $HOME/workspace/ashoka \
+#     && git checkout cpp \
+#     && ./cocan.sh"
 
 VOLUME /workspace
 WORKDIR /workspace

@@ -1,23 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 include(ExternalProject)
 
-# SET(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/local/vcpkg/scripts/buildsystems/vcpkg.cmake")
-
 project(ashoka VERSION 0.1.0)
-
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_MODULE_PATH})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-# set(Boost_USE_STATIC_LIBS TRUE)
-# set(Boost_USE_STATIC_RUNTIME TRUE)
-# set(OPENSSL_USE_STATIC_LIBS TRUE)
-# set(OPENSSL_MSVC_STATIC_RT TRUE)
-
-# include_directories("$ENV{HOME}/local/vcpkg/installed/x64-linux/include")
-# link_directories("$ENV{HOME}/local/vcpkg/installed/x64-linux/lib")
-
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
 
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -43,9 +33,12 @@ target_include_directories(ashoka
 set_target_properties(ashoka PROPERTIES LINK_FLAGS_RELEASE -s)
 target_link_libraries(ashoka 
     ${CMAKE_THREAD_LIBS_INIT}
+    # poco
+    # Boost::system Boost::filesystem Boost::regex Boost::timer Boost::date_time Boost::chrono Boost::random Boost::log
+    
     ${Boost_LIBRARIES}    
     ${OPENSSL_SSL_LIBRARIES}
     ${CONAN_LIBS}
     pq hiredis sqlite3 rabbitmq
-    Poco::Foundation Poco::Net Poco::NetSSL Poco::JSON Poco::Crypto Poco::XML    
+    # Poco::Foundation Poco::Net Poco::NetSSL Poco::JSON Poco::Crypto Poco::XML    
 )

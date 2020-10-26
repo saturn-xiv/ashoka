@@ -7,18 +7,7 @@ Saraca asoca (the ashoka tree)
 ```bash
 $ docker build -t ashoka .
 $ docker run --rm -it --network host -v `pwd`:/workspace ashoka
-> mkdir build && cd build
-
-> export CC=arm-linux-gnueabihf-gcc-10
-> export CXX=arm-linux-gnueabihf-g++-10
-> conan install --build=missing .. --profile ../arm
-
-> export CC=clang
-> export CXX=clang
-> conan install --build=missing .. --profile ../x64
-
-> cmake -DCMAKE_BUILD_TYPE=Release ..
-> make -j
+> ./conan.sh
 ```
 
 ```bash

@@ -1,3 +1,7 @@
+target_host=arm-linux-gnueabihf
+cc_compiler=gcc
+cxx_compiler=g++
+
 [settings]
 os=Linux
 os_build=Linux

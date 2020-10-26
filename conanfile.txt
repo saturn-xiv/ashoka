@@ -8,3 +8,5 @@ rabbitmq-c/0.10.0
 
 [generators]
 cmake
+cmake_find_package
+cmake_paths
