@@ -4,8 +4,8 @@
 #include <string>
 
 #include <Poco/Exception.h>
-#include <Poco/LogStream.h>
 #include <Poco/Util/LayeredConfiguration.h>
+#include <boost/log/trivial.hpp>
 #include <hiredis/hiredis.h>
 
 namespace ashoka
@@ -13,7 +13,7 @@ namespace ashoka
     class Redis
     {
     public:
-        Redis(const Poco::Util::LayeredConfiguration &config, Poco::LogStream &logger);
+        Redis(const Poco::Util::LayeredConfiguration &config);
         ~Redis();
 
         void clear();

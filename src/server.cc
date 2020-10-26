@@ -12,7 +12,7 @@ void ashoka::ServerApplication::uninitialize()
     Poco::Util::Application &app = Poco::Util::Application::instance();
     if (command == ashoka::Command::HTTP)
     {
-        app.logger().warning("exit.");
+        BOOST_LOG_TRIVIAL(warning) << "exit...";
     }
 }
 
@@ -58,29 +58,23 @@ int ashoka::ServerApplication::main(const std::vector<std::string> &args)
 
     if (!isInteractive())
     {
-        Poco::AutoPtr<Poco::SyslogChannel> ch(new Poco::SyslogChannel);
-        app.logger().setChannel(ch);
+        // TODO write to syslog
     }
-
-#ifndef NDEBUG
-    app.logger().setLevel(Poco::Message::PRIO_TRACE);
-#endif
-    Poco::LogStream logger(app.logger());
 
     if (command == Command::HTTP)
     {
-        logger.information() << ASHOKA_PROJECT_NAME << "(" << ASHOKA_VERSION << ")" << std::endl;
+        BOOST_LOG_TRIVIAL(info) << ASHOKA_PROJECT_NAME << "(" << ASHOKA_VERSION << ")";
 
         unsigned short port = static_cast<unsigned short>(config().getInt("http.port", 80));
         std::string secrets(config().getString("http.secrets"));
 
-        ashoka::Redis *redis = new ashoka::Redis(config(), logger);
+        ashoka::Redis *redis = new ashoka::Redis(config());
         std::string postgresql(config().getString("postgresql.url"));
 
-        logger.information() << "listen on http://127.0.0.1:" << port << std::endl;
+        BOOST_LOG_TRIVIAL(info) << "listen on http://127.0.0.1:" << port;
         Poco::Net::ServerSocket svs(port);
         Poco::Net::HTTPServer srv(
-            new ashoka::RequestHandlerFactory(redis, logger),
+            new ashoka::RequestHandlerFactory(redis),
             svs,
             new Poco::Net::HTTPServerParams);
         srv.start();

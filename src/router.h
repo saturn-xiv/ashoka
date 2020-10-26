@@ -10,16 +10,13 @@ namespace ashoka
     class RequestHandlerFactory : public Poco::Net::HTTPRequestHandlerFactory
     {
     public:
-        RequestHandlerFactory(Redis *redis,
-                              Poco::LogStream &logger)
-            : redis(redis), logger(logger)
+        RequestHandlerFactory(Redis *redis) : redis(redis)
         {
         }
 
         Poco::Net::HTTPRequestHandler *createRequestHandler(const Poco::Net::HTTPServerRequest &request);
 
     private:
-        Poco::LogStream &logger;
         Redis *redis;
     };
 

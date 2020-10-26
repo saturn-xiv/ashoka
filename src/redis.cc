@@ -1,6 +1,6 @@
 #include "redis.h"
 
-ashoka::Redis::Redis(const Poco::Util::LayeredConfiguration &config, Poco::LogStream &logger)
+ashoka::Redis::Redis(const Poco::Util::LayeredConfiguration &config)
 {
 
     std::string host(config.getString("redis.host", "localhost"));
@@ -8,7 +8,7 @@ ashoka::Redis::Redis(const Poco::Util::LayeredConfiguration &config, Poco::LogSt
     unsigned short db = static_cast<unsigned short>(config.getInt("redis.db", 0));
     prefix = config.getString("redis.prefix");
 
-    logger.information() << "open redis tcp://" << host << ":" << port << "/" << db << "/" << prefix << std::endl;
+    BOOST_LOG_TRIVIAL(info) << "open redis tcp://" << host << ":" << port << "/" << db << "/" << prefix;
     context = redisConnect(host.c_str(), port);
     if (context == NULL)
     {

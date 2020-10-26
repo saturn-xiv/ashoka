@@ -5,10 +5,7 @@
 #include <string>
 
 #include <Poco/Exception.h>
-#include <Poco/LogStream.h>
 #include <Poco/Util/LayeredConfiguration.h>
-// #include <pqxx/except>
-// #include <pqxx/pqxx>
 
 namespace ashoka
 {
@@ -24,7 +21,7 @@ namespace ashoka
 
         class Connection
         {
-            Connection(const Poco::Util::LayeredConfiguration &config, Poco::LogStream &logger);
+            Connection(const Poco::Util::LayeredConfiguration &config);
             ~Connection();
 
             //     void ping();

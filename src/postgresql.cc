@@ -1,6 +1,6 @@
 #include "postgresql.h"
 
-ashoka::postgresql::Connection::Connection(const Poco::Util::LayeredConfiguration &config, Poco::LogStream &logger)
+ashoka::postgresql::Connection::Connection(const Poco::Util::LayeredConfiguration &config)
 {
     std::string url(config.getString("postgresql.url"));
     // connection = new pqxx::connection(url);
