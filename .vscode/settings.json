@@ -8,9 +8,6 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "cmake.configureSettings": {
-        "CMAKE_TOOLCHAIN_FILE": "${env:USERNAME}/local/vcpkg/scripts/buildsystems/vcpkg.cmake"
-    },
     "files.associations": {
         "*.in": "cpp",
     }
