@@ -89,8 +89,8 @@ RUN sh -c ". $HOME/.profile \
     && cd $HOME/workspace/ashoka \
     && git checkout cpp \
     && conan remote add bintray https://api.bintray.com/conan/bincrafters/public-conan \   
-    && conan install --build=missing . --profile ./x64 \    
-    && conan install --build=missing . --profile ./arm"
+    && conan install --build=missing . --profile ./profiles/${UBUNTU}-x86_64 \    
+    && conan install --build=missing . --profile ./profiles/${UBUNTU}-armv7hf"
 
 VOLUME /workspace
 WORKDIR /workspace

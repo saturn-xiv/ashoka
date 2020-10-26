@@ -35,5 +35,4 @@ target_link_libraries(ashoka
     ${Boost_LIBRARIES}    
     ${OPENSSL_SSL_LIBRARIES}
     ${CONAN_LIBS}
-    pq hiredis sqlite3 rabbitmq    
 )
