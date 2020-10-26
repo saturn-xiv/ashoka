@@ -2,12 +2,14 @@
 
 Saraca asoca (the ashoka tree)
 
-## Development
+## Build
 
 ```bash
 $ docker build -t ashoka .
 $ docker run --rm -it --network host -v `pwd`:/workspace ashoka
-> ./conan.sh
+> ./build.sh
+> dpkg -i ashoka.deb
+> dpkg -L ashoka
 ```
 
 ```bash

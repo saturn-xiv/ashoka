@@ -1,0 +1,12 @@
+Package: ashoka
+Version: 2020-10-26
+Section: net
+Priority: optional
+Depends: 
+Suggests: 
+Architecture: amd64
+Installed-Size: 66666
+Maintainer: Jeremy Zheng
+Provides: saturn-xiv
+Description: https://github.com/saturn-xiv/ashoka
+
