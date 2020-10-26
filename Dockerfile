@@ -80,9 +80,11 @@ RUN pip3 install --user conan
 RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.zshrc
 
 RUN git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
+RUN apt -y install xtrans-dev
 RUN sh -c ". $HOME/.profile \
     && cd $HOME/workspace/ashoka \
-    && git checkout cpp \    
+    && git checkout cpp \
+    && conan remote add bintray https://api.bintray.com/conan/bincrafters/public-conan \   
     && conan install --build=missing . --profile ./x64 \    
     && conan install --build=missing . --profile ./arm"
 

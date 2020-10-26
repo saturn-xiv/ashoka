@@ -21,3 +21,5 @@ $ conan profile update settings.compiler.libcxx=libstdc++11 default  # Sets libc
 - [format](https://www.cs.uic.edu/~jbell/CourseNotes/C_Programming/DataTypesSummary.pdf)
 - [vspkg](https://github.com/microsoft/vcpkg)
 - [conan](https://conan.io/center/)
+- [grpc](https://grpc.io/docs/languages/cpp/quickstart/)
+- [sfml](https://www.sfml-dev.org/index.php)
