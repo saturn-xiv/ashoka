@@ -78,7 +78,6 @@ RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 RUN pip3 install --user --upgrade pip
 RUN echo 'export PATH=$HOME/.local/bin:$PATH' >> $HOME/.profile
 RUN sh -c ". $HOME/.profile \
-    && cd $HOME/workspace/ashoka \
     && pip install --user conan \
     && pip install --user cmake"
 
