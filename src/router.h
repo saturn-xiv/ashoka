@@ -7,14 +7,13 @@
 namespace ashoka
 {
 
-    class RequestHandlerFactory : public Poco::Net::HTTPRequestHandlerFactory
+    class HttpRouter
     {
     public:
-        RequestHandlerFactory(Redis *redis) : redis(redis)
+        HttpRouter(Redis *redis) : redis(redis)
         {
         }
-
-        Poco::Net::HTTPRequestHandler *createRequestHandler(const Poco::Net::HTTPServerRequest &request);
+        ~HttpRouter();
 
     private:
         Redis *redis;

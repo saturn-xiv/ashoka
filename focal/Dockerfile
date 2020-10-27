@@ -11,7 +11,9 @@ RUN apt -y upgrade
 RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
     build-essential libtool automake autoconf binutils-multiarch cmake clang \
-    libssl-dev libpoco-dev libboost-all-dev libhiredis-dev librabbitmq-dev libpq-dev libsqlite3-dev \
+    libssl-dev libpoco-dev libboost-all-dev libcpprest-dev \
+    librabbitmq-dev libczmq-dev \
+    libhiredis-dev libpq-dev libsqlite3-dev \
     protobuf-compiler
 RUN apt -y autoremove
 RUN apt -y clean

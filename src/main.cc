@@ -1,8 +1,8 @@
+#include "application.h"
 #include "common.h"
-#include "server.h"
 
 int main(int argc, char **argv)
 {
-    ashoka::ServerApplication app;
+    ashoka::Application app;
     return app.run(argc, argv);
 }

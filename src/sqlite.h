@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <Poco/Exception.h>
-#include <Poco/Util/LayeredConfiguration.h>
 #include <sqlite3.h>
 
 namespace ashoka

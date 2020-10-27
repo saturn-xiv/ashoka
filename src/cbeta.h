@@ -7,16 +7,6 @@ namespace ashoka
 {
     namespace cbeta
     {
-        class HomeRequestHandler : public Poco::Net::HTTPRequestHandler
-        {
-        public:
-            HomeRequestHandler()
-            {
-            }
-            void handleRequest(Poco::Net::HTTPServerRequest &request, Poco::Net::HTTPServerResponse &response);
-
-        private:
-        };
     } // namespace cbeta
 } // namespace ashoka
 

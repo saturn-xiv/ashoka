@@ -3,9 +3,6 @@
 
 #include <string>
 
-#include <Poco/Exception.h>
-#include <Poco/LogStream.h>
-#include <Poco/Util/LayeredConfiguration.h>
 #include <amqp.h>
 
 namespace ashoka

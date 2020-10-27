@@ -4,9 +4,6 @@
 #include <iostream>
 #include <string>
 
-#include <Poco/Exception.h>
-#include <Poco/Util/LayeredConfiguration.h>
-
 namespace ashoka
 {
     namespace postgresql
@@ -21,7 +18,7 @@ namespace ashoka
 
         class Connection
         {
-            Connection(const Poco::Util::LayeredConfiguration &config);
+            Connection();
             ~Connection();
 
             //     void ping();

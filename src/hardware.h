@@ -4,8 +4,6 @@
 #include <filesystem>
 #include <string>
 
-#include <Poco/Exception.h>
-#include <Poco/Util/LayeredConfiguration.h>
 #include <boost/log/trivial.hpp>
 
 #include "hardware.pb.h"
@@ -41,7 +39,7 @@ namespace ashoka
         class Queue
         {
         public:
-            Queue(const Poco::Util::LayeredConfiguration &config);
+            Queue();
             ~Queue();
 
         private:
