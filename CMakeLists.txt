@@ -27,13 +27,11 @@ configure_file(src/config.h.in config.h)
 
 add_executable(ashoka ${DIR_SRCS})
 
-FetchContent_Declare(
-    jwtpp
-    GIT_REPOSITORY    "https://github.com/troian/jwtpp.git"
-    GIT_TAG           "v2.0.3"
-)
-FetchContent_MakeAvailable(jwtpp)
+set(THIRD_ROOT ${CMAKE_BINARY_DIR}/local)
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/third;${CMAKE_MODULE_PATH}")
+include(jwtpp)
 
+include_directories(${THIRD_ROOT}/include)
 target_include_directories(ashoka 
     PUBLIC 
     "${PROJECT_BINARY_DIR}"
@@ -44,4 +42,5 @@ target_link_libraries(ashoka
     ${Boost_LIBRARIES}    
     ${OPENSSL_SSL_LIBRARIES}
     ${CONAN_LIBS}
+    ${THIRD_ROOT}/lib/libjwtpp.a
 )
