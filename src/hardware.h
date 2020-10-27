@@ -8,6 +8,8 @@
 #include <Poco/Util/LayeredConfiguration.h>
 #include <boost/log/trivial.hpp>
 
+#include "hardware.pb.h"
+
 namespace ashoka
 {
     namespace hardware

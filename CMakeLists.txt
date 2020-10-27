@@ -5,6 +5,7 @@ project(ashoka VERSION 0.1.0)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
+
 set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR} ${CMAKE_MODULE_PATH})
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
@@ -36,5 +37,4 @@ target_link_libraries(ashoka
     ${Boost_LIBRARIES}    
     ${OPENSSL_SSL_LIBRARIES}
     ${CONAN_LIBS}
-    grpc++
 )

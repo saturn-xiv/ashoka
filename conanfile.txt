@@ -14,8 +14,8 @@ libssh2/1.9.0
 imgui/1.79
 libsodium/1.0.18@bincrafters/stable # fix --host
 libmpg123/1.25.10@bincrafters/stable # ‘defopt’ undeclared
-grpc/1.27.3@inexorgame/stable
-# sfml/2.5.1@bincrafters/stable
+
+[build_requires]
 
 [generators]
 cmake
