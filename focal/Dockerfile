@@ -6,12 +6,14 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt update
 RUN apt -y install software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
+RUN add-apt-repository ppa:pistache+team/stable
 RUN apt update
 RUN apt -y upgrade
 RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
     build-essential libtool automake autoconf binutils-multiarch cmake clang \
-    libssl-dev libpoco-dev libboost-all-dev libcpprest-dev \
+    libpoco-dev libcpprest-dev libpistache-dev \
+    libssl-dev libboost-all-dev libwebsocketpp-dev \
     librabbitmq-dev libczmq-dev \
     libhiredis-dev libpq-dev libsqlite3-dev \
     protobuf-compiler
