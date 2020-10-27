@@ -1,86 +1,108 @@
 syntax = "proto3";
 
-// option java_multiple_files = true;
-// option java_package = "com.github.saturn_xiv.ashoka";
-// option java_outer_classname = "HardwareProto";
-// option objc_class_prefix = "AHP";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
-// import "google/protobuf/empty.proto";
-// import "google/protobuf/timestamp.proto";
+package ashoka.hardware;
 
-// package ashoka.hardware;
-package ashoka;
+message Request {
+  string id = 1;
+  string token = 2;
+  oneof payload {
+    TtyRequest tty = 3;
+    LedRequest led = 4;
+    SmsRequest sms = 5;
+    AudioRequest audio = 6;
+    VideoRequest video = 7;
+    TtsRequest tts = 8;
+  }
+}
 
-// service Listener {
-//   rpc Tty(TtyRequest) returns (Response) {}
-//   rpc Tts(TtsRequest) returns (Response) {}
-//   rpc Led(LedRequest) returns (Response) {}
-//   rpc PlayAudio(Audio) returns (Response) {}
-//   rpc PauseAudio(google.protobuf.Empty) returns (Response) {}
-// }
+message Response {
+  bool ok = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  oneof payload {
+    google.protobuf.Empty empty = 3;
+    string reason = 4;
+  }
+}
 
-// message Response {
-//   bool ok = 1;
-//   google.protobuf.Timestamp timestamp = 2;
-//   repeated string messages = 3;
-// }
+message Publisher {
+  google.protobuf.Timestamp timestamp = 1;
+  oneof payload {
+    TtyResponse tty = 2;
+    SmsResponse sms = 3;
+  }
+}
 
 message TtyRequest { string command = 1; }
 
-// message TtyResponse {
-//   string message = 1;
-//   google.protobuf.Timestamp timestamp = 2;
-// }
+message TtyResponse {
+  string message = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
 
-// message LedRequest {
-//   uint32 on = 1;
-//   uint32 off = 2;
-// }
+message SmsRequest {
+  repeated string phones = 1;
+  repeated string messages = 2;
+}
 
-// message TtsRequest {
-//   uint32 interval = 1;
-//   uint32 times = 2;
-//   string message = 3;
-//   enum Locale {
-//     English = 0;
-//     Chinese = 1;
-//   }
-//   Locale locale = 4;
-// }
+message SmsResponse {
+  string phone = 1;
+  string message = 2;
+}
 
-// message Audio {
-//   uint32 interval = 1;
-//   uint32 times = 2;
-//   message Stream {
-//     enum Type {
-//       WAV = 0;
-//       MP3 = 1;
-//     }
-//     int32 order = 1;
-//     Type type = 2;
-//     bytes payload = 3;
-//   }
-//   message File {
-//     int32 order = 1;
-//     string path = 2;
-//   }
-//   repeated File files = 3;
-//   repeated Stream streams = 4;
-// }
+message LedRequest {
+  uint32 on = 1;
+  uint32 off = 2;
+  uint64 times = 3;
+}
 
-// message Video {
-//   uint32 interval = 1;
-//   uint32 times = 2;
-//   message Stream {
-//     enum Type { MP4 = 0; }
-//     int32 order = 1;
-//     Type type = 2;
-//     bytes payload = 3;
-//   }
-//   message File {
-//     int32 order = 1;
-//     string path = 2;
-//   }
-//   repeated File files = 3;
-//   repeated Stream streams = 4;
-// }
+message TtsRequest {
+  uint32 interval = 1;
+  uint32 times = 2;
+  string message = 3;
+  enum Locale {
+    English = 0;
+    Chinese = 1;
+  }
+  Locale locale = 4;
+}
+message AudioRequest {
+  uint32 interval = 1;
+  uint32 times = 2;
+
+  enum Type {
+    WAV = 0;
+    MP3 = 1;
+  }
+  message Stream {
+    int32 order = 1;
+    Type type = 2;
+    bytes payload = 3;
+  }
+  message File {
+    int32 order = 1;
+    string path = 2;
+  }
+
+  repeated File files = 3;
+  repeated Stream streams = 4;
+}
+
+message VideoRequest {
+  uint32 interval = 1;
+  uint32 times = 2;
+  enum Type { MP4 = 0; }
+  message Stream {
+    int32 order = 1;
+    Type type = 2;
+    bytes payload = 3;
+  }
+  message File {
+    int32 order = 1;
+    string path = 2;
+  }
+  repeated File files = 3;
+  repeated Stream streams = 4;
+}

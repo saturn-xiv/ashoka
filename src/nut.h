@@ -1,11 +1,11 @@
-#ifndef ASHOKA_CBETA_H_
-#define ASHOKA_CBETA_H_
+#ifndef ASHOKA_NUT_H_
+#define ASHOKA_NUT_H_
 
 #include "common.h"
 
 namespace ashoka
 {
-    namespace cbeta
+    namespace nut
     {
         class HomeRequestHandler : public Poco::Net::HTTPRequestHandler
         {
@@ -17,7 +17,7 @@ namespace ashoka
 
         private:
         };
-    } // namespace cbeta
+    } // namespace nut
 } // namespace ashoka
 
 #endif

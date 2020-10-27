@@ -27,6 +27,13 @@ configure_file(src/config.h.in config.h)
 
 add_executable(ashoka ${DIR_SRCS})
 
+FetchContent_Declare(
+    jwtpp
+    GIT_REPOSITORY    "https://github.com/troian/jwtpp.git"
+    GIT_TAG           "v2.0.3"
+)
+FetchContent_MakeAvailable(jwtpp)
+
 target_include_directories(ashoka 
     PUBLIC 
     "${PROJECT_BINARY_DIR}"
