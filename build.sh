@@ -11,7 +11,7 @@ cd $WORKSPACE/build
 
 conan install --build=missing .. --profile ../profiles/focal-x86_64
 CC=gcc-10 CXX=g++-10 cmake -DCMAKE_BUILD_TYPE=Release ..
-make -j
+make
 
 rm -rfv $TARGET/usr
 mkdir -pv $TARGET/usr/bin

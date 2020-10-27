@@ -1,9 +1,9 @@
 include(ExternalProject)
 
 set(JWTPP_ROOT      ${CMAKE_BINARY_DIR}/3rd/jwtpp)
-set(JWTPP_CONFIGURE cd ${JWTPP_ROOT}/src/jwtpp && cmake -D CMAKE_INSTALL_PREFIX=${THIRD_ROOT} .)
-set(JWTPP_MAKE      cd ${JWTPP_ROOT}/src/jwtpp && make -j) 
-set(JWTPP_INSTALL   cd ${JWTPP_ROOT}/src/jwtpp && make install) 
+set(JWTPP_CONFIGURE cd ${JWTPP_ROOT}/src/JWTPP-build && cmake -D CMAKE_INSTALL_PREFIX=${THIRD_ROOT} ../JWTPP)
+set(JWTPP_MAKE      cd ${JWTPP_ROOT}/src/JWTPP-build && make) 
+set(JWTPP_INSTALL   cd ${JWTPP_ROOT}/src/JWTPP-build && make install) 
 
 ExternalProject_Add(JWTPP
     PREFIX            ${JWTPP_ROOT}
