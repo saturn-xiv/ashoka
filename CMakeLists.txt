@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 include(ExternalProject)
+include(FetchContent)
 project(ashoka VERSION 0.1.0)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
@@ -35,4 +36,5 @@ target_link_libraries(ashoka
     ${Boost_LIBRARIES}    
     ${OPENSSL_SSL_LIBRARIES}
     ${CONAN_LIBS}
+    grpc++
 )

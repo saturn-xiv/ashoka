@@ -6,6 +6,8 @@ option java_outer_classname = "HardwareProto";
 option objc_class_prefix = "AHP";
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
 package ashoka.hardware;
 
 service Listener {
@@ -18,7 +20,7 @@ service Listener {
 
 message Response {
   bool ok = 1;
-  uint64 timestamp = 2;
+  google.protobuf.Timestamp timestamp = 2;
   repeated string messages = 3;
 }
 
@@ -26,7 +28,7 @@ message TtyRequest { string command = 1; }
 
 message TtyResponse {
   string message = 1;
-  uint64 timestamp = 2;
+  google.protobuf.Timestamp timestamp = 2;
 }
 
 message LedRequest {

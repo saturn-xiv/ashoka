@@ -4,6 +4,8 @@ Saraca asoca (the ashoka tree)
 
 ## Build
 
+Insure install [protocolbuf v3.11.4](https://github.com/protocolbuffers/protobuf/blob/master/src/README.md) at first.
+
 ```bash
 $ docker build -t ashoka .
 $ docker run --rm -it --network host -v `pwd`:/workspace ashoka
@@ -25,4 +27,5 @@ $ conan profile update settings.compiler.libcxx=libstdc++11 default  # Sets libc
 - [vspkg](https://github.com/microsoft/vcpkg)
 - [conan](https://conan.io/center/)
 - [grpc](https://grpc.io/docs/languages/cpp/quickstart/)
+- [protobuf](https://developers.google.com/protocol-buffers/docs/reference/overview)
 - [sfml](https://www.sfml-dev.org/index.php)

@@ -18,6 +18,7 @@ extern PROTOBUF_INTERNAL_EXPORT_hardware_2eproto ::PROTOBUF_NAMESPACE_ID::intern
 extern PROTOBUF_INTERNAL_EXPORT_hardware_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Audio_Stream_hardware_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_hardware_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Video_File_hardware_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_hardware_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Video_Stream_hardware_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_google_2fprotobuf_2ftimestamp_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto;
 namespace ashoka {
 namespace hardware {
 class ResponseDefaultTypeInternal {
@@ -135,8 +136,9 @@ static void InitDefaultsscc_info_Response_hardware_2eproto() {
   ::ashoka::hardware::Response::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Response_hardware_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Response_hardware_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Response_hardware_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Response_hardware_2eproto}, {
+      &scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto.base,}};
 
 static void InitDefaultsscc_info_TtsRequest_hardware_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -177,8 +179,9 @@ static void InitDefaultsscc_info_TtyResponse_hardware_2eproto() {
   ::ashoka::hardware::TtyResponse::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TtyResponse_hardware_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TtyResponse_hardware_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_TtyResponse_hardware_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_TtyResponse_hardware_2eproto}, {
+      &scc_info_Timestamp_google_2fprotobuf_2ftimestamp_2eproto.base,}};
 
 static void InitDefaultsscc_info_Video_hardware_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -345,43 +348,46 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_hardware_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\016hardware.proto\022\017ashoka.hardware\032\033googl"
-  "e/protobuf/empty.proto\";\n\010Response\022\n\n\002ok"
-  "\030\001 \001(\010\022\021\n\ttimestamp\030\002 \001(\004\022\020\n\010messages\030\003 "
-  "\003(\t\"\035\n\nTtyRequest\022\017\n\007command\030\001 \001(\t\"1\n\013Tt"
-  "yResponse\022\017\n\007message\030\001 \001(\t\022\021\n\ttimestamp\030"
-  "\002 \001(\004\"%\n\nLedRequest\022\n\n\002on\030\001 \001(\r\022\013\n\003off\030\002"
-  " \001(\r\"\226\001\n\nTtsRequest\022\020\n\010interval\030\001 \001(\r\022\r\n"
-  "\005times\030\002 \001(\r\022\017\n\007message\030\003 \001(\t\0222\n\006locale\030"
-  "\004 \001(\0162\".ashoka.hardware.TtsRequest.Local"
-  "e\"\"\n\006Locale\022\013\n\007English\020\000\022\013\n\007Chinese\020\001\"\237\002"
-  "\n\005Audio\022\020\n\010interval\030\001 \001(\r\022\r\n\005times\030\002 \001(\r"
-  "\022*\n\005files\030\003 \003(\0132\033.ashoka.hardware.Audio."
-  "File\022.\n\007streams\030\004 \003(\0132\035.ashoka.hardware."
-  "Audio.Stream\032t\n\006Stream\022\r\n\005order\030\001 \001(\005\0220\n"
-  "\004type\030\002 \001(\0162\".ashoka.hardware.Audio.Stre"
-  "am.Type\022\017\n\007payload\030\003 \001(\014\"\030\n\004Type\022\007\n\003WAV\020"
-  "\000\022\007\n\003MP3\020\001\032#\n\004File\022\r\n\005order\030\001 \001(\005\022\014\n\004pat"
-  "h\030\002 \001(\t\"\226\002\n\005Video\022\020\n\010interval\030\001 \001(\r\022\r\n\005t"
-  "imes\030\002 \001(\r\022*\n\005files\030\003 \003(\0132\033.ashoka.hardw"
-  "are.Video.File\022.\n\007streams\030\004 \003(\0132\035.ashoka"
-  ".hardware.Video.Stream\032k\n\006Stream\022\r\n\005orde"
-  "r\030\001 \001(\005\0220\n\004type\030\002 \001(\0162\".ashoka.hardware."
-  "Video.Stream.Type\022\017\n\007payload\030\003 \001(\014\"\017\n\004Ty"
-  "pe\022\007\n\003MP4\020\000\032#\n\004File\022\r\n\005order\030\001 \001(\005\022\014\n\004pa"
-  "th\030\002 \001(\t2\322\002\n\010Listener\022\?\n\003Tty\022\033.ashoka.ha"
-  "rdware.TtyRequest\032\031.ashoka.hardware.Resp"
-  "onse\"\000\022\?\n\003Tts\022\033.ashoka.hardware.TtsReque"
-  "st\032\031.ashoka.hardware.Response\"\000\022\?\n\003Led\022\033"
-  ".ashoka.hardware.LedRequest\032\031.ashoka.har"
-  "dware.Response\"\000\022@\n\tPlayAudio\022\026.ashoka.h"
-  "ardware.Audio\032\031.ashoka.hardware.Response"
-  "\"\000\022A\n\nPauseAudio\022\026.google.protobuf.Empty"
-  "\032\031.ashoka.hardware.Response\"\000B5\n\034com.git"
-  "hub.saturn_xiv.ashokaB\rHardwareProtoP\001\242\002"
-  "\003AHPb\006proto3"
+  "e/protobuf/empty.proto\032\037google/protobuf/"
+  "timestamp.proto\"W\n\010Response\022\n\n\002ok\030\001 \001(\010\022"
+  "-\n\ttimestamp\030\002 \001(\0132\032.google.protobuf.Tim"
+  "estamp\022\020\n\010messages\030\003 \003(\t\"\035\n\nTtyRequest\022\017"
+  "\n\007command\030\001 \001(\t\"M\n\013TtyResponse\022\017\n\007messag"
+  "e\030\001 \001(\t\022-\n\ttimestamp\030\002 \001(\0132\032.google.prot"
+  "obuf.Timestamp\"%\n\nLedRequest\022\n\n\002on\030\001 \001(\r"
+  "\022\013\n\003off\030\002 \001(\r\"\226\001\n\nTtsRequest\022\020\n\010interval"
+  "\030\001 \001(\r\022\r\n\005times\030\002 \001(\r\022\017\n\007message\030\003 \001(\t\0222"
+  "\n\006locale\030\004 \001(\0162\".ashoka.hardware.TtsRequ"
+  "est.Locale\"\"\n\006Locale\022\013\n\007English\020\000\022\013\n\007Chi"
+  "nese\020\001\"\237\002\n\005Audio\022\020\n\010interval\030\001 \001(\r\022\r\n\005ti"
+  "mes\030\002 \001(\r\022*\n\005files\030\003 \003(\0132\033.ashoka.hardwa"
+  "re.Audio.File\022.\n\007streams\030\004 \003(\0132\035.ashoka."
+  "hardware.Audio.Stream\032t\n\006Stream\022\r\n\005order"
+  "\030\001 \001(\005\0220\n\004type\030\002 \001(\0162\".ashoka.hardware.A"
+  "udio.Stream.Type\022\017\n\007payload\030\003 \001(\014\"\030\n\004Typ"
+  "e\022\007\n\003WAV\020\000\022\007\n\003MP3\020\001\032#\n\004File\022\r\n\005order\030\001 \001"
+  "(\005\022\014\n\004path\030\002 \001(\t\"\226\002\n\005Video\022\020\n\010interval\030\001"
+  " \001(\r\022\r\n\005times\030\002 \001(\r\022*\n\005files\030\003 \003(\0132\033.ash"
+  "oka.hardware.Video.File\022.\n\007streams\030\004 \003(\013"
+  "2\035.ashoka.hardware.Video.Stream\032k\n\006Strea"
+  "m\022\r\n\005order\030\001 \001(\005\0220\n\004type\030\002 \001(\0162\".ashoka."
+  "hardware.Video.Stream.Type\022\017\n\007payload\030\003 "
+  "\001(\014\"\017\n\004Type\022\007\n\003MP4\020\000\032#\n\004File\022\r\n\005order\030\001 "
+  "\001(\005\022\014\n\004path\030\002 \001(\t2\322\002\n\010Listener\022\?\n\003Tty\022\033."
+  "ashoka.hardware.TtyRequest\032\031.ashoka.hard"
+  "ware.Response\"\000\022\?\n\003Tts\022\033.ashoka.hardware"
+  ".TtsRequest\032\031.ashoka.hardware.Response\"\000"
+  "\022\?\n\003Led\022\033.ashoka.hardware.LedRequest\032\031.a"
+  "shoka.hardware.Response\"\000\022@\n\tPlayAudio\022\026"
+  ".ashoka.hardware.Audio\032\031.ashoka.hardware"
+  ".Response\"\000\022A\n\nPauseAudio\022\026.google.proto"
+  "buf.Empty\032\031.ashoka.hardware.Response\"\000B5"
+  "\n\034com.github.saturn_xiv.ashokaB\rHardware"
+  "ProtoP\001\242\002\003AHPb\006proto3"
   ;
-static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_hardware_2eproto_deps[1] = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_hardware_2eproto_deps[2] = {
   &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
+  &::descriptor_table_google_2fprotobuf_2ftimestamp_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_hardware_2eproto_sccs[11] = {
   &scc_info_Audio_hardware_2eproto.base,
@@ -397,15 +403,16 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_har
   &scc_info_Video_Stream_hardware_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_hardware_2eproto_once;
+static bool descriptor_table_hardware_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_hardware_2eproto = {
-  false, false, descriptor_table_protodef_hardware_2eproto, "hardware.proto", 1372,
-  &descriptor_table_hardware_2eproto_once, descriptor_table_hardware_2eproto_sccs, descriptor_table_hardware_2eproto_deps, 11, 1,
+  &descriptor_table_hardware_2eproto_initialized, descriptor_table_protodef_hardware_2eproto, "hardware.proto", 1461,
+  &descriptor_table_hardware_2eproto_once, descriptor_table_hardware_2eproto_sccs, descriptor_table_hardware_2eproto_deps, 11, 2,
   schemas, file_default_instances, TableStruct_hardware_2eproto::offsets,
   file_level_metadata_hardware_2eproto, 11, file_level_enum_descriptors_hardware_2eproto, file_level_service_descriptors_hardware_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
-static bool dynamic_init_dummy_hardware_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_hardware_2eproto)), true);
+static bool dynamic_init_dummy_hardware_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_hardware_2eproto), true);
 namespace ashoka {
 namespace hardware {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TtsRequest_Locale_descriptor() {
@@ -473,25 +480,40 @@ constexpr int Video_Stream::Type_ARRAYSIZE;
 // ===================================================================
 
 void Response::InitAsDefaultInstance() {
+  ::ashoka::hardware::_Response_default_instance_._instance.get_mutable()->timestamp_ = const_cast< PROTOBUF_NAMESPACE_ID::Timestamp*>(
+      PROTOBUF_NAMESPACE_ID::Timestamp::internal_default_instance());
 }
 class Response::_Internal {
  public:
+  static const PROTOBUF_NAMESPACE_ID::Timestamp& timestamp(const Response* msg);
 };
 
-Response::Response(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  messages_(arena) {
+const PROTOBUF_NAMESPACE_ID::Timestamp&
+Response::_Internal::timestamp(const Response* msg) {
+  return *msg->timestamp_;
+}
+void Response::clear_timestamp() {
+  if (GetArenaNoVirtual() == nullptr && timestamp_ != nullptr) {
+    delete timestamp_;
+  }
+  timestamp_ = nullptr;
+}
+Response::Response()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.Response)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.Response)
 }
 Response::Response(const Response& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
       messages_(from.messages_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&timestamp_, &from.timestamp_,
-    static_cast<size_t>(reinterpret_cast<char*>(&ok_) -
-    reinterpret_cast<char*>(&timestamp_)) + sizeof(ok_));
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from._internal_has_timestamp()) {
+    timestamp_ = new PROTOBUF_NAMESPACE_ID::Timestamp(*from.timestamp_);
+  } else {
+    timestamp_ = nullptr;
+  }
+  ok_ = from.ok_;
   // @@protoc_insertion_point(copy_constructor:ashoka.hardware.Response)
 }
 
@@ -505,19 +527,12 @@ void Response::SharedCtor() {
 Response::~Response() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.Response)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Response::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
+  if (this != internal_default_instance()) delete timestamp_;
 }
 
-void Response::ArenaDtor(void* object) {
-  Response* _this = reinterpret_cast< Response* >(object);
-  (void)_this;
-}
-void Response::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Response::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -534,15 +549,16 @@ void Response::Clear() {
   (void) cached_has_bits;
 
   messages_.Clear();
-  ::memset(&timestamp_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&ok_) -
-      reinterpret_cast<char*>(&timestamp_)) + sizeof(ok_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  if (GetArenaNoVirtual() == nullptr && timestamp_ != nullptr) {
+    delete timestamp_;
+  }
+  timestamp_ = nullptr;
+  ok_ = false;
+  _internal_metadata_.Clear();
 }
 
 const char* Response::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -551,14 +567,14 @@ const char* Response::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
       // bool ok = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          ok_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          ok_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 timestamp = 2;
+      // .google.protobuf.Timestamp timestamp = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_timestamp(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -582,9 +598,7 @@ const char* Response::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::i
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -610,10 +624,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(1, this->_internal_ok(), target);
   }
 
-  // uint64 timestamp = 2;
-  if (this->timestamp() != 0) {
+  // .google.protobuf.Timestamp timestamp = 2;
+  if (this->has_timestamp()) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_timestamp(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        2, _Internal::timestamp(this), target, stream);
   }
 
   // repeated string messages = 3;
@@ -628,7 +644,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.Response)
   return target;
@@ -650,11 +666,11 @@ size_t Response::ByteSizeLong() const {
       messages_.Get(i));
   }
 
-  // uint64 timestamp = 2;
-  if (this->timestamp() != 0) {
+  // .google.protobuf.Timestamp timestamp = 2;
+  if (this->has_timestamp()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_timestamp());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *timestamp_);
   }
 
   // bool ok = 1;
@@ -689,13 +705,13 @@ void Response::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void Response::MergeFrom(const Response& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.Response)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   messages_.MergeFrom(from.messages_);
-  if (from.timestamp() != 0) {
-    _internal_set_timestamp(from._internal_timestamp());
+  if (from.has_timestamp()) {
+    _internal_mutable_timestamp()->PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(from._internal_timestamp());
   }
   if (from.ok() != 0) {
     _internal_set_ok(from._internal_ok());
@@ -722,14 +738,10 @@ bool Response::IsInitialized() const {
 
 void Response::InternalSwap(Response* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
   messages_.InternalSwap(&other->messages_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Response, ok_)
-      + sizeof(Response::ok_)
-      - PROTOBUF_FIELD_OFFSET(Response, timestamp_)>(
-          reinterpret_cast<char*>(&timestamp_),
-          reinterpret_cast<char*>(&other->timestamp_));
+  swap(timestamp_, other->timestamp_);
+  swap(ok_, other->ok_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Response::GetMetadata() const {
@@ -745,19 +757,18 @@ class TtyRequest::_Internal {
  public:
 };
 
-TtyRequest::TtyRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+TtyRequest::TtyRequest()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.TtyRequest)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.TtyRequest)
 }
 TtyRequest::TtyRequest(const TtyRequest& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   command_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_command().empty()) {
-    command_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_command(),
-      GetArena());
+    command_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.command_);
   }
   // @@protoc_insertion_point(copy_constructor:ashoka.hardware.TtyRequest)
 }
@@ -770,20 +781,12 @@ void TtyRequest::SharedCtor() {
 TtyRequest::~TtyRequest() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.TtyRequest)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void TtyRequest::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
   command_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void TtyRequest::ArenaDtor(void* object) {
-  TtyRequest* _this = reinterpret_cast< TtyRequest* >(object);
-  (void)_this;
-}
-void TtyRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void TtyRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -799,13 +802,12 @@ void TtyRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  command_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  command_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  _internal_metadata_.Clear();
 }
 
 const char* TtyRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -826,9 +828,7 @@ const char* TtyRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -860,7 +860,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.TtyRequest)
   return target;
@@ -908,12 +908,13 @@ void TtyRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void TtyRequest::MergeFrom(const TtyRequest& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.TtyRequest)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.command().size() > 0) {
-    _internal_set_command(from._internal_command());
+
+    command_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.command_);
   }
 }
 
@@ -937,8 +938,9 @@ bool TtyRequest::IsInitialized() const {
 
 void TtyRequest::InternalSwap(TtyRequest* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  command_.Swap(&other->command_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  command_.Swap(&other->command_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata TtyRequest::GetMetadata() const {
@@ -949,52 +951,61 @@ void TtyRequest::InternalSwap(TtyRequest* other) {
 // ===================================================================
 
 void TtyResponse::InitAsDefaultInstance() {
+  ::ashoka::hardware::_TtyResponse_default_instance_._instance.get_mutable()->timestamp_ = const_cast< PROTOBUF_NAMESPACE_ID::Timestamp*>(
+      PROTOBUF_NAMESPACE_ID::Timestamp::internal_default_instance());
 }
 class TtyResponse::_Internal {
  public:
+  static const PROTOBUF_NAMESPACE_ID::Timestamp& timestamp(const TtyResponse* msg);
 };
 
-TtyResponse::TtyResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+const PROTOBUF_NAMESPACE_ID::Timestamp&
+TtyResponse::_Internal::timestamp(const TtyResponse* msg) {
+  return *msg->timestamp_;
+}
+void TtyResponse::clear_timestamp() {
+  if (GetArenaNoVirtual() == nullptr && timestamp_ != nullptr) {
+    delete timestamp_;
+  }
+  timestamp_ = nullptr;
+}
+TtyResponse::TtyResponse()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.TtyResponse)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.TtyResponse)
 }
 TtyResponse::TtyResponse(const TtyResponse& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_message().empty()) {
-    message_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_message(),
-      GetArena());
+    message_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.message_);
   }
-  timestamp_ = from.timestamp_;
+  if (from._internal_has_timestamp()) {
+    timestamp_ = new PROTOBUF_NAMESPACE_ID::Timestamp(*from.timestamp_);
+  } else {
+    timestamp_ = nullptr;
+  }
   // @@protoc_insertion_point(copy_constructor:ashoka.hardware.TtyResponse)
 }
 
 void TtyResponse::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TtyResponse_hardware_2eproto.base);
   message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  timestamp_ = PROTOBUF_ULONGLONG(0);
+  timestamp_ = nullptr;
 }
 
 TtyResponse::~TtyResponse() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.TtyResponse)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void TtyResponse::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
   message_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete timestamp_;
 }
 
-void TtyResponse::ArenaDtor(void* object) {
-  TtyResponse* _this = reinterpret_cast< TtyResponse* >(object);
-  (void)_this;
-}
-void TtyResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void TtyResponse::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -1010,14 +1021,16 @@ void TtyResponse::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  message_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  timestamp_ = PROTOBUF_ULONGLONG(0);
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  message_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == nullptr && timestamp_ != nullptr) {
+    delete timestamp_;
+  }
+  timestamp_ = nullptr;
+  _internal_metadata_.Clear();
 }
 
 const char* TtyResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -1032,10 +1045,10 @@ const char* TtyResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 timestamp = 2;
+      // .google.protobuf.Timestamp timestamp = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          timestamp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_timestamp(), ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1045,9 +1058,7 @@ const char* TtyResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -1077,15 +1088,17 @@ failure:
         1, this->_internal_message(), target);
   }
 
-  // uint64 timestamp = 2;
-  if (this->timestamp() != 0) {
+  // .google.protobuf.Timestamp timestamp = 2;
+  if (this->has_timestamp()) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_timestamp(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        2, _Internal::timestamp(this), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.TtyResponse)
   return target;
@@ -1106,11 +1119,11 @@ size_t TtyResponse::ByteSizeLong() const {
         this->_internal_message());
   }
 
-  // uint64 timestamp = 2;
-  if (this->timestamp() != 0) {
+  // .google.protobuf.Timestamp timestamp = 2;
+  if (this->has_timestamp()) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_timestamp());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *timestamp_);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1140,15 +1153,16 @@ void TtyResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void TtyResponse::MergeFrom(const TtyResponse& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.TtyResponse)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.message().size() > 0) {
-    _internal_set_message(from._internal_message());
+
+    message_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.message_);
   }
-  if (from.timestamp() != 0) {
-    _internal_set_timestamp(from._internal_timestamp());
+  if (from.has_timestamp()) {
+    _internal_mutable_timestamp()->PROTOBUF_NAMESPACE_ID::Timestamp::MergeFrom(from._internal_timestamp());
   }
 }
 
@@ -1172,8 +1186,9 @@ bool TtyResponse::IsInitialized() const {
 
 void TtyResponse::InternalSwap(TtyResponse* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(timestamp_, other->timestamp_);
 }
 
@@ -1190,15 +1205,15 @@ class LedRequest::_Internal {
  public:
 };
 
-LedRequest::LedRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+LedRequest::LedRequest()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.LedRequest)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.LedRequest)
 }
 LedRequest::LedRequest(const LedRequest& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&on_, &from.on_,
     static_cast<size_t>(reinterpret_cast<char*>(&off_) -
     reinterpret_cast<char*>(&on_)) + sizeof(off_));
@@ -1214,19 +1229,11 @@ void LedRequest::SharedCtor() {
 LedRequest::~LedRequest() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.LedRequest)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void LedRequest::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
-void LedRequest::ArenaDtor(void* object) {
-  LedRequest* _this = reinterpret_cast< LedRequest* >(object);
-  (void)_this;
-}
-void LedRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void LedRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -1245,12 +1252,11 @@ void LedRequest::Clear() {
   ::memset(&on_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&off_) -
       reinterpret_cast<char*>(&on_)) + sizeof(off_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
 const char* LedRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -1259,14 +1265,14 @@ const char* LedRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
       // uint32 on = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          on_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          on_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // uint32 off = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          off_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          off_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1276,9 +1282,7 @@ const char* LedRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -1312,7 +1316,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.LedRequest)
   return target;
@@ -1367,7 +1371,7 @@ void LedRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void LedRequest::MergeFrom(const LedRequest& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.LedRequest)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -1399,13 +1403,9 @@ bool LedRequest::IsInitialized() const {
 
 void LedRequest::InternalSwap(LedRequest* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(LedRequest, off_)
-      + sizeof(LedRequest::off_)
-      - PROTOBUF_FIELD_OFFSET(LedRequest, on_)>(
-          reinterpret_cast<char*>(&on_),
-          reinterpret_cast<char*>(&other->on_));
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(on_, other->on_);
+  swap(off_, other->off_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata LedRequest::GetMetadata() const {
@@ -1421,19 +1421,18 @@ class TtsRequest::_Internal {
  public:
 };
 
-TtsRequest::TtsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+TtsRequest::TtsRequest()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.TtsRequest)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.TtsRequest)
 }
 TtsRequest::TtsRequest(const TtsRequest& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   message_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_message().empty()) {
-    message_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_message(),
-      GetArena());
+    message_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.message_);
   }
   ::memcpy(&interval_, &from.interval_,
     static_cast<size_t>(reinterpret_cast<char*>(&locale_) -
@@ -1452,20 +1451,12 @@ void TtsRequest::SharedCtor() {
 TtsRequest::~TtsRequest() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.TtsRequest)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void TtsRequest::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
   message_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void TtsRequest::ArenaDtor(void* object) {
-  TtsRequest* _this = reinterpret_cast< TtsRequest* >(object);
-  (void)_this;
-}
-void TtsRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void TtsRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -1481,16 +1472,15 @@ void TtsRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  message_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  message_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&interval_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&locale_) -
       reinterpret_cast<char*>(&interval_)) + sizeof(locale_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
 const char* TtsRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -1499,14 +1489,14 @@ const char* TtsRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
       // uint32 interval = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          interval_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          interval_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // uint32 times = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          times_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          times_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1522,7 +1512,7 @@ const char* TtsRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
       // .ashoka.hardware.TtsRequest.Locale locale = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
           _internal_set_locale(static_cast<::ashoka::hardware::TtsRequest_Locale>(val));
         } else goto handle_unusual;
@@ -1533,9 +1523,7 @@ const char* TtsRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -1586,7 +1574,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.TtsRequest)
   return target;
@@ -1654,12 +1642,13 @@ void TtsRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void TtsRequest::MergeFrom(const TtsRequest& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.TtsRequest)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.message().size() > 0) {
-    _internal_set_message(from._internal_message());
+
+    message_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.message_);
   }
   if (from.interval() != 0) {
     _internal_set_interval(from._internal_interval());
@@ -1692,14 +1681,12 @@ bool TtsRequest::IsInitialized() const {
 
 void TtsRequest::InternalSwap(TtsRequest* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(TtsRequest, locale_)
-      + sizeof(TtsRequest::locale_)
-      - PROTOBUF_FIELD_OFFSET(TtsRequest, interval_)>(
-          reinterpret_cast<char*>(&interval_),
-          reinterpret_cast<char*>(&other->interval_));
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  message_.Swap(&other->message_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(interval_, other->interval_);
+  swap(times_, other->times_);
+  swap(locale_, other->locale_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata TtsRequest::GetMetadata() const {
@@ -1715,19 +1702,18 @@ class Audio_Stream::_Internal {
  public:
 };
 
-Audio_Stream::Audio_Stream(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+Audio_Stream::Audio_Stream()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.Audio.Stream)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.Audio.Stream)
 }
 Audio_Stream::Audio_Stream(const Audio_Stream& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   payload_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_payload().empty()) {
-    payload_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_payload(),
-      GetArena());
+    payload_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.payload_);
   }
   ::memcpy(&order_, &from.order_,
     static_cast<size_t>(reinterpret_cast<char*>(&type_) -
@@ -1746,20 +1732,12 @@ void Audio_Stream::SharedCtor() {
 Audio_Stream::~Audio_Stream() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.Audio.Stream)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Audio_Stream::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
   payload_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void Audio_Stream::ArenaDtor(void* object) {
-  Audio_Stream* _this = reinterpret_cast< Audio_Stream* >(object);
-  (void)_this;
-}
-void Audio_Stream::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Audio_Stream::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -1775,16 +1753,15 @@ void Audio_Stream::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  payload_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  payload_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&order_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&type_) -
       reinterpret_cast<char*>(&order_)) + sizeof(type_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
 const char* Audio_Stream::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -1793,14 +1770,14 @@ const char* Audio_Stream::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       // int32 order = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // .ashoka.hardware.Audio.Stream.Type type = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
           _internal_set_type(static_cast<::ashoka::hardware::Audio_Stream_Type>(val));
         } else goto handle_unusual;
@@ -1819,9 +1796,7 @@ const char* Audio_Stream::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -1862,7 +1837,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.Audio.Stream)
   return target;
@@ -1923,12 +1898,13 @@ void Audio_Stream::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void Audio_Stream::MergeFrom(const Audio_Stream& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.Audio.Stream)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.payload().size() > 0) {
-    _internal_set_payload(from._internal_payload());
+
+    payload_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.payload_);
   }
   if (from.order() != 0) {
     _internal_set_order(from._internal_order());
@@ -1958,14 +1934,11 @@ bool Audio_Stream::IsInitialized() const {
 
 void Audio_Stream::InternalSwap(Audio_Stream* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  payload_.Swap(&other->payload_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Audio_Stream, type_)
-      + sizeof(Audio_Stream::type_)
-      - PROTOBUF_FIELD_OFFSET(Audio_Stream, order_)>(
-          reinterpret_cast<char*>(&order_),
-          reinterpret_cast<char*>(&other->order_));
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  payload_.Swap(&other->payload_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(order_, other->order_);
+  swap(type_, other->type_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Audio_Stream::GetMetadata() const {
@@ -1981,19 +1954,18 @@ class Audio_File::_Internal {
  public:
 };
 
-Audio_File::Audio_File(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+Audio_File::Audio_File()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.Audio.File)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.Audio.File)
 }
 Audio_File::Audio_File(const Audio_File& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_path().empty()) {
-    path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_path(),
-      GetArena());
+    path_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.path_);
   }
   order_ = from.order_;
   // @@protoc_insertion_point(copy_constructor:ashoka.hardware.Audio.File)
@@ -2008,20 +1980,12 @@ void Audio_File::SharedCtor() {
 Audio_File::~Audio_File() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.Audio.File)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Audio_File::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
   path_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void Audio_File::ArenaDtor(void* object) {
-  Audio_File* _this = reinterpret_cast< Audio_File* >(object);
-  (void)_this;
-}
-void Audio_File::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Audio_File::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -2037,14 +2001,13 @@ void Audio_File::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  path_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   order_ = 0;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
 const char* Audio_File::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -2053,7 +2016,7 @@ const char* Audio_File::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
       // int32 order = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -2072,9 +2035,7 @@ const char* Audio_File::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -2112,7 +2073,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.Audio.File)
   return target;
@@ -2167,12 +2128,13 @@ void Audio_File::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void Audio_File::MergeFrom(const Audio_File& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.Audio.File)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.path().size() > 0) {
-    _internal_set_path(from._internal_path());
+
+    path_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.path_);
   }
   if (from.order() != 0) {
     _internal_set_order(from._internal_order());
@@ -2199,8 +2161,9 @@ bool Audio_File::IsInitialized() const {
 
 void Audio_File::InternalSwap(Audio_File* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  path_.Swap(&other->path_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  path_.Swap(&other->path_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(order_, other->order_);
 }
 
@@ -2217,19 +2180,17 @@ class Audio::_Internal {
  public:
 };
 
-Audio::Audio(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  files_(arena),
-  streams_(arena) {
+Audio::Audio()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.Audio)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.Audio)
 }
 Audio::Audio(const Audio& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
       files_(from.files_),
       streams_(from.streams_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&interval_, &from.interval_,
     static_cast<size_t>(reinterpret_cast<char*>(&times_) -
     reinterpret_cast<char*>(&interval_)) + sizeof(times_));
@@ -2246,19 +2207,11 @@ void Audio::SharedCtor() {
 Audio::~Audio() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.Audio)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Audio::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
-void Audio::ArenaDtor(void* object) {
-  Audio* _this = reinterpret_cast< Audio* >(object);
-  (void)_this;
-}
-void Audio::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Audio::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -2279,12 +2232,11 @@ void Audio::Clear() {
   ::memset(&interval_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&times_) -
       reinterpret_cast<char*>(&interval_)) + sizeof(times_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
 const char* Audio::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -2293,14 +2245,14 @@ const char* Audio::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inte
       // uint32 interval = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          interval_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          interval_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // uint32 times = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          times_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          times_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -2334,9 +2286,7 @@ const char* Audio::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inte
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -2386,7 +2336,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.Audio)
   return target;
@@ -2455,7 +2405,7 @@ void Audio::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void Audio::MergeFrom(const Audio& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.Audio)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -2489,15 +2439,11 @@ bool Audio::IsInitialized() const {
 
 void Audio::InternalSwap(Audio* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
   files_.InternalSwap(&other->files_);
   streams_.InternalSwap(&other->streams_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Audio, times_)
-      + sizeof(Audio::times_)
-      - PROTOBUF_FIELD_OFFSET(Audio, interval_)>(
-          reinterpret_cast<char*>(&interval_),
-          reinterpret_cast<char*>(&other->interval_));
+  swap(interval_, other->interval_);
+  swap(times_, other->times_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Audio::GetMetadata() const {
@@ -2513,19 +2459,18 @@ class Video_Stream::_Internal {
  public:
 };
 
-Video_Stream::Video_Stream(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+Video_Stream::Video_Stream()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.Video.Stream)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.Video.Stream)
 }
 Video_Stream::Video_Stream(const Video_Stream& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   payload_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_payload().empty()) {
-    payload_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_payload(),
-      GetArena());
+    payload_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.payload_);
   }
   ::memcpy(&order_, &from.order_,
     static_cast<size_t>(reinterpret_cast<char*>(&type_) -
@@ -2544,20 +2489,12 @@ void Video_Stream::SharedCtor() {
 Video_Stream::~Video_Stream() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.Video.Stream)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Video_Stream::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
   payload_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void Video_Stream::ArenaDtor(void* object) {
-  Video_Stream* _this = reinterpret_cast< Video_Stream* >(object);
-  (void)_this;
-}
-void Video_Stream::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Video_Stream::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -2573,16 +2510,15 @@ void Video_Stream::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  payload_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  payload_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&order_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&type_) -
       reinterpret_cast<char*>(&order_)) + sizeof(type_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
 const char* Video_Stream::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -2591,14 +2527,14 @@ const char* Video_Stream::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       // int32 order = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // .ashoka.hardware.Video.Stream.Type type = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
           _internal_set_type(static_cast<::ashoka::hardware::Video_Stream_Type>(val));
         } else goto handle_unusual;
@@ -2617,9 +2553,7 @@ const char* Video_Stream::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -2660,7 +2594,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.Video.Stream)
   return target;
@@ -2721,12 +2655,13 @@ void Video_Stream::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void Video_Stream::MergeFrom(const Video_Stream& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.Video.Stream)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.payload().size() > 0) {
-    _internal_set_payload(from._internal_payload());
+
+    payload_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.payload_);
   }
   if (from.order() != 0) {
     _internal_set_order(from._internal_order());
@@ -2756,14 +2691,11 @@ bool Video_Stream::IsInitialized() const {
 
 void Video_Stream::InternalSwap(Video_Stream* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  payload_.Swap(&other->payload_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Video_Stream, type_)
-      + sizeof(Video_Stream::type_)
-      - PROTOBUF_FIELD_OFFSET(Video_Stream, order_)>(
-          reinterpret_cast<char*>(&order_),
-          reinterpret_cast<char*>(&other->order_));
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  payload_.Swap(&other->payload_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(order_, other->order_);
+  swap(type_, other->type_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Video_Stream::GetMetadata() const {
@@ -2779,19 +2711,18 @@ class Video_File::_Internal {
  public:
 };
 
-Video_File::Video_File(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+Video_File::Video_File()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.Video.File)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.Video.File)
 }
 Video_File::Video_File(const Video_File& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_path().empty()) {
-    path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_path(),
-      GetArena());
+    path_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.path_);
   }
   order_ = from.order_;
   // @@protoc_insertion_point(copy_constructor:ashoka.hardware.Video.File)
@@ -2806,20 +2737,12 @@ void Video_File::SharedCtor() {
 Video_File::~Video_File() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.Video.File)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Video_File::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
   path_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
-void Video_File::ArenaDtor(void* object) {
-  Video_File* _this = reinterpret_cast< Video_File* >(object);
-  (void)_this;
-}
-void Video_File::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Video_File::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -2835,14 +2758,13 @@ void Video_File::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  path_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   order_ = 0;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
 const char* Video_File::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -2851,7 +2773,7 @@ const char* Video_File::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
       // int32 order = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          order_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -2870,9 +2792,7 @@ const char* Video_File::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -2910,7 +2830,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.Video.File)
   return target;
@@ -2965,12 +2885,13 @@ void Video_File::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void Video_File::MergeFrom(const Video_File& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.Video.File)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.path().size() > 0) {
-    _internal_set_path(from._internal_path());
+
+    path_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.path_);
   }
   if (from.order() != 0) {
     _internal_set_order(from._internal_order());
@@ -2997,8 +2918,9 @@ bool Video_File::IsInitialized() const {
 
 void Video_File::InternalSwap(Video_File* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  path_.Swap(&other->path_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  path_.Swap(&other->path_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(order_, other->order_);
 }
 
@@ -3015,19 +2937,17 @@ class Video::_Internal {
  public:
 };
 
-Video::Video(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  files_(arena),
-  streams_(arena) {
+Video::Video()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ashoka.hardware.Video)
+  // @@protoc_insertion_point(constructor:ashoka.hardware.Video)
 }
 Video::Video(const Video& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
       files_(from.files_),
       streams_(from.streams_) {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&interval_, &from.interval_,
     static_cast<size_t>(reinterpret_cast<char*>(&times_) -
     reinterpret_cast<char*>(&interval_)) + sizeof(times_));
@@ -3044,19 +2964,11 @@ void Video::SharedCtor() {
 Video::~Video() {
   // @@protoc_insertion_point(destructor:ashoka.hardware.Video)
   SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void Video::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
-void Video::ArenaDtor(void* object) {
-  Video* _this = reinterpret_cast< Video* >(object);
-  (void)_this;
-}
-void Video::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
 void Video::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
@@ -3077,12 +2989,11 @@ void Video::Clear() {
   ::memset(&interval_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&times_) -
       reinterpret_cast<char*>(&interval_)) + sizeof(times_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  _internal_metadata_.Clear();
 }
 
 const char* Video::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -3091,14 +3002,14 @@ const char* Video::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inte
       // uint32 interval = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          interval_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          interval_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // uint32 times = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          times_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          times_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -3132,9 +3043,7 @@ const char* Video::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::inte
           ctx->SetLastTag(tag);
           goto success;
         }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
       }
@@ -3184,7 +3093,7 @@ failure:
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+        _internal_metadata_.unknown_fields(), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:ashoka.hardware.Video)
   return target;
@@ -3253,7 +3162,7 @@ void Video::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 void Video::MergeFrom(const Video& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:ashoka.hardware.Video)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -3287,15 +3196,11 @@ bool Video::IsInitialized() const {
 
 void Video::InternalSwap(Video* other) {
   using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
   files_.InternalSwap(&other->files_);
   streams_.InternalSwap(&other->streams_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Video, times_)
-      + sizeof(Video::times_)
-      - PROTOBUF_FIELD_OFFSET(Video, interval_)>(
-          reinterpret_cast<char*>(&interval_),
-          reinterpret_cast<char*>(&other->interval_));
+  swap(interval_, other->interval_);
+  swap(times_, other->times_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Video::GetMetadata() const {
@@ -3308,37 +3213,37 @@ void Video::InternalSwap(Video* other) {
 }  // namespace ashoka
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::Response* Arena::CreateMaybeMessage< ::ashoka::hardware::Response >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::Response >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::Response >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::TtyRequest* Arena::CreateMaybeMessage< ::ashoka::hardware::TtyRequest >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::TtyRequest >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::TtyRequest >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::TtyResponse* Arena::CreateMaybeMessage< ::ashoka::hardware::TtyResponse >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::TtyResponse >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::TtyResponse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::LedRequest* Arena::CreateMaybeMessage< ::ashoka::hardware::LedRequest >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::LedRequest >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::LedRequest >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::TtsRequest* Arena::CreateMaybeMessage< ::ashoka::hardware::TtsRequest >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::TtsRequest >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::TtsRequest >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::Audio_Stream* Arena::CreateMaybeMessage< ::ashoka::hardware::Audio_Stream >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::Audio_Stream >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::Audio_Stream >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::Audio_File* Arena::CreateMaybeMessage< ::ashoka::hardware::Audio_File >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::Audio_File >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::Audio_File >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::Audio* Arena::CreateMaybeMessage< ::ashoka::hardware::Audio >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::Audio >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::Audio >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::Video_Stream* Arena::CreateMaybeMessage< ::ashoka::hardware::Video_Stream >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::Video_Stream >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::Video_Stream >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::Video_File* Arena::CreateMaybeMessage< ::ashoka::hardware::Video_File >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::Video_File >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::Video_File >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ashoka::hardware::Video* Arena::CreateMaybeMessage< ::ashoka::hardware::Video >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::ashoka::hardware::Video >(arena);
+  return Arena::CreateInternal< ::ashoka::hardware::Video >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
