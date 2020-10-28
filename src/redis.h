@@ -43,7 +43,7 @@ namespace ashoka
                 BOOST_LOG_TRIVIAL(debug) << "init redis connection factory";
             };
 
-            boost::shared_ptr<ashoka::pool::Connection> create()
+            std::shared_ptr<ashoka::pool::Connection> create()
             {
                 BOOST_LOG_TRIVIAL(info) << "open redis " << name();
                 redisContext *context = redisConnect(host.c_str(), port);
@@ -61,11 +61,11 @@ namespace ashoka
                     freeReplyObject(reply);
                 }
 
-                boost::shared_ptr<Connection> con(new Connection());
+                std::shared_ptr<Connection> con(new Connection());
                 con->prefix = this->prefix;
                 con->context = context;
 
-                return boost::static_pointer_cast<ashoka::pool::Connection>(con);
+                return std::static_pointer_cast<ashoka::pool::Connection>(con);
             };
 
             std::string name() const
@@ -82,8 +82,7 @@ namespace ashoka
             const unsigned short int db;
             const std::string prefix;
         };
-
-        boost::shared_ptr<ashoka::pool::Pool<Connection>> open(const std::string host, const unsigned short int port, const unsigned short int db, const std::string prefix, const size_t size);
+        std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> open(const std::string host, const unsigned short int port, const unsigned short int db, const std::string prefix, const size_t size);
     } // namespace redis
 
 } // namespace ashoka
