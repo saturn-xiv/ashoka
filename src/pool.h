@@ -3,12 +3,18 @@
 
 #include <deque>
 #include <exception>
+#include <iostream>
 #include <mutex>
 #include <set>
+#include <sstream>
 #include <string>
 #include <thread>
 
+#include <boost/foreach.hpp>
 #include <boost/log/trivial.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 namespace ashoka
 {

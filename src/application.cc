@@ -1,4 +1,5 @@
 #include "application.h"
+#include "redis.h"
 #include "server.h"
 #include "utils.h"
 
@@ -28,15 +29,12 @@ int ashoka::Application::run(int argc, char **argv)
 
     BOOST_LOG_TRIVIAL(info) << ASHOKA_PROJECT_NAME << "(" << ASHOKA_VERSION << ")";
     BOOST_LOG_TRIVIAL(debug) << "run in debug mode";
-    if (vm.count("config"))
-    {
-        const std::string config = vm["config"].as<std::string>();
-        BOOST_LOG_TRIVIAL(info) << "load from " << config;
-    }
-    else
-    {
-        std::cout << "Compression level was not set.\n";
-    }
+    const std::string config = vm["config"].as<std::string>();
+    BOOST_LOG_TRIVIAL(info) << "load from " << config;
+
+    boost::property_tree::ptree cfg;
+    boost::property_tree::read_ini(config, cfg);
+    std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
 
     ashoka::Server server = ashoka::Server(8080);
     server.listen();

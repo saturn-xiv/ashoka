@@ -28,7 +28,7 @@ else
     exit 1
 fi
 
-cmake -DCMAKE_BUILD_TYPE=Release ..
+CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j
 
 rm -rfv $TARGET/usr

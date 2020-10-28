@@ -16,3 +16,13 @@ std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> ashoka::redis::op
     std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> pool(new ashoka::pool::Pool<ashoka::redis::Connection>(size, factory));
     return pool;
 }
+
+std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> ashoka::redis::open(boost::property_tree::ptree *tree)
+{
+    return ashoka::redis::open(
+        tree->get<std::string>("redis.host", "127.0.0.1"),
+        tree->get<unsigned short int>("redis.port", 6379),
+        tree->get<unsigned short int>("redis.db", 0),
+        tree->get<std::string>("redis.prefix"),
+        tree->get<size_t>("redis.pool-size", 32));
+}

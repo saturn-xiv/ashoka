@@ -1,10 +1,6 @@
 #ifndef ASHOKA_REDIS_H_
 #define ASHOKA_REDIS_H_
 
-#include <sstream>
-#include <string>
-
-#include <boost/log/trivial.hpp>
 #include <hiredis.h>
 #include <hiredis_ssl.h>
 
@@ -41,12 +37,12 @@ namespace ashoka
         public:
             Factory(const std::string host, const unsigned short int port, const unsigned short int db, const std::string prefix) : host(host), port(port), db(db), prefix(prefix)
             {
-                BOOST_LOG_TRIVIAL(debug) << "init redis connection factory";
+                BOOST_LOG_TRIVIAL(info) << "init redis connection factory";
             };
 
             std::shared_ptr<ashoka::pool::Connection> create()
             {
-                BOOST_LOG_TRIVIAL(info) << "open redis " << name();
+                BOOST_LOG_TRIVIAL(debug) << "open redis " << name();
                 redisContext *context = redisConnect(host.c_str(), port);
                 if (context == NULL)
                 {
@@ -83,7 +79,10 @@ namespace ashoka
             const unsigned short int db;
             const std::string prefix;
         };
+
         std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> open(const std::string host, const unsigned short int port, const unsigned short int db, const std::string prefix, const size_t size);
+        std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> open(boost::property_tree::ptree *tree);
+
     } // namespace redis
 
 } // namespace ashoka
