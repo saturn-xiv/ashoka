@@ -68,7 +68,7 @@ namespace ashoka
                 return boost::static_pointer_cast<ashoka::pool::Connection>(con);
             };
 
-            const std::string name()
+            std::string name() const
             {
                 std::ostringstream ss;
                 ss << "tcp://" << host << ":" << port << "/" << db << "/" << prefix;
