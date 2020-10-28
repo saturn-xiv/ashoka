@@ -5,25 +5,17 @@
 
 namespace ashoka
 {
-    // enum Command
-    // {
-    //     HTTP,
-    //     VERSION,
-    //     HELP
-    // };
-    // class ServerApplication : public Poco::Util::ServerApplication
-    // {
-    // protected:
-    //     void initialize(Poco::Util::Application &self);
-    //     void uninitialize();
-    //     void defineOptions(Poco::Util::OptionSet &options);
-    //     void handleHelp(const std::string &name, const std::string &value);
-    //     void handleVersion(const std::string &name, const std::string &value);
-    //     int main(const std::vector<std::string> &args);
+    class Server
+    {
+    public:
+        Server(unsigned short int port) : port(port) {}
+        ~Server() {}
 
-    // private:
-    //     Command command = Command::HTTP;
-    // };
+        void listen();
+
+    private:
+        const unsigned short int port;
+    };
 } // namespace ashoka
 
 #endif

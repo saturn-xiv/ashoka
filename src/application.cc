@@ -1,4 +1,5 @@
 #include "application.h"
+#include "server.h"
 #include "utils.h"
 
 int ashoka::Application::run(int argc, char **argv)
@@ -34,5 +35,8 @@ int ashoka::Application::run(int argc, char **argv)
     {
         std::cout << "Compression level was not set.\n";
     }
+
+    ashoka::Server server = ashoka::Server(8080);
+    server.listen();
     return EXIT_SUCCESS;
 }

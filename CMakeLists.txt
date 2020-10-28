@@ -10,6 +10,9 @@ find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Boost REQUIRED system filesystem regex timer date_time chrono random log program_options)
 
+
+set(BUILD_SHARED_LIBS OFF)
+set(BUILD_STATIC_LIBS ON)
 # ---------------------------------------------------------
 
 FetchContent_Declare(
@@ -59,6 +62,9 @@ FetchContent_Declare(
     SOURCE_SUBDIR  cmake
 )
 set(protobuf_BUILD_TESTS OFF)
+set(protobuf_BUILD_SHARED_LIBS OFF)
+set(protobuf_BUILD_STATIC_LIBS OFF)
+set(protobuf_BUILD_EXAMPLES OFF)
 FetchContent_MakeAvailable(protobuf)
 
 # protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/nut.proto protos/hardware.proto)
@@ -69,6 +75,7 @@ include_directories(
     ${tomlplusplus_SOURCE_DIR}
     ${jwtpp_SOURCE_DIR}/include/export
     ${pistache_SOURCE_DIR}/include
+    ${protobuf_SOURCE_DIR}/src
 )
 
 
@@ -87,12 +94,12 @@ target_link_libraries(ashoka
     ${Boost_LIBRARIES}    
     ${OPENSSL_SSL_LIBRARIES}
         
-    ${protobuf_BINARY_DIR}/libprotobufd.a
+    ${protobuf_BINARY_DIR}/libprotobuf.a
     ${jwtpp_BINARY_DIR}/libjwtpp.a
     ${pistache_BINARY_DIR}/src/libpistache.a
 
     sodium
     pq sqlite3 hiredis
     rabbitmq zmq 
-    # cpprestsdk::cpprest
+    
 )
