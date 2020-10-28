@@ -10,9 +10,41 @@ find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Boost REQUIRED system filesystem regex timer date_time chrono random log program_options)
 
-
+set(BUILD_TESTS OFF)
+set(DISABLE_TESTS ON)
+set(BUILD_EXAMPLES OFF)
 set(BUILD_SHARED_LIBS OFF)
 set(BUILD_STATIC_LIBS ON)
+# ---------------------------------------------------------
+# ---------------------------------------------------------
+# ---------------------------------------------------------
+# ---------------------------------------------------------
+
+FetchContent_Declare(
+    hiredis
+    GIT_REPOSITORY https://github.com/redis/hiredis.git
+    GIT_TAG        e3f88eb 
+)
+FetchContent_MakeAvailable(hiredis)
+
+# ---------------------------------------------------------
+
+FetchContent_Declare(
+    zeromq
+    GIT_REPOSITORY https://github.com/zeromq/libzmq.git
+    GIT_TAG        v4.3.3
+)
+FetchContent_MakeAvailable(zeromq)
+
+# ---------------------------------------------------------
+
+FetchContent_Declare(
+    rabbitmq
+    GIT_REPOSITORY https://github.com/alanxz/rabbitmq-c.git
+    GIT_TAG        v0.10.0
+)
+FetchContent_MakeAvailable(rabbitmq)
+
 # ---------------------------------------------------------
 
 FetchContent_Declare(
@@ -76,6 +108,9 @@ include_directories(
     ${jwtpp_SOURCE_DIR}/include/export
     ${pistache_SOURCE_DIR}/include
     ${protobuf_SOURCE_DIR}/src
+    ${rabbitmq_SOURCE_DIR}/librabbitmq
+    ${zeromq_SOURCE_DIR}/include
+    ${hiredis_SOURCE_DIR}
 )
 
 
@@ -97,9 +132,10 @@ target_link_libraries(ashoka
     ${protobuf_BINARY_DIR}/libprotobuf.a
     ${jwtpp_BINARY_DIR}/libjwtpp.a
     ${pistache_BINARY_DIR}/src/libpistache.a
+    ${rabbitmq_BINARY_DIR}/librabbitmq/librabbitmq.a
+    ${zeromq_BINARY_DIR}/lib/libzmq.a
+    ${hiredis_BINARY_DIR}/libhiredis_static.a
 
-    sodium
-    pq sqlite3 hiredis
-    rabbitmq zmq 
+    sodium pq sqlite3 
     
 )

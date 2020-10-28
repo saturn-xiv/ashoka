@@ -4,11 +4,17 @@
 #include <string>
 
 #include <amqp.h>
+#include <amqp_framing.h>
+#include <amqp_tcp_socket.h>
 
 namespace ashoka
 {
-    class RabbitMq
+    // https://github.com/alanxz/rabbitmq-c/tree/master/examples
+    namespace rabbitmq
     {
-    };
+        class Connection
+        {
+        };
+    } // namespace rabbitmq
 } // namespace ashoka
 #endif

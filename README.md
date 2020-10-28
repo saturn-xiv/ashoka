@@ -17,8 +17,7 @@ $ docker run --rm -it --network host -v `pwd`:/workspace ashoka
 
 ```bash
 $ openssl rand -base64 32 # generate a random 32-bit base64 encoded key
-$ conan profile new default --detect  # Generates default profile detecting GCC and sets old ABI
-$ conan profile update settings.compiler.libcxx=libstdc++11 default  # Sets libcxx to C++11 ABI
+$ ./_deps/protobuf-build/protoc -I ../protos -I ./_deps/protobuf-src/src --cpp_out=../src ../protos/*.proto
 ```
 
 ## Documents

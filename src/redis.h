@@ -5,7 +5,8 @@
 #include <string>
 
 #include <boost/log/trivial.hpp>
-#include <hiredis/hiredis.h>
+#include <hiredis.h>
+#include <hiredis_ssl.h>
 
 #include "pool.h"
 

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include <libpq-fe.h>
+
 namespace ashoka
 {
     namespace postgresql
