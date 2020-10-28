@@ -8,6 +8,7 @@
 #include <iostream>
 #include <regex>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include <boost/foreach.hpp>

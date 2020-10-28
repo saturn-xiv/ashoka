@@ -1,39 +1,18 @@
 #include "redis.h"
 
-ashoka::Redis::Redis()
+void ashoka::redis::Connection::clear()
 {
-
-    // std::string host(config.getString("redis.host", "localhost"));
-    // unsigned short port = static_cast<unsigned short>(config.getInt("redis.port", 6379));
-    // unsigned short db = static_cast<unsigned short>(config.getInt("redis.db", 0));
-    // prefix = config.getString("redis.prefix");
-
-    // BOOST_LOG_TRIVIAL(info) << "open redis tcp://" << host << ":" << port << "/" << db << "/" << prefix;
-    // context = redisConnect(host.c_str(), port);
-    // if (context == NULL)
-    // {
-    //     throw Poco::ApplicationException("can't allocate redis context");
-    // }
-    // redisReply *reply = (redisReply *)redisCommand(context, "SELECT %i", db);
-    // if (reply->type == REDIS_REPLY_ERROR)
-    // {
-    //     throw Poco::ApplicationException(reply->str);
-    // }
-    // freeReplyObject(reply);
-}
-
-ashoka::Redis::~Redis()
-{
-    redisFree(context);
-}
-
-void ashoka::Redis::clear()
-{
-    // TOCO clear by prefix
     redisReply *reply = (redisReply *)redisCommand(context, "FLUSHDB");
     if (reply->type == REDIS_REPLY_ERROR)
     {
-        // throw Poco::ApplicationException(reply->str);
+        throw std::runtime_error(reply->str);
     }
     freeReplyObject(reply);
+}
+
+boost::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> ashoka::redis::open(const std::string host, const unsigned short int port, const unsigned short int db, const std::string prefix, const size_t size)
+{
+    boost::shared_ptr<ashoka::redis::Factory> factory(new ashoka::redis::Factory(host, port, db, prefix));
+    boost::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> pool(new ashoka::pool::Pool<ashoka::redis::Connection>(size, factory));
+    return pool;
 }

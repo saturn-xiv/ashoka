@@ -30,7 +30,7 @@ namespace ashoka
 
     namespace utils
     {
-        void init_logging(bool daemon);
+        void init_logging(bool daemon, bool debug);
         void watchdog(int dur);
 
     } // namespace utils

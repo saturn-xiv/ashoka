@@ -2,7 +2,7 @@
 
 typedef boost::log::sinks::synchronous_sink<boost::log::sinks::syslog_backend> sink_t;
 
-void ashoka::utils::init_logging(bool daemon)
+void ashoka::utils::init_logging(bool daemon, bool debug)
 {
     boost::shared_ptr<boost::log::core> core = boost::log::core::get();
     if (daemon)
@@ -17,13 +17,15 @@ void ashoka::utils::init_logging(bool daemon)
         mapping["failure"] = boost::log::sinks::syslog::critical;
         backend->set_severity_mapper(mapping);
 
-        // core->add_sink(boost::make_shared<sink_t>(backend));
+        core->add_sink(boost::make_shared<sink_t>(backend));
     }
 
     core->set_filter(
         boost::log::trivial::severity >=
 #ifdef NDEBUG
-        boost::log::trivial::info
+        (debug
+             ? boost::log::trivial::debug
+             : boost::log::trivial::info)
 #else
         boost::log::trivial::trace
 #endif

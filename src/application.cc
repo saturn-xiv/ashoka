@@ -6,7 +6,7 @@ int ashoka::Application::run(int argc, char **argv)
 {
     boost::program_options::options_description desc("Allowed options");
 
-    desc.add_options()("help,h", "display argument help information")("version,v", "print version")("config,c", boost::program_options::value<std::string>()->default_value("config.toml"), "configuration file(toml)");
+    desc.add_options()("config,c", boost::program_options::value<std::string>()->default_value("config.ini"), "configuration file(ini)")("debug,d", boost::program_options::bool_switch(), "debug mode")("version,v", "print version")("help,h", "display argument help information");
 
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
@@ -23,9 +23,11 @@ int ashoka::Application::run(int argc, char **argv)
         return EXIT_SUCCESS;
     }
 
-    ashoka::utils::init_logging(false);
+    const bool debug = vm["debug"].as<bool>();
+    ashoka::utils::init_logging(false, debug);
 
     BOOST_LOG_TRIVIAL(info) << ASHOKA_PROJECT_NAME << "(" << ASHOKA_VERSION << ")";
+    BOOST_LOG_TRIVIAL(debug) << "run in debug mode";
     if (vm.count("config"))
     {
         const std::string config = vm["config"].as<std::string>();

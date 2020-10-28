@@ -10,14 +10,13 @@ namespace ashoka
     class HttpRouter
     {
     public:
-        HttpRouter(Redis *redis) : redis(redis)
+        HttpRouter()
         {
         }
         ~HttpRouter();
 
     private:
-        Redis *redis;
-    };
+        };
 
 } // namespace ashoka
 
