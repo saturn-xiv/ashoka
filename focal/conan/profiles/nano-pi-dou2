@@ -1,27 +1,36 @@
-#target_host=arm-linux-gnueabihf
+target_host=arm-linux-gnueabihf
+
 #toolchain_root=/opt/toolchains/nano-duo2/gcc-linaro
 
-toolchain_root=/opt/toolchains/nano-duo2/4.9.3
-toolchain_prefix=arm-linux
-target_host=arm-linux-gnueabihf
-toolchain_version=4.9
+#toolchain_root=/opt/toolchains/nano-duo2/4.9.3
+#toolchain_prefix=arm-linux
+#target_host=arm-linux-gnueabihf
+#toolchain_version=4.9
+#rootfs=/opt/toolchains/nano-duo2/rootfs
+
+toolchain_root=/opt/toolchains/linaro/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf
+toolchain_prefix=arm-linux-gnueabihf
+toolchain_version=7.5
+root_fs=/opt/toolchains/linaro/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf
 
 [settings]
 os=Linux
 os_build=Linux
 arch=armv7hf
 arch_build=x86_64
+arch_target=$target_host
 compiler=gcc
 compiler.version=$toolchain_version
 compiler.libcxx=libstdc++11
 build_type=Release
+
 
 [options]
 
 [build_requires]
 
 [env]
-CONAN_CMAKE_FIND_ROOT_PATH=/opt/toolchains/nano-duo2/rootfs
+CONAN_CMAKE_FIND_ROOT_PATH=$root_fs
 PATH=[ $toolchain_root/bin ]
 CHOST=$target_host
 USE_DEV_URANDOM=1

@@ -58,8 +58,8 @@ RUN mkdir $HOME/downloads
 # https://www.linaro.org/downloads/
 ENV LINARO "linaro"
 RUN mkdir -pv /opt/toolchains/${LINARO}
-RUN tar xf /opt/packages/${LINARO}/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar -C /opt/toolchains/${LINARO}}
-RUN tar xf /opt/packages/${LINARO}/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf.tar -C /opt/toolchains/${LINARO}}
+RUN tar xf /opt/packages/${LINARO}/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar -C /opt/toolchains/${LINARO}
+RUN tar xf /opt/packages/${LINARO}/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf.tar -C /opt/toolchains/${LINARO}
 
 # http://wiki.friendlyarm.com/wiki/index.php/NanoPi_Duo2
 ENV NANO_DUO2 "nano-duo2"
