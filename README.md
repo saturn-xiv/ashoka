@@ -27,4 +27,6 @@ $ ./_deps/protobuf-build/protoc -I ../protos -I ./_deps/protobuf-src/src --cpp_o
 - [conan](https://conan.io/center/)
 - [grpc](https://grpc.io/docs/languages/cpp/quickstart/)
 - [protobuf](https://developers.google.com/protocol-buffers/docs/reference/overview)
+
 - [sfml](https://www.sfml-dev.org/index.php)
+- [libsodium](https://doc.libsodium.org/)

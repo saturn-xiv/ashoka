@@ -1,10 +1,16 @@
 #include "application.h"
+#include "crypt.h"
 #include "redis.h"
 #include "server.h"
 #include "utils.h"
 
 int ashoka::Application::run(int argc, char **argv)
 {
+    if (sodium_init() < 0)
+    {
+        BOOST_LOG_TRIVIAL(error) << "can't init sodium";
+        return EXIT_FAILURE;
+    }
     boost::program_options::options_description desc("Allowed options");
 
     desc.add_options()("config,c", boost::program_options::value<std::string>()->default_value("config.ini"), "configuration file(ini)")("debug,d", boost::program_options::bool_switch(), "debug mode")("version,v", "print version")("help,h", "display argument help information");
