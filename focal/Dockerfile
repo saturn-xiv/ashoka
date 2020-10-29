@@ -5,16 +5,12 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update
 RUN apt -y install software-properties-common
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
-RUN add-apt-repository ppa:pistache+team/stable
 RUN apt update
 RUN apt -y upgrade
 RUN apt -y install zsh git locales pkg-config rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget \
-    build-essential libtool automake autoconf binutils-multiarch cmake clang \
-    libssl-dev libboost-all-dev \
-    libpq-dev libsqlite3-dev \
-    protobuf-compiler
+    build-essential libtool automake autoconf binutils libtool automake autoconf cmake clang \
+    python3 python3-distutils python3-pip
 RUN apt -y autoremove
 RUN apt -y clean
 
@@ -32,8 +28,34 @@ USER deploy
 # https://github.com/ohmyzsh/ohmyzsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+RUN python3 /tmp/get-pip.py
+RUN sh -c ". $HOME/.profile \
+    && pip install --user cmake \
+    && pip install --user conan"
+
+# https://github.com/nvm-sh/nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | sh
+RUN sh -c ". $HOME/.profile \
+    && nvm install node"
+RUN sh -c ". $HOME/.profile \
+    && npm install -g yarn"
+RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
+
 RUN git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
 
+ADD packages /opt/packages
+RUN sudo mkdir -p /opt/toolchains && sudo chown -R deploy:deploy /opt/toolchains
+
+ENV NANO_DUO2 "nano-duo2"
+RUN mkdir -pv /opt/toolchains/${NANO_DUO2}
+RUN tar xf /opt/packages/${NANO_DUO2}/gcc-linaro-arm.tar.xz -C /opt/toolchains/${NANO_DUO2}
+RUN tar xf /opt/packages/${NANO_DUO2}/rootfs_friendlycore_4.14.tgz -C /opt/toolchains/${NANO_DUO2}
+
+ADD conan /opt/conan
+RUN sh -c ". $HOME/.profile \
+    && cd $HOME/workspace/ashoka \
+    && conan install --build=missing .. --profile /opt/conan/profiles/x86_64"
 VOLUME /workspace
 WORKDIR /workspace
 

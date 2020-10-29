@@ -13,11 +13,11 @@ find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Boost REQUIRED system filesystem regex timer date_time chrono random log program_options)
 
-set(BUILD_TESTS OFF)
-set(DISABLE_TESTS ON)
-set(BUILD_EXAMPLES OFF)
-set(BUILD_SHARED_LIBS OFF)
-set(BUILD_STATIC_LIBS ON)
+# set(BUILD_TESTS OFF)
+# set(DISABLE_TESTS ON)
+# set(BUILD_EXAMPLES OFF)
+# set(BUILD_SHARED_LIBS OFF)
+# set(BUILD_STATIC_LIBS ON)
 # ---------------------------------------------------------
 # protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/nut.proto protos/hardware.proto)
 # ${PROTO_SRCS} ${PROTO_HDRS}
