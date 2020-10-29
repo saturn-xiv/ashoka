@@ -43,19 +43,32 @@ RUN sh -c ". $HOME/.profile \
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 
 RUN git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
+RUN sh -c ". $HOME/.profile \
+    && cd $HOME/workspace/ashoka \
+    && git checkout cpp \
+    && git pull \
+    && mkdir build \
+    && cd build \
+    && conan install --build=missing .. --profile ../focal/conan/profiles/x86_64"
 
 ADD packages /opt/packages
 RUN sudo mkdir -p /opt/toolchains && sudo chown -R deploy:deploy /opt/toolchains
 
+RUN mkdir $HOME/downloads
+# https://www.linaro.org/downloads/
+ENV LINARO "linaro"
+RUN mkdir -pv /opt/toolchains/${LINARO}
+RUN tar xf /opt/packages/${LINARO}/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar -C /opt/toolchains/${LINARO}}
+RUN tar xf /opt/packages/${LINARO}/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf.tar -C /opt/toolchains/${LINARO}}
+
+# http://wiki.friendlyarm.com/wiki/index.php/NanoPi_Duo2
 ENV NANO_DUO2 "nano-duo2"
 RUN mkdir -pv /opt/toolchains/${NANO_DUO2}
 RUN tar xf /opt/packages/${NANO_DUO2}/gcc-linaro-arm.tar.xz -C /opt/toolchains/${NANO_DUO2}
 RUN tar xf /opt/packages/${NANO_DUO2}/rootfs_friendlycore_4.14.tgz -C /opt/toolchains/${NANO_DUO2}
+RUN tar xf /opt/packages/${NANO_DUO2}/arm-cortexa9-linux-gnueabihf-4.9.3-20160512.tar.xz -C /opt/toolchains/${NANO_DUO2}
 
 ADD conan /opt/conan
-RUN sh -c ". $HOME/.profile \
-    && cd $HOME/workspace/ashoka \
-    && conan install --build=missing .. --profile /opt/conan/profiles/x86_64"
 VOLUME /workspace
 WORKDIR /workspace
 
