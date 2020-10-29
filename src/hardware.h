@@ -6,7 +6,7 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "hardware.pb.h"
+// #include "hardware.pb.h"
 
 namespace ashoka
 {

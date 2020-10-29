@@ -7,16 +7,16 @@ namespace ashoka
 {
     namespace nut
     {
-        class HomeHandler : public Pistache::Http::Handler
-        {
-        public:
-            HTTP_PROTOTYPE(HomeHandler)
+        // class HomeHandler : public Pistache::Http::Handler
+        // {
+        // public:
+        //     HTTP_PROTOTYPE(HomeHandler)
 
-            void onRequest(const Pistache::Http::Request &request, Pistache::Http::ResponseWriter response)
-            {
-                response.send(Pistache::Http::Code::Ok, "Hello, World");
-            }
-        };
+        //     void onRequest(const Pistache::Http::Request &request, Pistache::Http::ResponseWriter response)
+        //     {
+        //         response.send(Pistache::Http::Code::Ok, "Hello, World");
+        //     }
+        // };
 
     } // namespace nut
 } // namespace ashoka

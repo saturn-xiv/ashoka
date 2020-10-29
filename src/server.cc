@@ -5,13 +5,13 @@
 
 void ashoka::Server::listen()
 {
-    Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(port));
+    // Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(port));
 
-    auto opts = Pistache::Http::Endpoint::options().threads(1);
-    Pistache::Http::Endpoint server(addr);
-    server.init(opts);
-    server.setHandler(std::make_shared<ashoka::nut::HomeHandler>());
-    server.serve();
+    // auto opts = Pistache::Http::Endpoint::options().threads(1);
+    // Pistache::Http::Endpoint server(addr);
+    // server.init(opts);
+    // server.setHandler(std::make_shared<ashoka::nut::HomeHandler>());
+    // server.serve();
 }
 
 // void ashoka::ServerApplication::initialize(Poco::Util::Application &self)

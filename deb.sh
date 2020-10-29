@@ -33,11 +33,11 @@ make -j
 
 rm -rfv $TARGET/usr
 mkdir -pv $TARGET/usr/bin
-cp -av ashoka $TARGET/usr/bin/
+cp -av bin/ashoka $TARGET/usr/bin/
 
 rm -rfv $TARGET/etc
 mkdir -pv $TARGET/etc/ashoka
-cp $WORKSPACE/LICENSE $WORKSPACE/config.properties $TARGET/etc/ashoka/
+cp $WORKSPACE/LICENSE $WORKSPACE/config.ini $TARGET/etc/ashoka/
 
 cd $WORKSPACE
 dpkg -b ubuntu ashoka-$(git describe --tags --always --dirty --first-parent).deb
