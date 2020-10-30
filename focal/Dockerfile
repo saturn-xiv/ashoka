@@ -47,9 +47,9 @@ RUN sh -c ". $HOME/.profile \
     && cd $HOME/workspace/ashoka \
     && git checkout cpp \
     && git pull \
-    && mkdir build \
-    && cd build \
-    && conan install --build=missing .. --profile ../focal/conan/profiles/x86_64"
+    && cd $HOME/workspace/ashoka/third/jwtpp && conan create . jeremy/local \
+    && cd $HOME/workspace/ashoka/third/hiredis && conan create . jeremy/local \
+    && mkdir $HOME/workspace/ashoka/build && cd $HOME/workspace/ashoka/build && conan install --build=missing .. --profile ../focal/conan/profiles/x86_64"
 
 ADD packages /opt/packages
 RUN sudo mkdir -p /opt/toolchains && sudo chown -R deploy:deploy /opt/toolchains
