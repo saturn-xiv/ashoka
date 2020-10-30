@@ -10,25 +10,26 @@ fi
 export WORKSPACE=$PWD
 export TARGET=$WORKSPACE/ubuntu
 
-rm -rfv $WORKSPACE/build
-mkdir -pv $WORKSPACE/build
-cd $WORKSPACE/build
+# if [ $1 = 'x86_64' ]
+# then
+#     export CC=clang
+#     export CXX=clang++ 
+# elif [ $1 = 'armv7hf' ]
+# then
+#     export TARGET_HOST=arm-linux-gnueabihf
+#     export CC=$TARGET_HOST-gcc
+#     export CXX=$TARGET_HOST-g++
+# else
+#     echo "Unknown arch $1"
+#     exit 1
+# fi
 
-if [ $1 = 'x86_64' ]
-then
-    export CC=clang
-    export CXX=clang++ 
-elif [ $1 = 'armv7hf' ]
-then
-    export TARGET_HOST=arm-linux-gnueabihf
-    export CC=$TARGET_HOST-gcc
-    export CXX=$TARGET_HOST-g++
-else
-    echo "Unknown arch $1"
-    exit 1
-fi
+rm -rfv $WORKSPACE/build/$1
+mkdir -pv $WORKSPACE/build/$1
+cd $WORKSPACE/build/$1
 
-CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release ..
+conan install --build=missing .. --profile ../../
+cmake -DCMAKE_BUILD_TYPE=Release ../../focal/conan/profile
 make -j
 
 rm -rfv $TARGET/usr
