@@ -12,6 +12,7 @@ imgui/1.79
 tomlplusplus/2.2.0
 cpprestsdk/2.10.16
 jsoncpp/1.9.4
+msgpack/3.3.0
 jwtpp/2.0.3@jeremy/local
 hiredis/2020.10.29@jeremy/local
 libsodium/1.0.18@jeremy/local

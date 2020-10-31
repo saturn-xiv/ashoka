@@ -12,12 +12,13 @@ conan_basic_setup()
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Boost REQUIRED system filesystem regex timer date_time chrono random log program_options)
-find_package(Protobuf REQUIRED)
-include_directories(${Protobuf_INCLUDE_DIRS})
+# find_package(Protobuf REQUIRED)
 
 # ---------------------------------------------------------
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/nut.proto protos/hardware.proto)
-
+# 
+# include_directories(${Protobuf_INCLUDE_DIRS})
+# protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/nut.proto protos/hardware.proto)
+# ${PROTO_SRCS} ${PROTO_HDRS}
 # ---------------------------------------------------------
 
 aux_source_directory(src DIR_SRCS)
@@ -27,7 +28,7 @@ execute_process(COMMAND git describe --tags --always --dirty
 )
 string(STRIP "${GIT_REV}" GIT_REV)
 configure_file(src/config.h.in config.h)
-add_executable(ashoka ${DIR_SRCS} ${PROTO_SRCS} ${PROTO_HDRS})
+add_executable(ashoka ${DIR_SRCS})
 
 set_target_properties(ashoka PROPERTIES LINK_FLAGS_RELEASE -s)
 
