@@ -1,0 +1,7 @@
+# !/bin/sh
+
+set -e
+
+echo "uninstall" > /tmp/ashoka.log
+
+exit 0
