@@ -16,8 +16,8 @@ find_package(Protobuf REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})
 
 # ---------------------------------------------------------
-# protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/nut.proto protos/hardware.proto)
-# ${PROTO_SRCS} ${PROTO_HDRS}
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/nut.proto protos/hardware.proto)
+
 # ---------------------------------------------------------
 
 aux_source_directory(src DIR_SRCS)
@@ -27,7 +27,7 @@ execute_process(COMMAND git describe --tags --always --dirty
 )
 string(STRIP "${GIT_REV}" GIT_REV)
 configure_file(src/config.h.in config.h)
-add_executable(ashoka ${DIR_SRCS})
+add_executable(ashoka ${DIR_SRCS} ${PROTO_SRCS} ${PROTO_HDRS})
 
 set_target_properties(ashoka PROPERTIES LINK_FLAGS_RELEASE -s)
 

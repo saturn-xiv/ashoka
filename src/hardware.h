@@ -3,10 +3,10 @@
 
 #ifdef __cpp_lib_filesystem
 #include <filesystem>
-// using fs = std::filesystem;
+using fs = std::filesystem;
 #elif __cpp_lib_experimental_filesystem
 #include <experimental/filesystem>
-// using fs = std::experimental::filesystem;
+using fs = std::experimental::filesystem;
 #else
 #endif
 
@@ -30,7 +30,7 @@ namespace ashoka
         class Audio
         {
         public:
-            void play(const std::filesystem::path &file);
+            void play(const fs::path &file);
             void stop();
         };
 
