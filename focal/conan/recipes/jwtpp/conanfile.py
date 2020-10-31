@@ -23,19 +23,16 @@ class JwtppConan(ConanFile):
 
     def source(self):
         git = tools.Git(folder="jwtpp")
-        git.clone("https://github.com/troian/jwtpp.git", "v2.0.3")
+        git.clone("https://github.com/troian/jwtpp.git", "v"+self.version)
 
     def build(self):
         cmake = CMake(self)
-        # cmake.definitions['OPENSSL_ROOT_DIR'] = ''
         cmake.configure(source_folder="jwtpp")
         cmake.build()
 
     def package(self):
         self.copy("*.hh", dst="include", src="jwtpp/include/export")
         self.copy("*.a", dst="lib", keep_path=False)
-        # self.cpp_info.components["jwtpp"].requires = [
-        #     "openssl::openssl", "jsoncpp::jsoncpp"]
 
     def package_info(self):
         self.cpp_info.libs = ["jwtpp"]
