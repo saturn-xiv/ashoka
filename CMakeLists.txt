@@ -12,6 +12,8 @@ conan_basic_setup()
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Boost REQUIRED system filesystem regex timer date_time chrono random log program_options)
+find_package(Protobuf REQUIRED)
+include_directories(${Protobuf_INCLUDE_DIRS})
 
 # ---------------------------------------------------------
 # protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS protos/nut.proto protos/hardware.proto)

@@ -12,24 +12,48 @@ export TARGET=$WORKSPACE/ubuntu
 
 # if [ $1 = 'x86_64' ]
 # then
-#     export CC=clang
-#     export CXX=clang++ 
-# elif [ $1 = 'armv7hf' ]
+#     export $CONAN_PROFILE=$1
+# elif [ $1 = 'nano-pi-duo2' ]
 # then
-#     export TARGET_HOST=arm-linux-gnueabihf
-#     export CC=$TARGET_HOST-gcc
-#     export CXX=$TARGET_HOST-g++
+#     export 
 # else
 #     echo "Unknown arch $1"
 #     exit 1
 # fi
+
+if [ ! -f $WORKSPACE/focal/conan/profiles/$1 ]
+then
+    echo "can't find profile $1"
+    exit 1
+fi
 
 rm -rfv $WORKSPACE/build/$1
 mkdir -pv $WORKSPACE/build/$1
 cd $WORKSPACE/build/$1
 
 conan install --build=missing ../.. --profile ../../focal/conan/profiles/$1
-cmake -DCMAKE_BUILD_TYPE=Release ../..
+
+
+if [ $1 = 'nano-pi-duo2' ]
+then
+    export LINARO_HOME=/opt/toolchains/linaro/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf
+    export ROOT_FS=/opt/toolchains/linaro/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf
+    export PATH=$LINARO_HOME/bin:$PATH
+    export TARGET_HOST=arm-linux-gnueabihf
+    export AR=$TARGET_HOST-ar
+    export AS=$TARGET_HOST-as
+    export RANLIB=$TARGET_HOST-ranlib
+    export STRIP=$TARGET_HOST-strip
+    export LD=$TARGET_HOST-ld
+    export CC=$TARGET_HOST-gcc
+    export CXX=$TARGET_HOST-g++
+
+    cmake -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_FIND_ROOT_PATH=$ROOT_FS -DCMAKE_BUILD_TYPE=Release ../..
+else
+    cmake -DCMAKE_BUILD_TYPE=Release ../..
+fi
+
+
 make -j
 
 rm -rfv $TARGET/usr

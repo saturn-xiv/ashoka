@@ -2,6 +2,7 @@
 #define ASHOKA_NUT_H_
 
 #include "common.h"
+#include "nut.pb.h"
 
 namespace ashoka
 {

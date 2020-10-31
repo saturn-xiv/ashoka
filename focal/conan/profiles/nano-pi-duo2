@@ -18,7 +18,6 @@ os=Linux
 os_build=Linux
 arch=armv7hf
 arch_build=x86_64
-arch_target=$target_host
 compiler=gcc
 compiler.version=$toolchain_version
 compiler.libcxx=libstdc++11

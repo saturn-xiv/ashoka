@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class ProtobufConan(ConanFile):
     name = "protobuf"
-    version = "3.13.0.1"
+    version = "3.13.0"
     license = "https://github.com/protocolbuffers/protobuf/blob/master/LICENSE"
     author = "Jeremy Zheng"
     url = "https://github.com/protocolbuffers/protobuf"
@@ -27,8 +27,9 @@ class ProtobufConan(ConanFile):
 
     def package(self):
         self.copy("*.h", dst="include", src="protobuf/src")
+        self.copy("*.inc", dst="include", src="protobuf/src")
         self.copy("*.proto", dst="include", src="protobuf/src")
-        self.copy("protoc-*", dst="bin", keep_path=False)
+        self.copy("protoc", dst="bin", keep_path=False)
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
