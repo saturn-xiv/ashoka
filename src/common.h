@@ -20,16 +20,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
-// #include <pistache/common.h>
-// #include <pistache/cookie.h>
-// #include <pistache/endpoint.h>
-// #include <pistache/http.h>
-// #include <pistache/http_headers.h>
-// #include <pistache/net.h>
-// #include <pistache/peer.h>
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
+
 #include <toml.hpp>
 
 #include "config.h"

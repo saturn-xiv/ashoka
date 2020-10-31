@@ -77,11 +77,11 @@ namespace ashoka
                             catch (std::exception &e)
                             {
                                 BOOST_LOG_TRIVIAL(error) << e;
-                                throw std::runtime_error("can't open new " + this->factory.name() + " connection");
+                                throw std::runtime_error("can't open new " + this->factory->name() + " connection");
                             }
                         }
                     }
-                    throw std::out_of_range("pool " + this->factory.name() + " is full");
+                    throw std::out_of_range("pool " + this->factory->name() + " is full");
                 }
 
                 std::shared_ptr<Connection> con = this->pool.front();
