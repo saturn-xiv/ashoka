@@ -17,8 +17,9 @@ class LibsodiumConan(ConanFile):
     generators = "make"
 
     def source(self):
-        tools.get(
-            "https://download.libsodium.org/libsodium/releases/libsodium-1.0.18.tar.gz")
+        # tools.get(
+        #     "")
+        tools.get(**self.conan_data["sources"][self.version])
 
         os.rename(self.name + "-" + self.version, self.name)
         # git = tools.Git(folder="libsodium")
@@ -31,7 +32,7 @@ class LibsodiumConan(ConanFile):
             autotools.make()
 
     def package(self):
-        self.copy("*.h", dst="include", src="libsodium")
+        self.copy("*.h", dst="include", src="libsodium/src/libsodium/include")
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):

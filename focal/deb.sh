@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 1 ] ; then
-    echo 'Please specify your arch: x86_64, armv7hf'
+    echo 'Please specify your arch: x86_64, nano-pi-duo2'
     exit 1
 fi
 
@@ -28,8 +28,8 @@ rm -rfv $WORKSPACE/build/$1
 mkdir -pv $WORKSPACE/build/$1
 cd $WORKSPACE/build/$1
 
-conan install --build=missing .. --profile ../../
-cmake -DCMAKE_BUILD_TYPE=Release ../../focal/conan/profile
+conan install --build=missing ../.. --profile ../../focal/conan/profiles/$1
+cmake -DCMAKE_BUILD_TYPE=Release ../..
 make -j
 
 rm -rfv $TARGET/usr

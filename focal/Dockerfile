@@ -47,9 +47,9 @@ RUN sh -c ". $HOME/.profile \
     && cd $HOME/workspace/ashoka \
     && git checkout cpp \
     && git pull \
-    && cd $HOME/workspace/ashoka/focal/conan/packages/jwtpp && conan create . jeremy/local \
-    && cd $HOME/workspace/ashoka/focal/conan/packages/hiredis && conan create . jeremy/local \
-    && cd $HOME/workspace/ashoka/focal/conan/packages/libsodium && conan create . jeremy/local \
+    && cd $HOME/workspace/ashoka/focal/conan/recipes/hiredis && conan create . jeremy/local \
+    && cd $HOME/workspace/ashoka/focal/conan/recipes/libsodium && conan create . jeremy/local \
+    && cd $HOME/workspace/ashoka/focal/conan/recipes/jwtpp && conan create . jeremy/local \
     && mkdir $HOME/workspace/ashoka/build && cd $HOME/workspace/ashoka/build && conan install --build=missing .. --profile ../focal/conan/profiles/x86_64"
 
 ADD packages /opt/packages

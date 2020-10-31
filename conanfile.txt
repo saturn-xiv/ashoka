@@ -11,9 +11,9 @@ libgit2/1.0.1
 libssh2/1.9.0
 imgui/1.79
 protobuf/3.11.4
-rapidjson/1.1.0
 tomlplusplus/2.2.0
 cpprestsdk/2.10.16
+jsoncpp/1.9.4
 jwtpp/2.0.3@jeremy/local
 # hiredis/1.0.0
 hiredis/2020.10.29@jeremy/local
