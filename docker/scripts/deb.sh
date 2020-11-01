@@ -2,11 +2,25 @@
 
 set -e
 
-if [ $# -ne 1 ] ; then
-    echo 'Please specify your arch: x86_64, nano-pi-duo2'
+if [ $# -ne 2 ] ; then
+    echo 'Please specify your arch: x64, arm AND project name'
     exit 1
 fi
 
+if [ $1 = "arm" ]
+then
+    export TARGET_HOST=arm-linux-gnueabihf
+    export AR=$TARGET_HOST-ar
+    export AS=$TARGET_HOST-as
+    export RANLIB=$TARGET_HOST-ranlib
+    export STRIP=$TARGET_HOST-strip
+    export LD=$TARGET_HOST-ld
+    export CC=$TARGET_HOST-gcc
+    export CXX=$TARGET_HOST-g++
+else
+fi
+
+arm-linux-gnueabihf
 export WORKSPACE=$PWD
 export TARGET=$WORKSPACE/ubuntu
 

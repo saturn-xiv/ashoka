@@ -7,8 +7,10 @@ ADD scripts /ashoka
 RUN /ashoka/ubuntu.sh
 
 USER deploy
-RUN sh -c "$( https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 RUN /ashoka/deploy.sh
+ADD packages /opt/packages
+RUN /ashoka/cross-chain.sh
 
 VOLUME /workspace
 WORKDIR /workspace
