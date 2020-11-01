@@ -7,6 +7,8 @@ if [ $# -ne 2 ] ; then
     exit 1
 fi
 
+export WORKSPACE=$PWD
+
 export CMAKE_BUILD_TYPE=Release
 if [ $1 = "linaro" ]
 then
@@ -25,6 +27,15 @@ then
     export CMAKE_SYSTEM_PROCESSOR=arm
     export CMAKE_C_COMPILER=$LINARO_HOME/bin/$CC
     export CMAKE_CXX_COMPILER=$LINARO_HOME/bin/$CXX
+
+    sudo apt -y install libpq-dev:armhf libsqlite3-dev:armhf \
+        libssl-dev:armhf libboost-all-dev:armhf libjsoncpp-dev:armhf
+else
+    sudo apt -y install g++-9 \
+        libpq-dev libsqlite3-dev \
+        libssl-dev libboost-all-dev libjsoncpp-dev
+    export CMAKE_C_COMPILER=gcc-9
+    export CMAKE_CXX_COMPILER=g++-9
 fi
 
 

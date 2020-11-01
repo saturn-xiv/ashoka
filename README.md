@@ -5,11 +5,9 @@ A web application by C++ and React.
 ## Usage
 
 ```bash
-$ sudo apt-get install git cmake build-essential boost-dev openssl-dev
 $ git clone https://github.com/saturn-xiv/ashoka.git
-$ cd ashoka
-$ mkdir build
-$ cd build
-$ cmake -DCMAKE_BUILD_TYPE=Release ..
-$ make -j
+$ cd ashoka/docker && ./build.sh && cd -
+$ docker run --rm -it --network host -v `pwd`:/workspace ashoka-xenial # bionic, focal
+$ ./docker/scripts/deb.sh x64 demo
+
 ```
