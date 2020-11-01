@@ -37,6 +37,7 @@ include_directories(
     ${jwtpp_SOURCE_DIR}/include/export
     ${cpprestsdk_SOURCE_DIR}/Release/include
     ${inja_SOURCE_DIR}/single_include/inja
+    ${inja_SOURCE_DIR}/third_party/include
     ${paho_mqtt_SOURCE_DIR}/src
 )
 
@@ -45,8 +46,11 @@ target_link_libraries(ashoka PRIVATE
     ${OPENSSL_LIBRARIES}
     ${Boost_LIBRARIES}
     hiredis_static jwtpp-static nlohmann_json cpprest paho-mqtt3a-static
-    pq sqlite3 zmq ssh2 git2 fltk fltk_images fltk_forms
+    sodium pq sqlite3 zmq ssh2 git2 fltk fltk_images fltk_forms
 )
 
+include(CTest)
+enable_testing()
+add_subdirectory(test)
 
     

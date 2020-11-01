@@ -3,7 +3,7 @@
 
 #include <libpq-fe.h>
 
-#include "common.h"
+#include "pool.h"
 
 namespace ashoka
 {

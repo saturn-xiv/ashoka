@@ -1,7 +1,17 @@
 #ifndef ASHOKA_POOL_H_
 #define ASHOKA_POOL_H_
 
-#include "common.h"
+#include <memory>
+#include <mutex>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+
+#include <boost/log/trivial.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 
 namespace ashoka
 {

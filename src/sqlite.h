@@ -3,8 +3,6 @@
 
 #include <sqlite3.h>
 
-#include "common.h"
-
 namespace ashoka
 {
     class Sqlite

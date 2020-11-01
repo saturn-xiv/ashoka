@@ -1,6 +1,8 @@
 #ifndef ASHOKA_MQTT_H_
 #define ASHOKA_MQTT_H_
 
-#include "common.h"
+#include <MQTTClient.h>
+
+#include "pool.h"
 
 #endif

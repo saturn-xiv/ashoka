@@ -5,7 +5,7 @@
 #include <amqp_framing.h>
 #include <amqp_tcp_socket.h>
 
-#include "common.h"
+#include "pool.h"
 
 namespace ashoka
 {
