@@ -17,6 +17,9 @@ find_package(Boost REQUIRED log_setup log thread system filesystem regex timer d
 include(third/jwtpp.cmake)
 include(third/hiredis.cmake)
 include(third/cpprestsdk.cmake)
+include(third/nlohmann_json.cmake)
+include(third/inja.cmake)
+include(third/paho_mqtt.cmake)
 
 aux_source_directory(src DIR_SRCS)
 execute_process(COMMAND git describe --tags --always --dirty
@@ -33,15 +36,16 @@ include_directories(
     ${hiredis_SOURCE_DIR}
     ${jwtpp_SOURCE_DIR}/include/export
     ${cpprestsdk_SOURCE_DIR}/Release/include
+    ${inja_SOURCE_DIR}/single_include/inja
+    ${paho_mqtt_SOURCE_DIR}/src
 )
 
 target_link_libraries(ashoka PRIVATE
     ${CMAKE_THREAD_LIBS_INIT}
     ${OPENSSL_LIBRARIES}
     ${Boost_LIBRARIES}
-    hiredis_static jwtpp-static
-    cpprest
-    pq sqlite3
+    hiredis_static jwtpp-static nlohmann_json cpprest paho-mqtt3a-static
+    pq sqlite3 zmq ssh2 git2 fltk fltk_images fltk_forms
 )
 
 

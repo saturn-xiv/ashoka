@@ -2,7 +2,7 @@ Package: ashoka
 Version: 2020-10-26
 Section: net
 Priority: optional
-Depends: 
+Depends: libpq-dev,libsqlite3-dev,libssl-dev,libboost-all-dev,libjsoncpp-dev,libczmq-dev,libfltk1.3-dev,libgit2-dev,libssh2-dev
 Suggests: 
 Architecture: amd64
 Installed-Size: 66666

@@ -53,7 +53,9 @@
 #include <cpprest/rawptrstream.h>
 #include <cpprest/uri.h>
 #include <cpprest/ws_client.h>
+#include <inja.hpp>
 #include <json/json.h>
+#include <nlohmann/json.hpp>
 
 #include "config.h"
 // #if BOOST_ARCH_X86_64

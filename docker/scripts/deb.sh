@@ -29,11 +29,13 @@ then
     export CMAKE_CXX_COMPILER=$LINARO_HOME/bin/$CXX
 
     sudo apt -y install libpq-dev:armhf libsqlite3-dev:armhf \
-        libssl-dev:armhf libboost-all-dev:armhf libjsoncpp-dev:armhf
+        libssl-dev:armhf libboost-all-dev:armhf libjsoncpp-dev:armhf \
+        libczmq-dev:armhf libfltk1.3-dev:armhf
 else
     sudo apt -y install g++-9 \
         libpq-dev libsqlite3-dev \
-        libssl-dev libboost-all-dev libjsoncpp-dev
+        libssl-dev libboost-all-dev libjsoncpp-dev \
+        libczmq-dev libfltk1.3-dev libgit2-dev libssh2-dev
     export CMAKE_C_COMPILER=gcc-9
     export CMAKE_CXX_COMPILER=g++-9
 fi
@@ -42,7 +44,7 @@ fi
 mkdir -pv $WORKSPACE/build/$1
 cd $WORKSPACE/build/$1
 cmake ../..
-make -j
+make
 
 rm -rfv $TARGET/usr
 mkdir -pv $TARGET/usr/bin
