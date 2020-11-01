@@ -7,7 +7,6 @@ apt -y upgrade
 apt -y install software-properties-common
 add-apt-repository ppa:ubuntu-toolchain-r/test -y
 add-apt-repository ppa:deadsnakes/ppa -y
-add-apt-repository ppa:linaro-maintainers/overlay -y
 apt update
 apt -y install zsh git locales rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget yasm \
