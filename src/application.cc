@@ -40,7 +40,7 @@ int ashoka::Application::run(int argc, char **argv)
 
     boost::property_tree::ptree cfg;
     boost::property_tree::read_ini(config, cfg);
-    // std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
+    std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
 
     ashoka::Server server = ashoka::Server(8080);
     server.listen();

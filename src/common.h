@@ -43,6 +43,17 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
+#include <cpprest/containerstream.h>
+#include <cpprest/filestream.h>
+#include <cpprest/http_client.h>
+#include <cpprest/http_listener.h>
+#include <cpprest/interopstream.h>
+#include <cpprest/json.h>
+#include <cpprest/producerconsumerstream.h>
+#include <cpprest/rawptrstream.h>
+#include <cpprest/uri.h>
+#include <cpprest/ws_client.h>
+#include <json/json.h>
 
 #include "config.h"
 // #if BOOST_ARCH_X86_64
