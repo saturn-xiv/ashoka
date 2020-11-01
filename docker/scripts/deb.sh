@@ -3,12 +3,15 @@
 set -e
 
 if [ $# -ne 2 ] ; then
-    echo 'Please specify your arch: x64, arm AND project name'
+    echo 'Please specify your arch(x64, linaro) AND project name'
     exit 1
 fi
 
-if [ $1 = "arm" ]
+export CMAKE_BUILD_TYPE=Release
+if [ $1 = "linaro" ]
 then
+    export LINARO_HOME=/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf
+    export HOME=$LINARO_HOME/bin:$HOME
     export TARGET_HOST=arm-linux-gnueabihf
     export AR=$TARGET_HOST-ar
     export AS=$TARGET_HOST-as
@@ -17,44 +20,17 @@ then
     export LD=$TARGET_HOST-ld
     export CC=$TARGET_HOST-gcc
     export CXX=$TARGET_HOST-g++
-else
+
+    export CMAKE_SYSTEM_NAME=Linux
+    export CMAKE_SYSTEM_PROCESSOR=arm
+    export CMAKE_C_COMPILER=$LINARO_HOME/bin/$CC
+    export CMAKE_CXX_COMPILER=$LINARO_HOME/bin/$CXX
 fi
 
-arm-linux-gnueabihf
-export WORKSPACE=$PWD
-export TARGET=$WORKSPACE/ubuntu
 
-# if [ $1 = 'x86_64' ]
-# then
-#     export $CONAN_PROFILE=$1
-# elif [ $1 = 'nano-pi-duo2' ]
-# then
-#     export 
-# else
-#     echo "Unknown arch $1"
-#     exit 1
-# fi
-
-if [ ! -f $WORKSPACE/focal/conan/profiles/$1 ]
-then
-    echo "can't find profile $1"
-    exit 1
-fi
-
-rm -rfv $WORKSPACE/build/$1
 mkdir -pv $WORKSPACE/build/$1
 cd $WORKSPACE/build/$1
-
-conan install --build=missing ../.. --profile ../../focal/conan/profiles/$1
-
-
-if [ $1 = 'nano-pi-duo2' ]
-then
-else
-    cmake -DCMAKE_BUILD_TYPE=Release ../..
-fi
-
-
+cmake ../..
 make -j
 
 rm -rfv $TARGET/usr
