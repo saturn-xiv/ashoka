@@ -1,7 +1,6 @@
 #ifndef ASHOKA_ROUTER_H_
 #define ASHOKA_ROUTER_H_
 
-#include "common.h"
 #include "redis.h"
 
 namespace ashoka
@@ -16,7 +15,7 @@ namespace ashoka
         ~HttpRouter();
 
     private:
-        };
+    };
 
 } // namespace ashoka
 

@@ -1,10 +1,9 @@
 #ifndef ASHOKA_POSTGRESQL_H_
 #define ASHOKA_POSTGRESQL_H_
 
-#include <iostream>
-#include <string>
-
 #include <libpq-fe.h>
+
+#include "common.h"
 
 namespace ashoka
 {

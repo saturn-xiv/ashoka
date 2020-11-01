@@ -5,4 +5,6 @@ int main(int argc, char **argv)
 {
     ashoka::Application app;
     return app.run(argc, argv);
+
+    return 0;
 }

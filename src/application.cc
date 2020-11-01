@@ -6,11 +6,11 @@
 
 int ashoka::Application::run(int argc, char **argv)
 {
-    if (sodium_init() < 0)
-    {
-        BOOST_LOG_TRIVIAL(error) << "can't init sodium";
-        return EXIT_FAILURE;
-    }
+    // if (sodium_init() < 0)
+    // {
+    //     BOOST_LOG_TRIVIAL(error) << "can't init sodium";
+    //     return EXIT_FAILURE;
+    // }
     boost::program_options::options_description desc("Allowed options");
 
     desc.add_options()("config,c", boost::program_options::value<std::string>()->default_value("config.ini"), "configuration file(ini)")("debug,d", boost::program_options::bool_switch(), "debug mode")("version,v", "print version")("help,h", "display argument help information");
@@ -40,7 +40,7 @@ int ashoka::Application::run(int argc, char **argv)
 
     boost::property_tree::ptree cfg;
     boost::property_tree::read_ini(config, cfg);
-    std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
+    // std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
 
     ashoka::Server server = ashoka::Server(8080);
     server.listen();

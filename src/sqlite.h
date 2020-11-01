@@ -1,9 +1,9 @@
 #ifndef ASHOKA_SQLITE_H_
 #define ASHOKA_SQLITE_H_
 
-#include <string>
-
 #include <sqlite3.h>
+
+#include "common.h"
 
 namespace ashoka
 {

@@ -2,7 +2,6 @@
 #define ASHOKA_REDIS_H_
 
 #include <hiredis.h>
-#include <hiredis_ssl.h>
 
 #include "pool.h"
 

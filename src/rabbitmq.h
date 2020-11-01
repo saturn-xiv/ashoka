@@ -1,11 +1,11 @@
 #ifndef ASHOKA_RABBITMQ_H_
 #define ASHOKA_RABBITMQ_H_
 
-#include <string>
-
 #include <amqp.h>
 #include <amqp_framing.h>
 #include <amqp_tcp_socket.h>
+
+#include "common.h"
 
 namespace ashoka
 {
