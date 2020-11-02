@@ -5,17 +5,6 @@
 
 #include <boost/log/trivial.hpp>
 
-// #include "ancient.h"
-
-// #ifdef __cpp_lib_filesystem
-#include <filesystem>
-// using fs = std::filesystem;
-// #elif __cpp_lib_experimental_filesystem
-// #include <experimental/filesystem>
-// using fs = std::experimental::filesystem;
-// #else
-// #endif
-
 namespace ashoka
 {
     namespace hardware
@@ -30,7 +19,7 @@ namespace ashoka
         class Audio
         {
         public:
-            void play(const std::filesystem::path &file);
+            void play(const std::string &file);
             void stop();
         };
 

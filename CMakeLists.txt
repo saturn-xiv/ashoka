@@ -20,6 +20,7 @@ include(third/cpprestsdk.cmake)
 include(third/nlohmann_json.cmake)
 include(third/inja.cmake)
 include(third/paho_mqtt.cmake)
+include(third/libpqxx.cmake)
 
 aux_source_directory(src DIR_SRCS)
 execute_process(COMMAND git describe --tags --always --dirty
@@ -39,14 +40,17 @@ include_directories(
     ${inja_SOURCE_DIR}/single_include/inja
     ${inja_SOURCE_DIR}/third_party/include
     ${paho_mqtt_SOURCE_DIR}/src
+    ${libpqxx_SOURCE_DIR}/include
 )
 
 target_link_libraries(ashoka PRIVATE
     ${CMAKE_THREAD_LIBS_INIT}
     ${OPENSSL_LIBRARIES}
     ${Boost_LIBRARIES}
-    hiredis_static jwtpp-static nlohmann_json cpprest paho-mqtt3a-static
-    sodium pq sqlite3 zmq ssh2 git2 fltk fltk_images fltk_forms
+    hiredis_static jwtpp-static nlohmann_json paho-mqtt3a-static pqxx cpprest    
+    jsoncpp
+    sodium pq sqlite3 zmq ssh2 git2 
+    fltk fltk_images fltk_forms
 )
 
 include(CTest)

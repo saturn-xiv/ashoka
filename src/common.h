@@ -43,13 +43,12 @@
 #define APPLICATION_JSON_UTF8 "application/json; charset=UTF-8"
 #define TEXT_HTML_UTF8 "text/html; charset=UTF-8"
 
+// https://en.cppreference.com/w/User:D41D8CD98F/feature_testing_macros
+
 // #ifdef __cpp_lib_filesystem
 // #include <filesystem>
-// using fs = std::filesystem;
-// #elif __cpp_lib_experimental_filesystem
-// #include <experimental/filesystem>
-// using fs = std::experimental::filesystem;
 // #else
+// #include <experimental/filesystem>
 // #endif
 
 #endif

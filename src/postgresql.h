@@ -1,7 +1,7 @@
 #ifndef ASHOKA_POSTGRESQL_H_
 #define ASHOKA_POSTGRESQL_H_
 
-#include <libpq-fe.h>
+#include <pqxx/pqxx>
 
 #include "pool.h"
 

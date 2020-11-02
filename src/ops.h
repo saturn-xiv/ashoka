@@ -2,11 +2,9 @@
 #define ASHOKA_DEPLOYMENT_H_
 
 #include <ctime>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -14,6 +12,16 @@
 #include <boost/log/trivial.hpp>
 #include <inja.hpp>
 #include <nlohmann/json.hpp>
+
+#ifdef __cpp_lib_optional
+#include <optional>
+using std_optional_string = std::optional<std::string>;
+using std_optional_unsigned_short = std::optional<unsigned short>;
+#else
+#include <experimental/optional>
+using std_optional_string = std::experimental::optional<std::string>;
+using std_optional_unsigned_short = std::experimental::optional<unsigned short>;
+#endif
 
 namespace ashoka
 {
@@ -98,10 +106,10 @@ namespace ashoka
                 void log(const std::string &message);
 
                 std::string host;
-                std::optional<unsigned int> port;
-                std::optional<std::string> user;
-                std::optional<std::string> password;
-                std::optional<std::string> key;
+                std_optional_unsigned_short port;
+                std_optional_string user;
+                std_optional_string password;
+                std_optional_string key;
             };
 
             class Job

@@ -2,7 +2,7 @@
 
 void ashoka::ops::deploy::Recipe::execute()
 {
-    BOOST_LOG_TRIVIAL(info) << "run recipe [" << this.name << "]";
+    BOOST_LOG_TRIVIAL(info) << "run recipe [" << this->name << "]";
     // for (auto)
 }
 
