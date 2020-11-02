@@ -35,7 +35,7 @@ else
     sudo apt -y install g++-9 \
         libpq-dev libsqlite3-dev \
         libssl-dev libsodium-dev libboost-all-dev libjsoncpp-dev \
-        libczmq-dev libfltk1.3-dev libgit2-dev libssh2-dev
+        libczmq-dev libfltk1.3-dev libgit2-dev libssh2-1-dev
     export CMAKE_C_COMPILER=gcc-9
     export CMAKE_CXX_COMPILER=g++-9
 fi

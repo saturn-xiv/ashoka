@@ -8,7 +8,7 @@ cd build
 
 CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release ..
 
-ln -s ../config.ini ./
+ln -s ../config.ini ../staging.json ../staging ../tasks ./
 
 echo 'done.'
 
