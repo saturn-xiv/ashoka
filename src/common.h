@@ -3,7 +3,6 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <deque>
 #include <exception>
 #include <iomanip>
 #include <iostream>
@@ -16,6 +15,8 @@
 #include <string>
 #include <thread>
 #include <unistd.h>
+
+#define BOOST_ALL_DYN_LINK 1
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/foreach.hpp>
@@ -42,13 +43,5 @@
 
 #define APPLICATION_JSON_UTF8 "application/json; charset=UTF-8"
 #define TEXT_HTML_UTF8 "text/html; charset=UTF-8"
-
-// https://en.cppreference.com/w/User:D41D8CD98F/feature_testing_macros
-
-// #ifdef __cpp_lib_filesystem
-// #include <filesystem>
-// #else
-// #include <experimental/filesystem>
-// #endif
 
 #endif
