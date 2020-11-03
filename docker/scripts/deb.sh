@@ -32,14 +32,15 @@ then
         libssl-dev:armhf libsodium-dev:armhf libboost-all-dev:armhf libjsoncpp-dev:armhf \
         libczmq-dev:armhf libfltk1.3-dev:armhf
 else
-    sudo apt -y install g++-10 \
+    # https://github.com/microsoft/cpprestsdk/pull/1462
+    sudo apt -y install g++-9 \
         libpq-dev postgresql-server-dev-all libsqlite3-dev \
         libssl-dev libsodium-dev libboost-all-dev libjsoncpp-dev \
         libczmq-dev libfltk1.3-dev libgit2-dev libssh2-1-dev
-    export CC=gcc-10
-    export CXX=g++-10
-    export CMAKE_C_COMPILER=gcc-10
-    export CMAKE_CXX_COMPILER=g++-10
+    export CC=gcc-9
+    export CXX=g++-9
+    export CMAKE_C_COMPILER=gcc-9
+    export CMAKE_CXX_COMPILER=g++-9
 fi
 
 
@@ -57,7 +58,7 @@ mkdir -pv $TARGET/etc/ashoka
 cp $WORKSPACE/LICENSE $WORKSPACE/config.ini $TARGET/etc/ashoka/
 
 cd $WORKSPACE
-dpkg -b ubuntu ashoka-$(git describe --tags --always --dirty --first-parent).deb
+dpkg -b ubuntu $2-$1-$(lsb_release -cs)-$(git describe --tags --always --dirty --first-parent).deb
 
 echo 'done'
 

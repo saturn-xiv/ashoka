@@ -2,7 +2,6 @@ include(FetchContent)
 
 set(PAHO_BUILD_STATIC TRUE)
 set(PAHO_BUILD_SHARED FALSE)
-set(PAHO_WITH_SSL TRUE)
 FetchContent_Declare(
     paho_mqtt
     GIT_REPOSITORY      "https://github.com/eclipse/paho.mqtt.c.git"
