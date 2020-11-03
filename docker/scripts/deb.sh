@@ -49,9 +49,11 @@ cd $WORKSPACE/build/$1
 cmake ../..
 make
 
+export TARGET=$WORKSPACE/ubuntu
 rm -rfv $TARGET/usr
 mkdir -pv $TARGET/usr/bin
-cp -av bin/ashoka $TARGET/usr/bin/
+cp -av ashoka $TARGET/usr/bin/
+strip -s $TARGET/usr/bin/ashoka
 
 rm -rfv $TARGET/etc
 mkdir -pv $TARGET/etc/ashoka
