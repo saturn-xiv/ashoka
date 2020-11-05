@@ -13,18 +13,17 @@
                 "root@192.168.8.21",
                 "root@192.168.8.22",
                 "root@192.168.8.23",
-                "root@192.168.8.24"
+                "root@192.168.8.24",
+                "deploy@192.168.8.20"
             ],
-            "tasks": [ "hi", "ping"]            
+            "tasks": [ 
+                {"type":"script", "file": "hi"}, 
+                {"type":"script", "file": "ping"}
+            ]            
         }, {
             "name": "orange job",
             "hosts": [
-                "deploy@192.168.8.25"
-            ],
-            "tasks": [ "ping" ]
-        }, {
-            "name": "vpc job",
-            "hosts": [
+                "root@192.168.8.25",
                 "deploy@192.168.8.20"
             ],
             "tasks": [ "ping" ]
@@ -46,6 +45,9 @@
         },
         {
             "host": "192.168.8.24"
+        },
+        {
+            "host": "192.168.8.25"
         }
     ]
 }

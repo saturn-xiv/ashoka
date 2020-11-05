@@ -2,9 +2,11 @@
 #define ASHOKA_DEPLOYMENT_H_
 
 #include <ctime>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -12,16 +14,6 @@
 #include <boost/log/trivial.hpp>
 #include <inja.hpp>
 #include <nlohmann/json.hpp>
-
-#ifdef __cpp_lib_optional
-#include <optional>
-using std_optional_string = std::optional<std::string>;
-using std_optional_unsigned_short = std::optional<unsigned short>;
-#else
-#include <experimental/optional>
-using std_optional_string = std::experimental::optional<std::string>;
-using std_optional_unsigned_short = std::experimental::optional<unsigned short>;
-#endif
 
 namespace ashoka
 {
@@ -59,7 +51,7 @@ namespace ashoka
                     j.at("host").get_to(p.host);
                     if (j.contains("port"))
                     {
-                        p.port = j.at("port").get<unsigned short int>();
+                        p.port = j.at("port").get<unsigned short>();
                     }
                     if (j.contains("user"))
                     {
@@ -76,6 +68,8 @@ namespace ashoka
                 }
 
                 void execute(const std::string task, std::map<std::string, std::string> env);
+                bool is_local();
+
                 friend std::ostream &operator<<(std::ostream &out, const Client &self)
                 {
                     if (self.user)
@@ -106,10 +100,10 @@ namespace ashoka
                 void log(const std::string &message);
 
                 std::string host;
-                std_optional_unsigned_short port;
-                std_optional_string user;
-                std_optional_string password;
-                std_optional_string key;
+                std::optional<unsigned short> port;
+                std::optional<std::string> user;
+                std::optional<std::string> password;
+                std::optional<std::string> key;
             };
 
             class Job
@@ -202,6 +196,8 @@ namespace ashoka
                 std::vector<Client> clients;
                 std::vector<Job> jobs;
                 std::map<std::string, std::string> env;
+
+                std::map<std::string, std::vector<std::string>> orders();
             };
 
         } // namespace deploy

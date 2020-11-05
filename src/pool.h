@@ -1,6 +1,7 @@
 #ifndef ASHOKA_POOL_H_
 #define ASHOKA_POOL_H_
 
+#include <deque>
 #include <memory>
 #include <mutex>
 #include <set>

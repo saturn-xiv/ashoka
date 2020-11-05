@@ -16,8 +16,6 @@
 #include <thread>
 #include <unistd.h>
 
-#define BOOST_ALL_DYN_LINK 1
-
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/foreach.hpp>
 #include <boost/lambda/lambda.hpp>
