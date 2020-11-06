@@ -6,6 +6,6 @@ set(PAHO_BUILD_STATIC TRUE)
 FetchContent_Declare(
     paho_mqtt
     GIT_REPOSITORY      "https://github.com/eclipse/paho.mqtt.c.git"
-    GIT_TAG             "v1.3.6"
+    GIT_TAG             "e4c3757" # fix static link error
 )
 FetchContent_MakeAvailable(paho_mqtt)
