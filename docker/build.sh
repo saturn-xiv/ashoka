@@ -6,6 +6,7 @@ docker pull ubuntu:latest
 docker pull ubuntu:bionic
 docker pull ubuntu:xenial
 docker pull debian:buster
+docker pull alpine:latest
 
 declare -a features=(    
     "focal"  
