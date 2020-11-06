@@ -58,8 +58,10 @@ target_link_libraries(ashoka PRIVATE
     
     hiredis_static 
     jwtpp-static 
-    nlohmann_json 
-    paho-mqtt3a-static 
+    nlohmann_json
+    # ${paho_mqtt_LIBRARIES}/
+    # libpaho-mqtt3a.a
+    paho-mqtt3a-static
     # cpprest    
     # jsoncpp
     # pq  pqxx
