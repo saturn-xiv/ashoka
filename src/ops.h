@@ -12,7 +12,7 @@
 #include <vector>
 
 #include <boost/log/trivial.hpp>
-#include <inja.hpp>
+#include <inja/inja.hpp>
 #include <nlohmann/json.hpp>
 
 namespace ashoka

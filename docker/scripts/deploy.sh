@@ -8,6 +8,8 @@ python3.10 /tmp/get-pip.py
 . $HOME/.profile
 pip install --user cmake
 pip install --user conan
+. $HOME/.profile
+conan remote add null-gate https://api.bintray.com/conan/null-gate/ashoka
 
 # https://github.com/nvm-sh/nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | sh

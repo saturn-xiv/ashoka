@@ -22,7 +22,7 @@ then
     #     pkg-config-arm-linux-gnueabihf
     export PKG_CONFIG_ALLOW_CROSS=1
     export PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig
-    conan install ../.. --profile=../docker/conan/profiles/$1 --build=missing
+    conan install ../.. --profile=../../docker/conan/profiles/$1 --build=missing
     cmake -DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/third/$1.cmake -DCMAKE_BUILD_TYPE=Release ../..
 else
     # https://github.com/microsoft/cpprestsdk/pull/1462
@@ -31,7 +31,7 @@ else
     #     libssl-dev libsodium-dev libboost-all-dev libjsoncpp-dev \
     #     libczmq-dev libfltk1.3-dev libgit2-dev libssh2-1-dev
     sudo apt -y install g++-9
-    conan install ../.. --profile=../../docker/conan/profiles/bionic --build=missing
+    conan install ../.. --profile=../../docker/conan/profiles/gcc9 --build=missing
     cmake -DCMAKE_C_COMPILER=gcc-9 -DCMAKE_CXX_COMPILER=g++-9 -DCMAKE_BUILD_TYPE=Release ../..
 fi
 
