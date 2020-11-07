@@ -3,7 +3,8 @@ target_host=arm-linux-gnueabihf
 toolchain_root=/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf
 toolchain_prefix=arm-linux-gnueabihf
 toolchain_version=7.5
-root_fs=/opt/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf
+#root_fs=/opt/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf
+root_fs=/opt/nano-duo2/rootfs
 
 [settings]
 os=Linux

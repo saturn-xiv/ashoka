@@ -20,19 +20,17 @@ then
     #     libssl-dev:armhf libsodium-dev:armhf libboost-all-dev:armhf libjsoncpp-dev:armhf \
     #     libczmq-dev:armhf libfltk1.3-dev:armhf \
     #     pkg-config-arm-linux-gnueabihf
-    export PKG_CONFIG_ALLOW_CROSS=1
-    export PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig
-    conan install ../.. --profile=../../docker/conan/profiles/$1 --build=missing
-    cmake -DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/third/$1.cmake -DCMAKE_BUILD_TYPE=Release ../..
+    # export PKG_CONFIG_ALLOW_CROSS=1
+    # export PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig
+
+    # apt --yes --force-yes -o Dpkg::Options::="--force-confnew" upgrade
+    conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/$1 --build=missing
+    cmake -DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/$1.cmake -DCMAKE_BUILD_TYPE=Release $WORKSPACE
 else
     # https://github.com/microsoft/cpprestsdk/pull/1462
-    # sudo apt -y install g++-9 \
-    #     libpq-dev postgresql-server-dev-all libsqlite3-dev \
-    #     libssl-dev libsodium-dev libboost-all-dev libjsoncpp-dev \
-    #     libczmq-dev libfltk1.3-dev libgit2-dev libssh2-1-dev
     sudo apt -y install g++-9
-    conan install ../.. --profile=../../docker/conan/profiles/gcc9 --build=missing
-    cmake -DCMAKE_C_COMPILER=gcc-9 -DCMAKE_CXX_COMPILER=g++-9 -DCMAKE_BUILD_TYPE=Release ../..
+    conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/gcc9 --build=missing
+    cmake -DCMAKE_C_COMPILER=gcc-9 -DCMAKE_CXX_COMPILER=g++-9 -DCMAKE_BUILD_TYPE=Release $WORKSPACE
 fi
 
 make

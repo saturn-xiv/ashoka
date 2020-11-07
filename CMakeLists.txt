@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-find_package(Threads REQUIRED)
+# find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED Crypto SSL)
 find_package(Boost REQUIRED log_setup log thread system filesystem regex timer date_time chrono random  program_options)
 
@@ -28,10 +28,17 @@ include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-target_link_libraries(ashoka PRIVATE
-    # ${CMAKE_THREAD_LIBS_INIT}
-    ${CONAN_LIBS}
-)
+if(CMAKE_CROSSCOMPILING)
+# -static-libgcc -static-libstdc++
+    target_link_libraries(ashoka PRIVATE
+        libgcc.a libstdc++.a libstdc++fs.a ${CONAN_LIBS}
+    )
+else(CMAKE_CROSSCOMPILING)
+    target_link_libraries(ashoka PRIVATE
+        # ${CMAKE_THREAD_LIBS_INIT}
+        ${CONAN_LIBS}
+    )
+endif(CMAKE_CROSSCOMPILING)
 
 include(CTest)
 enable_testing()

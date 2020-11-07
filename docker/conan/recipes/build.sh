@@ -20,10 +20,9 @@ fi
 export WORKSPACE=$PWD
 
 declare -a packages=(    
-    # "hiredis"    
-    # "libsodium"
-    # "jwtpp"
-    "paho_mqtt"
+    "hiredis"    
+    "libsodium"
+    "jwtpp"
 )
 
 for i in "${packages[@]}"
