@@ -32,15 +32,13 @@ if(CMAKE_CROSSCOMPILING)
     SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     SET(CMAKE_EXE_LINKER_FLAGS "-static")
     SET_TARGET_PROPERTIES(ashoka PROPERTIES LINK_SEARCH_END_STATIC 1)
-    target_link_libraries(ashoka PRIVATE
-        stdc++fs ${CONAN_LIBS}
-    )
-else(CMAKE_CROSSCOMPILING)
-    target_link_libraries(ashoka PRIVATE
-        # ${CMAKE_THREAD_LIBS_INIT}
-        ${CONAN_LIBS}
-    )
 endif(CMAKE_CROSSCOMPILING)
+ 
+target_link_libraries(ashoka 
+    # ${CMAKE_THREAD_LIBS_INIT}
+    ${CONAN_LIBS}
+    stdc++fs 
+)
 
 include(CTest)
 enable_testing()
