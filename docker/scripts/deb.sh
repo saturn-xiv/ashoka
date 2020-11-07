@@ -10,19 +10,13 @@ fi
 export WORKSPACE=$PWD
 
 export BUILD_ROOT=$WORKSPACE/build/$2-$1
+rm -rfv $BUILD_ROOT
 mkdir -pv $BUILD_ROOT
 cd $BUILD_ROOT
 
 # sudo apt update
 if [ $1 = "linaro" ]
 then
-    # sudo apt -y install libpq-dev:armhf libsqlite3-dev:armhf \
-    #     libssl-dev:armhf libsodium-dev:armhf libboost-all-dev:armhf libjsoncpp-dev:armhf \
-    #     libczmq-dev:armhf libfltk1.3-dev:armhf \
-    #     pkg-config-arm-linux-gnueabihf
-    # export PKG_CONFIG_ALLOW_CROSS=1
-    # export PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig
-
     # apt --yes --force-yes -o Dpkg::Options::="--force-confnew" upgrade
     conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/$1 --build=missing
     cmake -DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/$1.cmake -DCMAKE_BUILD_TYPE=Release $WORKSPACE

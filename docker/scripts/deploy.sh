@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -9,7 +9,6 @@ python3.10 /tmp/get-pip.py
 pip install --user cmake
 pip install --user conan
 . $HOME/.profile
-conan remote add null-gate https://api.bintray.com/conan/null-gate/ashoka
 
 # https://github.com/nvm-sh/nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | sh
@@ -21,5 +20,18 @@ npm install -g yarn
 echo 'source $HOME/.profile' >> $HOME/.zshrc
 
 git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
+
+declare -a profiles=(    
+    "gcc9"    
+    "linaro"
+)
+
+for i in "${profiles[@]}"
+do
+    cd $HOME/workspace/ashoka/docker/conan/recipes
+    ./build.sh $WORKSPACE/docker/conan/profiles/$i
+    conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/$i --build=missing
+done
+
 
 exit 0

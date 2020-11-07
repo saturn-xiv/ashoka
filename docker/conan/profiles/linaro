@@ -1,10 +1,10 @@
+#https://releases.linaro.org/components/toolchain/binaries/
+
 target_host=arm-linux-gnueabihf
 
 toolchain_root=/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf
-toolchain_prefix=arm-linux-gnueabihf
 toolchain_version=7.5
-#root_fs=/opt/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf
-root_fs=/opt/nano-duo2/rootfs
+root_fs=/opt/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf
 
 [settings]
 os=Linux
@@ -26,10 +26,10 @@ CONAN_CMAKE_FIND_ROOT_PATH=$root_fs
 PATH=[ $toolchain_root/bin ]
 CHOST=$target_host
 USE_DEV_URANDOM=1
-AR=$toolchain_prefix-ar
-AS=$toolchain_prefix-as
-RANLIB=$toolchain_prefix-ranlib
-STRIP=$toolchain_prefix-strip
-LD=$toolchain_prefix-ld
-CC=$toolchain_prefix-gcc
-CXX=$toolchain_prefix-g++
+AR=$target_host-ar
+AS=$target_host-as
+RANLIB=$target_host-ranlib
+STRIP=$target_host-strip
+LD=$target_host-ld
+CC=$target_host-gcc
+CXX=$target_host-g++

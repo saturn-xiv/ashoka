@@ -29,9 +29,11 @@ include_directories(
 )
 
 if(CMAKE_CROSSCOMPILING)
-# -static-libgcc -static-libstdc++
+    SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+    SET(CMAKE_EXE_LINKER_FLAGS "-static")
+    SET_TARGET_PROPERTIES(ashoka PROPERTIES LINK_SEARCH_END_STATIC 1)
     target_link_libraries(ashoka PRIVATE
-        libgcc.a libstdc++.a libstdc++fs.a ${CONAN_LIBS}
+        stdc++fs ${CONAN_LIBS}
     )
 else(CMAKE_CROSSCOMPILING)
     target_link_libraries(ashoka PRIVATE
