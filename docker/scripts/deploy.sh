@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -19,20 +19,11 @@ npm install -g yarn
 
 echo 'source $HOME/.profile' >> $HOME/.zshrc
 
-git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
-git checkout cpp
+export WORKSPACE=$HOME/workspace/ashoka
+git clone -b cpp https://github.com/saturn-xiv/ashoka.git $WORKSPACE
 
-declare -a profiles=(    
-    "gcc9"    
-    "linaro"
-)
-
-for i in "${profiles[@]}"
-do
-    cd $HOME/workspace/ashoka/docker/conan/recipes
-    ./build.sh $WORKSPACE/docker/conan/profiles/$i
-    conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/$i --build=missing
-done
-
+cd $WORKSPACE/docker/conan/recipes
+./build.sh $WORKSPACE/docker/conan/profiles/gcc9
+conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/gcc9 --build=missing
 
 exit 0

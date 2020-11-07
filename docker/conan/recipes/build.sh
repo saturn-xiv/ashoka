@@ -28,7 +28,7 @@ declare -a packages=(
 for i in "${packages[@]}"
 do
     cd $WORKSPACE/$i
-    conan create . null-gate/ashoka --profile $1
+    conan create . null-gate/ashoka --profile $1 --build=missing
 done
 
 echo "done"
