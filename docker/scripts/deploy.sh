@@ -20,6 +20,7 @@ npm install -g yarn
 echo 'source $HOME/.profile' >> $HOME/.zshrc
 
 git clone https://github.com/saturn-xiv/ashoka.git $HOME/workspace/ashoka
+git checkout cpp
 
 declare -a profiles=(    
     "gcc9"    
