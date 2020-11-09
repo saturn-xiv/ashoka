@@ -79,6 +79,52 @@ namespace ashoka
             const std::string prefix;
         };
 
+        class Config : public ashoka::env::Config
+        {
+        public:
+            Config() : host("127.0.0.1"), port(6379), db(0), pool_size(16) {}
+            Config(const toml::table &root)
+            {
+                std::optional<std::string> host = root["host"].value<std::string>();
+                this->host = host.value_or("127.0.0.1");
+                std::optional<unsigned short> port = root["port"].value<unsigned short>();
+                this->port = port.value_or(6379);
+                std::optional<unsigned short> db = root["db"].value<unsigned short>();
+                this->db = db.value_or(0);
+                std::optional<std::string> prefix = root["prefix"].value<std::string>();
+                if (prefix)
+                {
+                    this->prefix = prefix.value();
+                }
+                std::optional<size_t> pool_size = root["pool-size"].value<size_t>();
+                this->pool_size = pool_size.value_or(20);
+            }
+
+            operator toml::table() const
+            {
+                toml::table root;
+                root.insert("host", this->host);
+                root.insert("port", this->port);
+                root.insert("prefix", this->prefix);
+                root.insert("db", this->db);
+                root.insert("pool-size", (long)this->pool_size);
+                return root;
+            };
+            std::string name() const
+            {
+                return "redis";
+            };
+
+            std::shared_ptr<ashoka::pool::Pool<Connection>> open();
+
+        private:
+            std::string host;
+            unsigned short int port;
+            unsigned short int db;
+            std::string prefix;
+            size_t pool_size;
+        };
+
         std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> open(const std::string host, const unsigned short int port, const unsigned short int db, const std::string prefix, const size_t size);
         std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> open(boost::property_tree::ptree *tree);
 

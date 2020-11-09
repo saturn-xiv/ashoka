@@ -10,6 +10,13 @@ void ashoka::redis::Connection::clear()
     freeReplyObject(reply);
 }
 
+std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> ashoka::redis::Config::open()
+{
+    std::shared_ptr<ashoka::redis::Factory> factory(new ashoka::redis::Factory(this->host, this->port, this->db, this->prefix));
+    std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> pool(new ashoka::pool::Pool<ashoka::redis::Connection>(this->pool_size, factory));
+    return pool;
+}
+
 std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> ashoka::redis::open(const std::string host, const unsigned short int port, const unsigned short int db, const std::string prefix, const size_t size)
 {
     std::shared_ptr<ashoka::redis::Factory> factory(new ashoka::redis::Factory(host, port, db, prefix));

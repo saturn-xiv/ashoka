@@ -14,8 +14,7 @@
 #include <inja/inja.hpp>
 #include <nlohmann/json.hpp>
 
-#define TOML_EXCEPTIONS 1
-#include <toml.hpp>
+#include "env.h"
 
 namespace ashoka
 {

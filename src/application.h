@@ -2,34 +2,45 @@
 #define ASHOKA_APPLICATION_H_
 
 #include "common.h"
+#include "postgresql.h"
+#include "rabbitmq.h"
+#include "redis.h"
 
 namespace ashoka
 {
-    namespace env
+    class Config
     {
-        class Http
-        {
-        public:
-            const unsigned short int port;
+    public:
+        Config(const std::string &name);
 
-        private:
-            const std::string secrets;
-        };
-        class Redis
+    private:
+        void load(const toml::table &root);
+
+        operator toml::table() const
         {
-        public:
-            const std::string host;
-            const unsigned short int port;
-            const unsigned short int db;
+            toml::table root;
+            {
+                toml::table node = this->postgresql;
+                root.insert("postgresql", node);
+            }
+            {
+                toml::table node = this->redis;
+                root.insert("redis", node);
+            }
+            {
+                toml::table node = this->rabbitmq;
+                root.insert("rabbitmq", node);
+            }
+
+            return root;
         };
-        class Config
-        {
-        public:
-            const Http http;
-            const std::string postgresql;
-            const std::string redis;
-        };
-    } // namespace env
+
+    private:
+        ashoka::rabbitmq::Config rabbitmq;
+        ashoka::redis::Config redis;
+        ashoka::postgresql::Config postgresql;
+    };
+
     class Application
     {
     public:

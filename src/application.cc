@@ -5,6 +5,42 @@
 #include "server.h"
 #include "utils.h"
 
+ashoka::Config::Config(const std::string &name)
+{
+    const std::string file = name + ".toml";
+    BOOST_LOG_TRIVIAL(info) << "load recipe from " << file;
+    toml::table root = toml::parse_file(file);
+    load(root);
+}
+
+void ashoka::Config::load(const toml::table &root)
+{
+    {
+        auto node = root["postgresql"];
+        if (node.is_table())
+        {
+            auto table = node.as_table();
+            this->postgresql = ashoka::postgresql::Config(*table);
+        }
+    }
+    {
+        auto node = root["redis"];
+        if (node.is_table())
+        {
+            auto table = node.as_table();
+            this->redis = ashoka::redis::Config(*table);
+        }
+    }
+    {
+        auto node = root["rabbitmq"];
+        if (node.is_table())
+        {
+            auto table = node.as_table();
+            this->rabbitmq = ashoka::rabbitmq::Config(*table);
+        }
+    }
+}
+
 int ashoka::Application::run(int argc, char **argv)
 {
     ashoka::crypt::init();
@@ -35,12 +71,6 @@ int ashoka::Application::run(int argc, char **argv)
         ashoka::ops::deploy::Recipe recipe(name);
         BOOST_LOG_TRIVIAL(debug) << recipe;
         recipe.execute();
-        // std::ifstream is(name + ".json");
-        // nlohmann::json js;
-        // is >> js;
-        // auto recipe = js.get<ashoka::ops::deploy::Recipe>();
-        //
-        // recipe.execute();
         return EXIT_SUCCESS;
     }
 
@@ -49,9 +79,11 @@ int ashoka::Application::run(int argc, char **argv)
     const std::string config = vm["config"].as<std::string>();
     BOOST_LOG_TRIVIAL(info) << "load from " << config;
 
-    boost::property_tree::ptree cfg;
-    boost::property_tree::read_ini(config, cfg);
-    std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
+    // boost::property_tree::ptree cfg;
+    // boost::property_tree::read_ini(config, cfg);
+
+    const auto cfg = ashoka::Config(config);
+    // std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
 
     ashoka::Server server = ashoka::Server(8080);
     server.listen();
