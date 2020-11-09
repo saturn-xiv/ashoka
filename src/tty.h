@@ -2,6 +2,7 @@
 #define ASHOKA_TTY_H_
 
 #include <chrono>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 #include <thread>
@@ -64,7 +65,7 @@ namespace ashoka
 
         protected:
             virtual void on_receive(const std::string &response) = 0;
-            virtual std::optional<std::string> match(const std::string &buf) = 0;
+            virtual std::optional<std::pair<std::size_t, std::size_t>> match(const std::string &buf) = 0;
 
         private:
             void read();

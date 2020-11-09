@@ -60,15 +60,22 @@ void ashoka::tty::SerialPort::on_receive(const boost::system::error_code &ec, si
         for (auto i = 0; i < len; i++)
         {
             this->buffer += raw[i];
-            auto buf = this->match(this->buffer);
-            if (buf)
+        }
+        for (;;)
+        {
+            auto match = this->match(this->buffer);
+            if (!match)
             {
-                auto response = buf.value();
-                BOOST_LOG_TRIVIAL(info) << "serial port receive(" << response.length() << ") " << response;
-                this->on_receive(response);
-                BOOST_LOG_TRIVIAL(debug) << "clear buffer(" << this->buffer.length() << ") " << this->buffer;
-                this->buffer.clear();
+                break;
             }
+            auto range = match.value();
+            auto response = this->buffer.substr(range.first, range.second - range.first);
+            BOOST_LOG_TRIVIAL(info) << "serial port receive(" << response.length() << ") " << response;
+            this->on_receive(response);
+            BOOST_LOG_TRIVIAL(debug) << "clear buffer(" << range.second << ") " << this->buffer.substr(0, range.second);
+            this->buffer = this->buffer.substr(range.second);
+            BOOST_LOG_TRIVIAL(debug) << this->buffer;
+            // this->buffer.clear();
         }
     }
     this->read();
@@ -79,5 +86,5 @@ void ashoka::tty::SerialPort::write(const std::string &request)
     BOOST_LOG_TRIVIAL(info) << "write to serial port(" << request.length() << ") " << request;
     std::lock_guard<std::mutex> lock(this->locker);
     auto len = port->write_some(boost::asio::buffer(request));
-    BOOST_LOG_TRIVIAL(info) << len;
+    BOOST_LOG_TRIVIAL(info) << "write done " << len;
 }

@@ -11,15 +11,21 @@ class SerialPort : public ashoka::tty::SerialPort
 protected:
     void on_receive(const std::string &response)
     {
-        std::cout << "$\t" << response;
+        std::cout << "$$$ " << response << std::endl;
     }
-    std::optional<std::string> match(const std::string &buf)
+    std::optional<std::pair<std::size_t, std::size_t>> match(const std::string &buf)
     {
-        if (boost::algorithm::ends_with(buf, "]"))
+        const std::string end = "[END]";
+        auto found = buf.find(end);
+        if (found == std::string::npos || found == 0)
         {
-            return {buf};
+            return std::nullopt;
         }
-        return std::nullopt;
+        return std::make_pair(0, found + end.length());
+        // if (boost::algorithm::ends_with(buf, "]"))
+        // {
+        //     return {buf};
+        // }
     }
 };
 
