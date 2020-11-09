@@ -1,0 +1,49 @@
+[env]
+'global.1' = 'global 1'
+'global.2' = 'glboal 2'
+
+[groups]
+[groups.g1]
+hosts = [
+    '127.0.0.1',
+    'deploy20',
+    'root21'
+]
+tasks = ['ping', 'hi']
+[groups.g1.env]
+'group.1.1' = 'group 1-1'
+'group.1.2' = 'group 1-2'
+
+[groups.g2]
+hosts = [
+    'localhost',
+    'deploy20',
+    'root22'
+]
+tasks = ['hi', 'ping']
+[groups.g2.env]
+'group.2.1' = 'group 2-1'
+'group.2.2' = 'group 2-2'
+
+
+[clients]
+
+[clients.deploy20]
+host = '192.168.8.20'
+user = 'deploy'
+[clients.deploy20.env]
+'host.deploy20.1' = 'deploy 20 1'
+'host.deploy20.2' = 'deploy 20 2'
+
+[clients.root21]
+host = '192.168.8.21'
+[clients.root21.env]
+'host.root21.1' = 'root 21 1'
+'host.root21.2' = 'root 21 2'
+
+[clients.root22]
+host = '192.168.8.22'
+[clients.root22.env]
+'host.root22.1' = 'root 22 1'
+'host.root22.2' = 'root 22 2'
+

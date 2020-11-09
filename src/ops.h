@@ -14,6 +14,9 @@
 #include <inja/inja.hpp>
 #include <nlohmann/json.hpp>
 
+#define TOML_EXCEPTIONS 1
+#include <toml.hpp>
+
 namespace ashoka
 {
     namespace ops
@@ -23,54 +26,14 @@ namespace ashoka
             class Client
             {
             public:
-                Client(){};
+                Client(std::string name, toml::table &table);
                 ~Client() {}
-                friend void to_json(nlohmann::json &j, const Client &p)
-                {
-                    j = nlohmann::json{{"host", p.host}};
-                    if (p.port)
-                    {
-                        j["port"] = p.port.value();
-                    }
-                    if (p.user)
-                    {
-                        j["user"] = p.user.value();
-                    }
-                    if (p.password)
-                    {
-                        j["password"] = p.password.value();
-                    }
-                    if (p.key)
-                    {
-                        j["key"] = p.key.value();
-                    }
-                }
-                friend void from_json(const nlohmann::json &j, Client &p)
-                {
-                    j.at("host").get_to(p.host);
-                    if (j.contains("port"))
-                    {
-                        p.port = j.at("port").get<unsigned short>();
-                    }
-                    if (j.contains("user"))
-                    {
-                        p.user = j.at("user").get<std::string>();
-                    }
-                    if (j.contains("password"))
-                    {
-                        p.password = j.at("password").get<std::string>();
-                    }
-                    if (j.contains("key"))
-                    {
-                        p.key = j.at("key").get<std::string>();
-                    }
-                }
-
-                void execute(const std::string task, std::map<std::string, std::string> env);
                 bool is_local();
+                void ping();
 
                 friend std::ostream &operator<<(std::ostream &out, const Client &self)
                 {
+                    out << "###### CLIENT " << self.name << " ######" << std::endl;
                     if (self.user)
                     {
 
@@ -81,6 +44,13 @@ namespace ashoka
                     {
 
                         out << ':' << self.port.value();
+                    }
+
+                    out << std::endl
+                        << "#-----\tENV\t-----#" << std::endl;
+                    for (auto const &it : self.env)
+                    {
+                        out << it.first << " = " << it.second << std::endl;
                     }
                     return out;
                 }
@@ -98,43 +68,37 @@ namespace ashoka
             private:
                 void log(const std::string &message);
 
+                std::string name;
                 std::string host;
                 std::optional<unsigned short> port;
                 std::optional<std::string> user;
-                std::optional<std::string> password;
                 std::optional<std::string> key;
+                std::map<std::string, std::string> env;
             };
 
-            class Job
+            class Group
             {
             public:
-                Job() {}
-                ~Job() {}
+                Group(std::string name, toml::table &table);
+                ~Group() {}
 
-                friend void to_json(nlohmann::json &j, const Job &p)
+                friend std::ostream &operator<<(std::ostream &out, const Group &self)
                 {
-                    j = nlohmann::json{{"name", p.name}, {"hosts", p.hosts}, {"tasks", p.tasks}};
-                }
-                friend void from_json(const nlohmann::json &j, Job &p)
-                {
-                    p.name = j.at("name").get<std::string>();
-                    p.hosts = j.at("hosts").get<std::vector<std::string>>();
-                    p.tasks = j.at("tasks").get<std::vector<std::string>>();
-                }
-
-                friend std::ostream &operator<<(std::ostream &out, const Job &self)
-                {
-                    out << "Name: " << self.name << std::endl
-                        << "Hosts: ";
-                    for (auto it : self.hosts)
+                    out << "$$$$$$ GROUP " << self.name << " $$$$$$" << std::endl;
+                    out << "$-----\tTASKS\t-----$" << std::endl;
+                    for (auto const &it : self.tasks)
                     {
-                        out << it << ' ';
+                        out << it << std::endl;
                     }
-                    out << std::endl
-                        << "Tasks: ";
-                    for (auto it : self.tasks)
+                    out << "$-----\tHOSTS\t-----$" << std::endl;
+                    for (auto const &it : self.hosts)
                     {
-                        out << it << ' ';
+                        out << it << std::endl;
+                    }
+                    out << "$-----\tENV\t-----$" << std::endl;
+                    for (auto const &it : self.env)
+                    {
+                        out << it.first << " = " << it.second << std::endl;
                     }
                     return out;
                 }
@@ -143,61 +107,55 @@ namespace ashoka
                 std::string name;
                 std::vector<std::string> hosts;
                 std::vector<std::string> tasks;
+                std::map<std::string, std::string> env;
             };
 
             class Recipe
             {
             public:
-                Recipe() {}
+                Recipe(std::string file);
+                Recipe(std::string name, toml::table &root);
                 ~Recipe() {}
                 void execute();
 
-                friend void to_json(nlohmann::json &j, const Recipe &p)
-                {
-
-                    j = nlohmann::json{
-                        {"name", p.name},
-                        {"clients", p.clients},
-                        {"jobs", p.jobs},
-                        {"env", p.env}};
-                }
-                friend void from_json(const nlohmann::json &j, Recipe &p)
-                {
-                    p.name = j.at("name").get<std::string>();
-                    p.clients = j.at("clients").get<std::vector<Client>>();
-                    p.jobs = j.at("jobs").get<std::vector<Job>>();
-                    p.env = j.at("env").get<std::map<std::string, std::string>>();
-                }
-
                 friend std::ostream &operator<<(std::ostream &out, const Recipe &self)
                 {
-                    out << "Name: " << self.name << std::endl
-                        << "===\tCLIENTS\t===" << std::endl;
-                    for (auto it : self.clients)
+                    out << "====== RECIPE " << self.name << " ======" << std::endl;
+                    out << "timestamp: " << self.timestamp << std::endl;
+                    out << "=-----\tGROUPS\t-----=" << std::endl;
+                    for (auto const &it : self.groups)
                     {
                         out << it << std::endl;
                     }
-                    out << "===\tJOBS\t===" << std::endl;
-                    for (auto it : self.jobs)
+                    out << "=-----\tCLIENTS\t-----=" << std::endl;
+                    for (auto const &it : self.clients)
                     {
                         out << it << std::endl;
                     }
-                    out << "===\tENV\t===" << std::endl;
+                    out << "=-----\tENV\t-----=" << std::endl;
                     for (auto const &it : self.env)
                     {
-                        out << it.first << '=' << it.second << std::endl;
+                        out << it.first << " = " << it.second << std::endl;
                     }
                     return out;
                 }
 
             private:
-                std::string name;
-                std::vector<Client> clients;
-                std::vector<Job> jobs;
-                std::map<std::string, std::string> env;
+                void load(toml::table &root);
 
-                std::map<std::string, std::vector<std::string>> orders();
+                std::string timestamp;
+                std::string name;
+                std::vector<Group> groups;
+                std::vector<Client> clients;
+                std::map<std::string, std::string> env;
             };
+
+            void execute(
+                std::string host,
+                std::optional<unsigned short> port,
+                std::optional<std::string> user,
+                std::optional<std::string> key,
+                std::map<std::string, std::string> env);
 
         } // namespace deploy
 

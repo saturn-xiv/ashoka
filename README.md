@@ -11,3 +11,8 @@ $ docker run --rm -it --network host -v `pwd`:/workspace ashoka-xenial # bionic,
 $ ./docker/scripts/deb.sh x64 demo
 
 ```
+
+## Documents
+
+- [toml](https://toml.io/en/)
+- [strftime](http://www.cplusplus.com/reference/ctime/strftime/)

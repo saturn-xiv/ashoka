@@ -11,7 +11,7 @@ int ashoka::Application::run(int argc, char **argv)
 
     boost::program_options::options_description desc("Allowed options");
 
-    desc.add_options()("recipe,r", boost::program_options::value<std::string>(), "recipe name(json)")("config,c", boost::program_options::value<std::string>()->default_value("config.ini"), "configuration file(ini)")("debug,d", boost::program_options::bool_switch(), "debug mode")("version,v", "print version")("help,h", "display argument help information");
+    desc.add_options()("recipe,r", boost::program_options::value<std::string>(), "recipe name(toml)")("config,c", boost::program_options::value<std::string>()->default_value("config.ini"), "configuration file(ini)")("debug,d", boost::program_options::bool_switch(), "debug mode")("version,v", "print version")("help,h", "display argument help information");
 
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
@@ -32,13 +32,15 @@ int ashoka::Application::run(int argc, char **argv)
     if (vm.count("recipe"))
     {
         const auto name = vm["recipe"].as<std::string>();
-        BOOST_LOG_TRIVIAL(info) << "load recipe " << name;
-        std::ifstream is(name + ".json");
-        nlohmann::json js;
-        is >> js;
-        auto recipe = js.get<ashoka::ops::deploy::Recipe>();
+        ashoka::ops::deploy::Recipe recipe(name);
         BOOST_LOG_TRIVIAL(debug) << recipe;
         recipe.execute();
+        // std::ifstream is(name + ".json");
+        // nlohmann::json js;
+        // is >> js;
+        // auto recipe = js.get<ashoka::ops::deploy::Recipe>();
+        //
+        // recipe.execute();
         return EXIT_SUCCESS;
     }
 

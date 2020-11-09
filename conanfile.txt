@@ -6,8 +6,8 @@ boost/1.74.0
 sqlite3/3.33.0
 libpq/13.0
 rabbitmq-c/0.10.0
-libgit2/1.0.1
-libssh2/1.9.0
+#libgit2/1.0.1
+#libssh2/1.9.0
 imgui/1.79
 tomlplusplus/2.2.0
 cpprestsdk/2.10.16
