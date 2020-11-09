@@ -47,7 +47,7 @@ int ashoka::Application::run(int argc, char **argv)
 
     boost::program_options::options_description desc("Allowed options");
 
-    desc.add_options()("recipe,r", boost::program_options::value<std::string>(), "recipe name(toml)")("config,c", boost::program_options::value<std::string>()->default_value("config.ini"), "configuration file(ini)")("debug,d", boost::program_options::bool_switch(), "debug mode")("version,v", "print version")("help,h", "display argument help information");
+    desc.add_options()("recipe,r", boost::program_options::value<std::string>(), "recipe name(toml)")("config,c", boost::program_options::value<std::string>()->default_value("config"), "configuration file(toml)")("debug,d", boost::program_options::bool_switch(), "debug mode")("version,v", "print version")("help,h", "display argument help information");
 
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
@@ -81,9 +81,10 @@ int ashoka::Application::run(int argc, char **argv)
 
     // boost::property_tree::ptree cfg;
     // boost::property_tree::read_ini(config, cfg);
-
-    const auto cfg = ashoka::Config(config);
     // std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
+
+    auto cfg = ashoka::Config(config);
+    auto redis = cfg.redis.open();
 
     ashoka::Server server = ashoka::Server(8080);
     server.listen();

@@ -12,6 +12,7 @@ namespace ashoka
     {
     public:
         Config(const std::string &name);
+        friend class Application;
 
     private:
         void load(const toml::table &root);

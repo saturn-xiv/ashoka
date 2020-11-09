@@ -12,16 +12,17 @@ conan_basic_setup()
 
 # find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED Crypto SSL)
-find_package(Boost REQUIRED log_setup log thread system filesystem regex timer date_time chrono random  program_options)
+find_package(Boost REQUIRED log_setup log thread system filesystem regex timer date_time chrono random  program_options unit_test_framework)
 
-aux_source_directory(src DIR_SRCS)
+file(GLOB ASHOKA_HEADERS src/*.h)
+file(GLOB ASHOKA_SOURCES src/*.cc)
 execute_process(COMMAND git describe --tags --always --dirty
     OUTPUT_VARIABLE GIT_REV
     ERROR_QUIET
 )
 string(STRIP "${GIT_REV}" GIT_REV)
 configure_file(src/config.h.in config.h)
-add_executable(ashoka ${DIR_SRCS})
+add_executable(ashoka src/main.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
 
 set_target_properties(ashoka PROPERTIES LINK_FLAGS_RELEASE -s)
 include_directories(
@@ -40,8 +41,15 @@ target_link_libraries(ashoka
     stdc++fs 
 )
 
+# --------------------------------------
+
 include(CTest)
 enable_testing()
-add_subdirectory(test)
+
+add_executable(mqtt_test src/mqtt_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
+target_link_libraries(mqtt_test ${CONAN_LIBS} stdc++fs)
+
+add_executable(redis_test src/redis_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
+target_link_libraries(redis_test ${CONAN_LIBS} stdc++fs)
 
     
