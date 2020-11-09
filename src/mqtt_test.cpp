@@ -1,6 +1,8 @@
-#define BOOST_TEST_MODULE My Test
+#define BOOST_TEST_MODULE MQTT Test
 
 #include <boost/test/included/unit_test.hpp>
+
+#include "mqtt.h"
 
 BOOST_AUTO_TEST_CASE(mqtt_pub_test)
 {

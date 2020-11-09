@@ -1,6 +1,8 @@
-#define BOOST_TEST_MODULE My Test
+#define BOOST_TEST_MODULE Redis Test
 
 #include <boost/test/included/unit_test.hpp>
+
+#include "redis.h"
 
 BOOST_AUTO_TEST_CASE(redis_ping_test)
 {
