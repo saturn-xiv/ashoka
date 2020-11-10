@@ -242,7 +242,7 @@ namespace ashoka
                 }
                 std::string command(const std::string &message) const
                 {
-                    return this->password + "#" + message + "\r";
+                    return this->password + message + "\r";
                 }
 
             private:

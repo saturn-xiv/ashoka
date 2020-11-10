@@ -22,6 +22,9 @@ namespace ashoka
 
         private:
             web::http::client::http_client connect() const;
+            web::json::value get(const web::uri_builder &builder) const;
+            web::json::value form(const web::uri_builder &builder, const utf8string &body) const;
+
             const std::string phone;
             const std::string account_sid;
             const std::string auth_token;
