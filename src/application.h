@@ -11,12 +11,10 @@ namespace ashoka
     class Config
     {
     public:
-        Config(const std::string &name);
+        Config(const toml::table &root);
         friend class Application;
 
     private:
-        void load(const toml::table &root);
-
         operator toml::table() const
         {
             toml::table root;

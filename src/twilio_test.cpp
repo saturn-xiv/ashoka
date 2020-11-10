@@ -12,7 +12,8 @@ BOOST_AUTO_TEST_CASE(sms_test)
     const std::string auth_token(std::getenv("TWILIO_AUTH_TOKEN"));
     const std::string message(std::getenv("TWILIO_MESSAGE"));
 
-    ashoka::twilio::Client client(from, account_sid, auth_token);
+    ashoka::twilio::Config config(from, account_sid, auth_token);
+    ashoka::twilio::Client client(config);
     auto response = client.sms(to, message);
     std::cout << response << std::endl;
 }

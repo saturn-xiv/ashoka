@@ -1,6 +1,6 @@
 #include "twilio.h"
 
-web::http::client::http_client ashoka::twilio::Client::connect() const
+web::http::client::http_client ashoka::twilio::Config::connect() const
 {
     web::http::client::http_client_config cfg;
     web::credentials cred(U(this->account_sid), U(this->auth_token));
@@ -13,7 +13,7 @@ web::http::client::http_client ashoka::twilio::Client::connect() const
 
 web::json::value ashoka::twilio::Client::get(const web::uri_builder &builder) const
 {
-    auto client = this->connect();
+    auto client = this->config.connect();
     web::json::value result;
     client.request(web::http::methods::GET, builder.to_string())
         .then([](const web::http::http_response &response) {
@@ -28,7 +28,7 @@ web::json::value ashoka::twilio::Client::get(const web::uri_builder &builder) co
 
 web::json::value ashoka::twilio::Client::form(const web::uri_builder &builder, const utf8string &body) const
 {
-    auto client = this->connect();
+    auto client = this->config.connect();
     web::json::value result;
     client.request(web::http::methods::POST, builder.to_string(), body, U("application/x-www-form-urlencoded"))
         .then([](const web::http::http_response &response) {
@@ -41,12 +41,10 @@ web::json::value ashoka::twilio::Client::form(const web::uri_builder &builder, c
     return result;
 }
 
-web::json::value ashoka::twilio::Client::sms(const std::string &phone, const std::string &message) const
+web::json::value ashoka::twilio::Client::sms(const std::string &to, const std::string &message) const
 {
-    auto client = this->connect();
-
-    web::uri_builder builder(U("/2010-04-01/Accounts/" + this->account_sid + "/Messages.json"));
-    auto body = U("To=") + U(phone) + U("&") + U("From=") + U(this->phone) + U("&") + U("Body=") + U(message);
+    web::uri_builder builder(U("/2010-04-01/Accounts/" + this->config.account_sid + "/Messages.json"));
+    auto body = U("To=") + U(to) + U("&") + U("From=") + U(this->config.from) + U("&") + U("Body=") + U(message);
 
     return this->form(builder, body);
 }

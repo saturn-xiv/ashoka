@@ -24,3 +24,9 @@ user = 'guest'
 password = 'guest'
 virtual-host = 'ashoka'
 pool-size = 18
+
+[twilio]
+account-sid = 'change-me'
+auth-token = 'change-me'
+from = '+1...'
+

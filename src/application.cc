@@ -3,17 +3,10 @@
 #include "ops.h"
 #include "redis.h"
 #include "server.h"
+#include "twilio.h"
 #include "utils.h"
 
-ashoka::Config::Config(const std::string &name)
-{
-    const std::string file = name + ".toml";
-    BOOST_LOG_TRIVIAL(info) << "load recipe from " << file;
-    toml::table root = toml::parse_file(file);
-    load(root);
-}
-
-void ashoka::Config::load(const toml::table &root)
+ashoka::Config::Config(const toml::table &root)
 {
     {
         auto node = root["postgresql"];
@@ -45,10 +38,20 @@ int ashoka::Application::run(int argc, char **argv)
 {
     ashoka::crypt::init();
 
+    boost::program_options::options_description generic("Generic options");
+    generic.add_options()("version,v", "print version")("help,h", "display argument help information");
+
+    boost::program_options::options_description global("Global options");
+    global.add_options()("config,c", boost::program_options::value<std::string>()->default_value("config"), "configuration file(toml)")("debug,d", boost::program_options::bool_switch(), "debug mode");
+
+    boost::program_options::options_description twilio("Twilio options");
+    twilio.add_options()("twilio-sms-to", boost::program_options::value<std::string>(), "target phone number")("twilio-sms-message", boost::program_options::value<std::string>(), "sms message");
+
+    boost::program_options::options_description ops("Ops options");
+    ops.add_options()("recipe,r", boost::program_options::value<std::string>(), "recipe name(toml)");
+
     boost::program_options::options_description desc("Allowed options");
-
-    desc.add_options()("recipe,r", boost::program_options::value<std::string>(), "recipe name(toml)")("config,c", boost::program_options::value<std::string>()->default_value("config"), "configuration file(toml)")("debug,d", boost::program_options::bool_switch(), "debug mode")("version,v", "print version")("help,h", "display argument help information");
-
+    desc.add(generic).add(global).add(twilio).add(ops);
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
     boost::program_options::notify(vm);
@@ -76,14 +79,31 @@ int ashoka::Application::run(int argc, char **argv)
 
     BOOST_LOG_TRIVIAL(info) << ASHOKA_PROJECT_NAME << "(" << ASHOKA_VERSION << ")";
     BOOST_LOG_TRIVIAL(debug) << "run in debug mode";
-    const std::string config = vm["config"].as<std::string>();
+    const std::string config = vm["config"].as<std::string>() + ".toml";
     BOOST_LOG_TRIVIAL(info) << "load from " << config;
+    toml::table root = toml::parse_file(config);
+
+    if (vm.count("twilio-sms-to") && vm.count("twilio-sms-message"))
+    {
+        const auto to = vm["twilio-sms-to"].as<std::string>();
+        const auto message = vm["twilio-sms-message"].as<std::string>();
+        auto node = root["twilio"];
+        if (node.is_table())
+        {
+            auto table = node.as_table();
+            const ashoka::twilio::Config cfg(*table);
+            const ashoka::twilio::Client cli(cfg);
+            auto rst = cli.sms(to, message);
+            BOOST_LOG_TRIVIAL(debug) << rst;
+            return EXIT_SUCCESS;
+        }
+    }
 
     // boost::property_tree::ptree cfg;
     // boost::property_tree::read_ini(config, cfg);
     // std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
 
-    auto cfg = ashoka::Config(config);
+    auto cfg = ashoka::Config(root);
     auto redis = cfg.redis.open();
 
     ashoka::Server server = ashoka::Server(8080);
