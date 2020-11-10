@@ -2,6 +2,7 @@
     "files.autoSave": "onFocusChange",
     "workbench.iconTheme": "material-icon-theme",
     "workbench.colorTheme": "One Dark Pro",
+    "window.zoomLevel": 2,
     "editor.formatOnSave": true,
     "editor.fontFamily": "source code pro",
     "editor.mouseWheelZoom": true,
