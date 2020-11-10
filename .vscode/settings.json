@@ -1,6 +1,6 @@
 {
     "files.autoSave": "onFocusChange",
-    "workbench.iconTheme": "vscode-icons",
+    "workbench.iconTheme": "material-icon-theme",
     "workbench.colorTheme": "One Dark Pro",
     "editor.formatOnSave": true,
     "editor.fontFamily": "source code pro",
