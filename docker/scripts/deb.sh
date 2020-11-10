@@ -37,7 +37,7 @@ strip -s $TARGET/usr/bin/ashoka
 
 rm -rfv $TARGET/etc
 mkdir -pv $TARGET/etc/ashoka
-cp $WORKSPACE/LICENSE $WORKSPACE/config.ini $TARGET/etc/ashoka/
+cp $WORKSPACE/LICENSE $WORKSPACE/config.toml $TARGET/etc/ashoka/
 
 cd $WORKSPACE
 dpkg -b ubuntu $2-$1-$(lsb_release -cs)-$(git describe --tags --always --dirty --first-parent).deb

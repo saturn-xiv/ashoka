@@ -75,7 +75,6 @@ void ashoka::tty::SerialPort::on_receive(const boost::system::error_code &ec, si
             BOOST_LOG_TRIVIAL(debug) << "clear buffer(" << range.second << ") " << this->buffer.substr(0, range.second);
             this->buffer = this->buffer.substr(range.second);
             BOOST_LOG_TRIVIAL(debug) << this->buffer;
-            // this->buffer.clear();
         }
     }
     this->read();
@@ -87,4 +86,36 @@ void ashoka::tty::SerialPort::write(const std::string &request)
     std::lock_guard<std::mutex> lock(this->locker);
     auto len = port->write_some(boost::asio::buffer(request));
     BOOST_LOG_TRIVIAL(info) << "write done " << len;
+}
+
+void ashoka::tty::usr_g768::SerialPort::mode(const std::string &password, const ashoka::tty::usr_g768::NetTransport &net, const ashoka::tty::usr_g768::Apn &apn)
+{
+    const ashoka::tty::usr_g768::Request req(password);
+    this->write(req.net_work_mode());
+    this->write(req.net_a_enable(true));
+    this->write(req.net_a_host(net.mode, net.host, net.port));
+    this->write(req.apn(apn.host, apn.user, apn.password, apn.auth));
+    this->write(req.reboot());
+}
+
+void ashoka::tty::usr_g768::SerialPort::mode(const std::string &password, const ashoka::tty::usr_g768::HttpdClient &net, const ashoka::tty::usr_g768::Apn &apn)
+{
+    const ashoka::tty::usr_g768::Request req(password);
+    this->write(req.httpd_work_mode());
+    this->write(req.httpd_method(net.method));
+    this->write(req.httpd_path(net.path));
+    this->write(req.httpd_host(net.host, net.port));
+    this->write(req.httpd_request_header());
+    this->write(req.httpd_over_time(net.over_time));
+    this->write(req.httpd_header_filter(true));
+    this->write(req.apn(apn.host, apn.user, apn.password, apn.auth));
+    this->write(req.reboot());
+}
+
+void ashoka::tty::usr_g768::SerialPort::mode(const std::string &password, const std::string &phone)
+{
+    const ashoka::tty::usr_g768::Request req(password);
+    this->write(req.sms_work_mode());
+    this->write(req.sms_dest_number(phone));
+    this->write(req.reboot());
 }
