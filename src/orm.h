@@ -50,7 +50,6 @@ namespace ashoka
 
             friend class SchemaDao;
 
-        private:
             std::string version;
             std::string name;
             std::string up;
