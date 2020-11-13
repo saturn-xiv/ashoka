@@ -1,14 +1,28 @@
 #include "orm.h"
 
+ashoka::orm::Migration::Migration(const std::string version,
+                                  const std::string name,
+                                  const std::string up,
+                                  const std::string down,
+                                  const std::optional<boost::posix_time::ptime> run_at)
+    : version(version), name(name), up(up), down(down), run_at(run_at) {}
+
+bool ashoka::orm::Migration::operator<(const Migration &self) const
+{
+    return version < self.version;
+}
+
+// -----------------------------
+
 void ashoka::orm::SchemaDao::migrate()
 {
     std::lock_guard<std::mutex> lock(this->locker);
-    // std::sort(this->migrations.begin(), this->migrations.end());
     for (auto it = this->migrations.begin(); it != this->migrations.end(); it++)
     {
+        BOOST_LOG_TRIVIAL(info) << "find " << it->version << " " << it->name;
         if (!it->run_at)
         {
-            BOOST_LOG_TRIVIAL(info) << "find " << it->version << " " << it->name << ", migrate...";
+            BOOST_LOG_TRIVIAL(info) << "migrate...";
             this->execute(it->up);
             this->insert(it->version);
         }
@@ -18,8 +32,8 @@ void ashoka::orm::SchemaDao::migrate()
 void ashoka::orm::SchemaDao::rollback()
 {
     std::lock_guard<std::mutex> lock(this->locker);
-    // std::sort(this->migrations.begin(), this->migrations.end());
-    for (auto it = this->migrations.end(); it != this->migrations.begin(); it--)
+    std::reverse(this->migrations.begin(), this->migrations.end());
+    for (auto it = this->migrations.begin(); it != this->migrations.end(); it++)
     {
         if (it->run_at)
         {
@@ -48,12 +62,6 @@ void ashoka::orm::SchemaDao::generate(const std::string &name) const
 void ashoka::orm::SchemaDao::load()
 {
     std::lock_guard<std::mutex> lock(this->locker);
-    {
-        std::ifstream sqlf(root() / "schema.sql");
-        const std::string sql((std::istreambuf_iterator<char>(sqlf)),
-                              std::istreambuf_iterator<char>());
-        this->execute(sql);
-    }
 
     for (const auto &dir : std_fs::directory_iterator(this->root()))
     {
@@ -70,6 +78,7 @@ void ashoka::orm::SchemaDao::load()
                                std::istreambuf_iterator<char>());
         this->migrations.push_back(Migration(version, name, up, down, this->run_at(version)));
     }
+    std::sort(this->migrations.begin(), this->migrations.end());
 }
 
 std_fs::path ashoka::orm::SchemaDao::root() const

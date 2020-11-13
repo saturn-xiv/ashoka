@@ -30,14 +30,7 @@ namespace ashoka
                       const std::string name,
                       const std::string up,
                       const std::string down,
-                      const std::optional<boost::posix_time::ptime> run_at)
-                : version(version), name(name), up(up), down(down), run_at(run_at) {}
-            bool operator<(const Migration &self) const
-            {
-                return version < self.version;
-            }
-            friend class SchemaDao;
-
+                      const std::optional<boost::posix_time::ptime> run_at);
             friend std::ostream &operator<<(std::ostream &out, const Migration &self)
             {
                 out << "### " << self.version << " " << self.name;
@@ -53,13 +46,16 @@ namespace ashoka
 
                 return out;
             }
+            bool operator<(const Migration &self) const;
+
+            friend class SchemaDao;
 
         private:
-            const std::string version;
-            const std::string name;
-            const std::string up;
-            const std::string down;
-            const std::optional<boost::posix_time::ptime> run_at;
+            std::string version;
+            std::string name;
+            std::string up;
+            std::string down;
+            std::optional<boost::posix_time::ptime> run_at;
         };
 
         class SchemaDao
@@ -71,9 +67,12 @@ namespace ashoka
             void rollback();
             friend std::ostream &operator<<(std::ostream &out, const SchemaDao &self)
             {
+                out << "VERSION\t\t"
+                    << "NAME\t\t"
+                    << "RUN AT" << std::endl;
                 for (auto it = self.migrations.begin(); it != self.migrations.end(); it++)
                 {
-                    out << it->version << " " << it->name << "\t";
+                    out << it->version << "\t" << it->name << "\t";
                     if (it->run_at)
                     {
                         out << boost::posix_time::to_iso_extended_string(it->run_at.value());

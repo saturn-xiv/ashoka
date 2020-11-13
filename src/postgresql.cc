@@ -9,6 +9,25 @@ ashoka::postgresql::Connection::~Connection()
         this->context.reset();
     }
 }
+void ashoka::postgresql::Connection::load(const std_fs::path &prepares)
+{
+    auto root = toml::parse_file(prepares.string());
+    for (auto &&[k1, v1] : root)
+    {
+        if (v1.is_table())
+        {
+            auto vt = v1.as_table();
+            for (auto &&[k2, v2] : *vt)
+            {
+                std::optional<std::string> val = v2.value<std::string>();
+                if (val)
+                {
+                    this->context->prepare(k1 + "." + k2, val.value());
+                }
+            }
+        }
+    }
+}
 
 // -----------------------
 
@@ -35,27 +54,6 @@ std::shared_ptr<ashoka::pool::Connection> ashoka::postgresql::Factory::create()
 
     std::shared_ptr<Connection> it(new Connection());
     it->context = std::shared_ptr<pqxx::connection>(new pqxx::connection(ss.str()));
-    {
-        auto root = toml::parse_file((std_fs::path("db") / "sql.toml").string());
-        for (auto &&[k1, v1] : root)
-        {
-            if (v1.is_table())
-            {
-                std::cout << "111 " << k1 << std::endl;
-                auto vt = v1.as_table();
-                for (auto &&[k2, v2] : *vt)
-                {
-                    std::cout << "222 " << k2 << std::endl;
-
-                    std::optional<std::string> val = v2.value<std::string>();
-                    if (val)
-                    {
-                        it->context->prepare(k1 + "." + k2, val.value());
-                    }
-                }
-            }
-        }
-    }
 
     return std::static_pointer_cast<ashoka::pool::Connection>(it);
 };
@@ -68,7 +66,17 @@ std::string ashoka::postgresql::Factory::name() const
 }
 
 // ------------------------------
-ashoka::postgresql::SchemaDao::SchemaDao(const std::shared_ptr<Connection> connection) : connection(connection) {}
+ashoka::postgresql::SchemaDao::SchemaDao(const std::shared_ptr<Connection> connection) : connection(connection)
+{
+    const auto root = std_fs::path("db") / "schema";
+    {
+        std::ifstream sqlf(root / "up.sql");
+        const std::string sql((std::istreambuf_iterator<char>(sqlf)),
+                              std::istreambuf_iterator<char>());
+        this->execute(sql);
+    }
+    this->connection->load(root / "prepares.toml");
+}
 
 void ashoka::postgresql::SchemaDao::execute(const std::string &script) const
 {

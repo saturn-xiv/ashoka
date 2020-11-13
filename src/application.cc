@@ -131,8 +131,12 @@ int ashoka::Application::run(int argc, char **argv)
     auto cfg = ashoka::Config(root);
     auto pg = cfg.postgresql.open();
     {
+
+        // pg.load(std_fs::path("db") / "schema" / "prepares.toml");
         auto db = pg->get();
         ashoka::postgresql::SchemaDao dao(db);
+        dao.load();
+
         if (vm.count("db-generate"))
         {
             const auto name = vm["db-generate"].as<std::string>();
@@ -140,7 +144,6 @@ int ashoka::Application::run(int argc, char **argv)
             return EXIT_SUCCESS;
         }
 
-        dao.load();
         if (vm["db-migrate"].as<bool>())
         {
             dao.migrate();

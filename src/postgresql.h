@@ -17,6 +17,8 @@ namespace ashoka
         {
         public:
             ~Connection();
+            void load(const std_fs::path &prepares);
+
             friend class Factory;
             std::shared_ptr<pqxx::connection> context;
 
@@ -26,8 +28,11 @@ namespace ashoka
         class Factory : public ashoka::pool::Factory
         {
         public:
-            Factory(const std::string host, const unsigned short int port, const std::string db, const std::string user, const std::optional<std::string> password);
-            std::string load(const std_fs::path &prepare);
+            Factory(const std::string host,
+                    const unsigned short int port,
+                    const std::string db,
+                    const std::string user,
+                    const std::optional<std::string> password);
             std::shared_ptr<ashoka::pool::Connection> create() override;
             std::string name() const override;
 
