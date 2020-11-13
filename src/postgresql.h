@@ -1,58 +1,53 @@
 #ifndef ASHOKA_POSTGRESQL_H_
 #define ASHOKA_POSTGRESQL_H_
 
-#include <libpq-fe.h>
+#include <pqxx/pqxx>
 
 #include "pool.h"
+#include "orm.h"
 
+// https://www.postgresql.org/docs/current/libpq-connect.html
+// https://libpqxx.readthedocs.io/en/latest/index.html
 namespace ashoka
 {
     namespace postgresql
     {
+
+        class Connection : public ashoka::pool::Connection
+        {
+        public:
+            ~Connection();
+            friend class Factory;
+            std::shared_ptr<pqxx::connection> context;
+
+        private:
+        };
+
+        class Factory : public ashoka::pool::Factory
+        {
+        public:
+            Factory(const std::string host, const unsigned short int port, const std::string db, const std::string user, const std::optional<std::string> password);
+            std::string load(const std_fs::path &prepare);
+            std::shared_ptr<ashoka::pool::Connection> create() override;
+            std::string name() const override;
+
+        private:
+            const std::string host;
+            const unsigned short int port;
+            const std::string user;
+            const std::optional<std::string> password;
+            const std::string db;
+        };
+
         class Config : public ashoka::env::Config
         {
         public:
-            Config() : host("127.0.0.1"), port(5432), user("postgres"), password(std::nullopt), db("dev"), pool_size(16) {}
-            Config(const toml::table &root)
-            {
-                std::optional<std::string> host = root["host"].value<std::string>();
-                this->host = host.value_or("127.0.0.1");
-                std::optional<unsigned short> port = root["port"].value<unsigned short>();
-                this->port = port.value_or(5432);
-                std::optional<std::string> user = root["user"].value<std::string>();
-                this->user = user.value_or("postgres");
-                std::optional<std::string> password = root["password"].value<std::string>();
-                if (password)
-                {
-                    this->password = std::optional<std::string>{password.value()};
-                }
-                std::optional<std::string> db = root["db"].value<std::string>();
-                if (db)
-                {
-                    this->db = db.value();
-                }
-                std::optional<size_t> pool_size = root["pool-size"].value<size_t>();
-                this->pool_size = pool_size.value_or(20);
-            };
+            Config();
+            Config(const toml::table &root);
 
-            operator toml::table() const
-            {
-                toml::table root;
-                root.insert("host", this->host);
-                root.insert("port", this->port);
-                root.insert("user", this->user);
-                if (this->password)
-                {
-                    root.insert("password", this->password.value());
-                }
-                root.insert("db", this->db);
-                root.insert("pool-size", (long)this->pool_size);
-                return root;
-            };
-            std::string name() const
-            {
-                return "postgresql";
-            };
+            operator toml::table() const override;
+            std::string name() const override;
+            std::shared_ptr<ashoka::pool::Pool<Connection>> open();
 
         private:
             std::string host;
@@ -63,26 +58,20 @@ namespace ashoka
             size_t pool_size;
         };
 
-        // template <typename T>
-        // class Callback
-        // {
-        // public:
-        //     virtual T execute(pqxx::work *tx) const = 0;
-        // };
-
-        class Connection
+        class SchemaDao : public ashoka::orm::SchemaDao
         {
-            Connection();
-            ~Connection();
+        public:
+            SchemaDao(const std::shared_ptr<Connection> connection);
 
-            //     void ping();
+            void execute(const std::string &script) const override;
+            void delete_(const std::string &version) const override;
+            void insert(const std::string &version) const override;
+            std::optional<boost::posix_time::ptime> run_at(const std::string &version) const override;
 
-            //     template <typename T>
-            //     T call(Callback<T> *cb);
-
-            // private:
-            //     pqxx::connection *connection;
+        private:
+            const std::shared_ptr<Connection> connection;
         };
+
     } // namespace postgresql
 } // namespace ashoka
 #endif

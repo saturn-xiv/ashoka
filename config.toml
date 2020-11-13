@@ -12,7 +12,7 @@ pool-size = 12
 [postgresql]
 host = '127.0.0.1'
 port = 5432
-name = 'ashoka'
+db = 'ashoka'
 user = 'postgres'
 password = ''
 pool-size = 18

@@ -3,7 +3,13 @@
 #include "router.h"
 #include "utils.h"
 
-void ashoka::Server::listen()
+void ashoka::HttpServer::listen() {}
+
+ashoka::HttpServer::HttpServer(unsigned short int port) : port(port)
+{
+}
+
+ashoka::HttpServer::~HttpServer()
 {
     // Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(port));
 

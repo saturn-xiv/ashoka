@@ -13,6 +13,8 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <sodium.h>
 
+#define ASKOKA_TIMESTAMP_SIZE 14
+
 namespace ashoka
 {
     namespace crypt

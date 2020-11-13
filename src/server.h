@@ -5,11 +5,11 @@
 
 namespace ashoka
 {
-    class Server
+    class HttpServer
     {
     public:
-        Server(unsigned short int port) : port(port) {}
-        ~Server() {}
+        HttpServer(unsigned short int port);
+        ~HttpServer();
 
         void listen();
 

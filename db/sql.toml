@@ -1,0 +1,4 @@
+[schema_migrations]
+# "find-by-version" = "SELECT created_at FROM schema_migrations WHERE version = $1"
+# "insert" = "INSERT INTO schema_migrations(version) VALUES($1)"
+# "delete-by-version" = "DELETE FROM schema_migrations WHERE version = $1"

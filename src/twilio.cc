@@ -10,6 +10,41 @@ web::http::client::http_client ashoka::twilio::Config::connect() const
     web::http::client::http_client client(U("https://api.twilio.com"), cfg);
     return client;
 }
+ashoka::twilio::Config::Config(std::string from, std::string account_sid, std::string auth_token) : from(from), account_sid(account_sid), auth_token(auth_token) {}
+ashoka::twilio::Config::Config(const toml::table &root)
+{
+    std::optional<std::string> form = root["from"].value<std::string>();
+    if (form)
+    {
+        this->from = form.value();
+    }
+    std::optional<std::string> account_sid = root["account-sid"].value<std::string>();
+    if (account_sid)
+    {
+        this->account_sid = account_sid.value();
+    }
+    std::optional<std::string> auth_token = root["auth-token"].value<std::string>();
+    if (auth_token)
+    {
+        this->auth_token = auth_token.value();
+    }
+}
+
+ashoka::twilio::Config::operator toml::table() const
+{
+    toml::table root;
+    root.insert("account-sid", this->account_sid);
+    root.insert("auth-token", this->auth_token);
+    root.insert("from", this->from);
+    return root;
+}
+std::string ashoka::twilio::Config::name() const
+{
+    return "twilio";
+}
+
+// ----------------------
+ashoka::twilio::Client::Client(const Config config) : config(config) {}
 
 web::json::value ashoka::twilio::Client::get(const web::uri_builder &builder) const
 {

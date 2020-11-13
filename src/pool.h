@@ -37,7 +37,8 @@ namespace ashoka
         class Status
         {
         public:
-            Status(size_t size, size_t used) : size(size), used(used) {}
+            Status(size_t size, size_t used);
+
             const size_t size;
             const size_t used;
         };
@@ -55,7 +56,6 @@ namespace ashoka
                 }
             }
             ~Pool() {}
-
             std::shared_ptr<T> get()
             {
                 std::lock_guard<std::mutex> lock(this->locker);
@@ -77,7 +77,7 @@ namespace ashoka
                             }
                             catch (std::exception &e)
                             {
-                                BOOST_LOG_TRIVIAL(error) << e;
+                                BOOST_LOG_TRIVIAL(error) << e.what();
                                 throw std::runtime_error("can't open new " + this->factory->name() + " connection");
                             }
                         }
@@ -90,7 +90,6 @@ namespace ashoka
                 this->used.insert(con);
                 return std::static_pointer_cast<T>(con);
             }
-
             void release(std::shared_ptr<T> con)
             {
                 std::lock_guard<std::mutex> lock(this->locker);

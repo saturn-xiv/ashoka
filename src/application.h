@@ -15,26 +15,8 @@ namespace ashoka
         friend class Application;
 
     private:
-        operator toml::table() const
-        {
-            toml::table root;
-            {
-                toml::table node = this->postgresql;
-                root.insert("postgresql", node);
-            }
-            {
-                toml::table node = this->redis;
-                root.insert("redis", node);
-            }
-            {
-                toml::table node = this->rabbitmq;
-                root.insert("rabbitmq", node);
-            }
+        operator toml::table() const;
 
-            return root;
-        };
-
-    private:
         ashoka::rabbitmq::Config rabbitmq;
         ashoka::redis::Config redis;
         ashoka::postgresql::Config postgresql;

@@ -9,9 +9,7 @@ namespace ashoka
     class HttpRouter
     {
     public:
-        HttpRouter()
-        {
-        }
+        HttpRouter();
         ~HttpRouter();
 
     private:

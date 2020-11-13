@@ -34,6 +34,27 @@ ashoka::Config::Config(const toml::table &root)
     }
 }
 
+ashoka::Config::operator toml::table() const
+{
+    toml::table root;
+    {
+        toml::table node = this->postgresql;
+        root.insert("postgresql", node);
+    }
+    {
+        toml::table node = this->redis;
+        root.insert("redis", node);
+    }
+    {
+        toml::table node = this->rabbitmq;
+        root.insert("rabbitmq", node);
+    }
+
+    return root;
+}
+
+// -----------------------------
+
 int ashoka::Application::run(int argc, char **argv)
 {
     ashoka::crypt::init();
@@ -44,6 +65,9 @@ int ashoka::Application::run(int argc, char **argv)
     boost::program_options::options_description global("Global options");
     global.add_options()("config,c", boost::program_options::value<std::string>()->default_value("config"), "configuration file(toml)")("debug,d", boost::program_options::bool_switch(), "debug mode");
 
+    boost::program_options::options_description db("PostgreSQL options");
+    db.add_options()("db-generate", boost::program_options::value<std::string>(), "generate migratation by name")("db-migrate", boost::program_options::bool_switch(), "migrate database to latest migration")("db-rollback", boost::program_options::bool_switch(), "rollback database the last migration")("db-status", boost::program_options::bool_switch(), "show database schema status");
+
     boost::program_options::options_description twilio("Twilio options");
     twilio.add_options()("twilio-sms-to", boost::program_options::value<std::string>(), "target phone number")("twilio-sms-message", boost::program_options::value<std::string>(), "sms message");
 
@@ -51,7 +75,7 @@ int ashoka::Application::run(int argc, char **argv)
     ops.add_options()("recipe,r", boost::program_options::value<std::string>(), "recipe name(toml)");
 
     boost::program_options::options_description desc("Allowed options");
-    desc.add(generic).add(global).add(twilio).add(ops);
+    desc.add(generic).add(global).add(db).add(twilio).add(ops);
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
     boost::program_options::notify(vm);
@@ -67,6 +91,7 @@ int ashoka::Application::run(int argc, char **argv)
         std::cout << ASHOKA_GIT_VERSION << std::endl;
         return EXIT_SUCCESS;
     }
+
     ashoka::utils::init_logging(false, debug);
     if (vm.count("recipe"))
     {
@@ -104,9 +129,40 @@ int ashoka::Application::run(int argc, char **argv)
     // std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
 
     auto cfg = ashoka::Config(root);
-    auto redis = cfg.redis.open();
+    auto pg = cfg.postgresql.open();
+    {
+        auto db = pg->get();
+        ashoka::postgresql::SchemaDao dao(db);
+        if (vm.count("db-generate"))
+        {
+            const auto name = vm["db-generate"].as<std::string>();
+            dao.generate(name);
+            return EXIT_SUCCESS;
+        }
 
-    ashoka::Server server = ashoka::Server(8080);
+        dao.load();
+        if (vm["db-migrate"].as<bool>())
+        {
+            dao.migrate();
+            return EXIT_SUCCESS;
+        }
+        if (vm["db-rollback"].as<bool>())
+        {
+            dao.rollback();
+            return EXIT_SUCCESS;
+        }
+        if (vm["db-status"].as<bool>())
+        {
+            std::cout << dao << std::endl;
+            return EXIT_SUCCESS;
+        }
+    }
+    auto redis = cfg.redis.open();
+    {
+        auto it = redis.get();
+    }
+
+    auto server = ashoka::HttpServer(8080);
     server.listen();
     return EXIT_SUCCESS;
 }

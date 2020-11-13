@@ -1,6 +1,8 @@
 #include "router.h"
 #include "cbeta.h"
 
+ashoka::HttpRouter::HttpRouter() {}
+
 // Poco::Net::HTTPRequestHandler *ashoka::RequestHandlerFactory::createRequestHandler(const Poco::Net::HTTPServerRequest &request)
 // {
 
