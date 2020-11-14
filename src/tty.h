@@ -191,13 +191,13 @@ namespace ashoka
                     switch (mode)
                     {
                     case TCPC:
-                        ss << 'TCPC';
+                        ss << "TCPC";
                         break;
                     case TCPS:
-                        ss << 'TCPS';
+                        ss << "TCPS";
                         break;
                     case UDPC:
-                        ss << 'UDPC';
+                        ss << "UDPC";
                         break;
                     }
                     ss << SEP << host << SEP << port;
