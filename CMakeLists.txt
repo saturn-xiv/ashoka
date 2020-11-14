@@ -22,12 +22,12 @@ execute_process(COMMAND git describe --tags --always --dirty
 )
 string(STRIP "${GIT_REV}" GIT_REV)
 configure_file(src/config.h.in config.h)
-add_executable(ashoka src/main.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
-
-set_target_properties(ashoka PROPERTIES LINK_FLAGS_RELEASE -s)
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}
 )
+
+add_executable(ashoka src/main.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
+set_target_properties(ashoka PROPERTIES LINK_FLAGS_RELEASE -s)
 
 if(CMAKE_CROSSCOMPILING)
     SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")

@@ -34,7 +34,7 @@ rm -rfv $TARGET/usr
 mkdir -pv $TARGET/usr/bin 
 cp -av bin/ashoka $TARGET/usr/bin/
 strip -s $TARGET/usr/bin/ashoka
-$TARGET/usr/share/ashoka
+mkdir -pv $TARGET/usr/share/ashoka
 cp -av $WORKSPACE/db $TARGET/usr/share/ashoka/
 
 rm -rfv $TARGET/etc

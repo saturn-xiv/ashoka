@@ -12,6 +12,10 @@ $ ./docker/scripts/deb.sh x64 demo
 
 ```
 
+```bash
+$ openssl rand -base64 32 # generate a random 32-bit base64 encoded key
+```
+
 ## Documents
 
 - [toml](https://toml.io/en/)
