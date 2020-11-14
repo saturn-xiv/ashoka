@@ -5,6 +5,7 @@
 #include "server.h"
 #include "twilio.h"
 #include "utils.h"
+#include "crawler.h"
 
 ashoka::Config::Config(const toml::table &root)
 {
@@ -68,6 +69,9 @@ int ashoka::Application::run(int argc, char **argv)
     boost::program_options::options_description db("PostgreSQL options");
     db.add_options()("db-generate", boost::program_options::value<std::string>(), "generate migratation by name")("db-migrate", boost::program_options::bool_switch(), "migrate database to latest migration")("db-rollback", boost::program_options::bool_switch(), "rollback database the last migration")("db-status", boost::program_options::bool_switch(), "show database schema status");
 
+    boost::program_options::options_description crawler("Crawler options");
+    crawler.add_options()("crawler-all", boost::program_options::bool_switch(), "run all crawler")("crawler-name", boost::program_options::value<std::string>(), "run crawler by name");
+
     boost::program_options::options_description twilio("Twilio options");
     twilio.add_options()("twilio-sms-to", boost::program_options::value<std::string>(), "target phone number")("twilio-sms-message", boost::program_options::value<std::string>(), "sms message");
 
@@ -75,7 +79,7 @@ int ashoka::Application::run(int argc, char **argv)
     ops.add_options()("recipe,r", boost::program_options::value<std::string>(), "recipe name(toml)");
 
     boost::program_options::options_description desc("Allowed options");
-    desc.add(generic).add(global).add(db).add(twilio).add(ops);
+    desc.add(generic).add(global).add(db).add(crawler).add(twilio).add(ops);
     boost::program_options::variables_map vm;
     boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
     boost::program_options::notify(vm);
@@ -124,10 +128,6 @@ int ashoka::Application::run(int argc, char **argv)
         }
     }
 
-    // boost::property_tree::ptree cfg;
-    // boost::property_tree::read_ini(config, cfg);
-    // std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
-
     auto cfg = ashoka::Config(root);
     {
 
@@ -160,7 +160,31 @@ int ashoka::Application::run(int argc, char **argv)
         }
     }
 
-    auto pg = cfg.postgresql.open(std_fs::path("db") / "schema" / "prepares.toml");
+    auto pg = cfg.postgresql.open(std_fs::path("db") / "prepares.toml");
+
+    {
+        auto db = pg->get();
+        auto node = root["crawler"];
+        if (!node.is_table())
+        {
+            BOOST_LOG_TRIVIAL(error) << "con't find crawler config";
+            return EXIT_FAILURE;
+        }
+        ashoka::crawler::Crawler crawler(db->context, *(node.as_table()));
+
+        if (vm["crawler-all"].as<bool>())
+        {
+            crawler.execute();
+            return EXIT_SUCCESS;
+        }
+        if (vm.count("crawler-name"))
+        {
+            const auto name = vm["crawler-name"].as<std::string>();
+            crawler.execute(name);
+            return EXIT_SUCCESS;
+        }
+    }
+
     auto redis = cfg.redis.open();
     {
         auto it = redis.get();

@@ -30,3 +30,5 @@ account-sid = 'change-me'
 auth-token = 'change-me'
 from = '+1...'
 
+[crawler]
+google = "https://www.google.com/"

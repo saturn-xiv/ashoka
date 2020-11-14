@@ -97,6 +97,7 @@ void ashoka::postgresql::SchemaDao::execute(const std::string &script) const
     tx.exec(script);
     tx.commit();
 }
+
 std::optional<boost::posix_time::ptime> ashoka::postgresql::SchemaDao::run_at(const std::string &version) const
 {
     pqxx::work tx(*(this->connection));
@@ -105,7 +106,7 @@ std::optional<boost::posix_time::ptime> ashoka::postgresql::SchemaDao::run_at(co
 
     for (auto it = rst.begin(); it != rst.end(); it++)
     {
-        return boost::posix_time::time_from_string(it["created_at"].as<std::string>());
+        return ASHOKA_STR2TS(it["created_at"]);
     }
 
     return std::nullopt;

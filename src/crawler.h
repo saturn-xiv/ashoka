@@ -9,26 +9,33 @@
 
 #include <cpprest/filestream.h>
 #include <cpprest/http_client.h>
+#include <pqxx/pqxx>
+#include <boost/log/trivial.hpp>
+#include <boost/exception/diagnostic_information.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
-namespace askhoka
+#include "env.h"
+
+namespace ashoka
 {
     namespace crawler
     {
 
-        class Connection
+        class Crawler
         {
         public:
-            virtual ~Connection() = 0;
-            virtual std::string name() const = 0;
-            virtual std::string url() const = 0;
+            Crawler(const std::shared_ptr<pqxx::connection> connection, const toml::table &root);
+            void execute() const;
+            void execute(const std::string &name) const;
+            std::optional<std::pair<std::string, boost::posix_time::ptime>> latest(const std::string &name) const;
+
+        private:
+            void execute(const std::string &name, const std::string &url) const;
+
+            const std::shared_ptr<pqxx::connection> connection;
+            std::vector<std::pair<std::string, std::string>> sources;
         };
 
-        class Factory
-        {
-        public:
-            virtual std::string name() const = 0;
-            virtual std::string url() const = 0;
-        };
     } // namespace crawler
-} // namespace askhoka
+} // namespace ashoka
 #endif

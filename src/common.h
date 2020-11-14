@@ -39,7 +39,4 @@
 
 #include "config.h"
 
-#define APPLICATION_JSON_UTF8 "application/json; charset=UTF-8"
-#define TEXT_HTML_UTF8 "text/html; charset=UTF-8"
-
 #endif

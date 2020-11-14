@@ -12,6 +12,10 @@ namespace std_fs = std::experimental::filesystem;
 #define TOML_EXCEPTIONS 1
 #include <toml.hpp>
 
+#define ASHOKA_STR2TS(x) boost::posix_time::time_from_string(x.as<std::string>())
+#define ASHOKA_APPLICATION_JSON_UTF8 "application/json; charset=UTF-8"
+#define ASHOKA_TEXT_HTML_UTF8 "text/html; charset=UTF-8"
+
 namespace ashoka
 {
     namespace env

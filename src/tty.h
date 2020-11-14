@@ -13,7 +13,7 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/asio.hpp>
 #include <boost/asio/serial_port.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/system/error_code.hpp>
 #include <boost/system/system_error.hpp>

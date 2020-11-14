@@ -49,15 +49,8 @@ enable_testing()
 add_executable(mqtt_test src/mqtt_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
 target_link_libraries(mqtt_test ${CONAN_LIBS} stdc++fs)
 
-add_executable(redis_test src/redis_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
-target_link_libraries(redis_test ${CONAN_LIBS} stdc++fs)
-
 add_executable(tty_test src/tty_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
 target_link_libraries(tty_test ${CONAN_LIBS} stdc++fs)
 
 add_executable(twilio_test src/twilio_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
 target_link_libraries(twilio_test ${CONAN_LIBS} stdc++fs)
-
-add_executable(crawler_test src/crawler_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
-target_link_libraries(crawler_test ${CONAN_LIBS} stdc++fs)
-    
