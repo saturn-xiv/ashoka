@@ -1,17 +1,8 @@
 #include "postgresql.h"
 
-ashoka::postgresql::Connection::~Connection()
+void ashoka::postgresql::load_prepares(pqxx::connection &connection, const std_fs::path &path)
 {
-    BOOST_LOG_TRIVIAL(debug) << "close postgresql connection";
-    if (this->context)
-    {
-        this->context->close();
-        this->context.reset();
-    }
-}
-void ashoka::postgresql::Connection::load(const std_fs::path &prepares)
-{
-    auto root = toml::parse_file(prepares.string());
+    auto root = toml::parse_file(path.string());
     for (auto &&[k1, v1] : root)
     {
         if (v1.is_table())
@@ -22,7 +13,7 @@ void ashoka::postgresql::Connection::load(const std_fs::path &prepares)
                 std::optional<std::string> val = v2.value<std::string>();
                 if (val)
                 {
-                    this->context->prepare(k1 + "." + k2, val.value());
+                    connection.prepare(k1 + "." + k2, val.value());
                 }
             }
         }
@@ -31,8 +22,25 @@ void ashoka::postgresql::Connection::load(const std_fs::path &prepares)
 
 // -----------------------
 
-ashoka::postgresql::Factory::Factory(const std::string host, const unsigned short int port, const std::string db, const std::string user, const std::optional<std::string> password)
-    : host(host), port(port), db(db), user(user), password(password)
+ashoka::postgresql::Connection::~Connection()
+{
+    BOOST_LOG_TRIVIAL(debug) << "close postgresql connection";
+    if (this->context)
+    {
+        this->context->close();
+        this->context.reset();
+    }
+}
+
+// -----------------------
+
+ashoka::postgresql::Factory::Factory(const std::string host,
+                                     const unsigned short int port,
+                                     const std::string db,
+                                     const std::string user,
+                                     const std::optional<std::string> password,
+                                     const std::optional<std_fs::path> prepares)
+    : host(host), port(port), db(db), user(user), password(password), prepares(prepares)
 {
     BOOST_LOG_TRIVIAL(info) << "init postgresql connection factory";
 }
@@ -54,6 +62,10 @@ std::shared_ptr<ashoka::pool::Connection> ashoka::postgresql::Factory::create()
 
     std::shared_ptr<Connection> it(new Connection());
     it->context = std::shared_ptr<pqxx::connection>(new pqxx::connection(ss.str()));
+    if (this->prepares)
+    {
+        ashoka::postgresql::load_prepares(*(it->context), this->prepares.value());
+    }
 
     return std::static_pointer_cast<ashoka::pool::Connection>(it);
 };
@@ -66,7 +78,7 @@ std::string ashoka::postgresql::Factory::name() const
 }
 
 // ------------------------------
-ashoka::postgresql::SchemaDao::SchemaDao(const std::shared_ptr<Connection> connection) : connection(connection)
+ashoka::postgresql::SchemaDao::SchemaDao(const std::shared_ptr<pqxx::connection> connection) : connection(connection)
 {
     const auto root = std_fs::path("db") / "schema";
     {
@@ -75,20 +87,19 @@ ashoka::postgresql::SchemaDao::SchemaDao(const std::shared_ptr<Connection> conne
                               std::istreambuf_iterator<char>());
         this->execute(sql);
     }
-    this->connection->load(root / "prepares.toml");
+    ashoka::postgresql::load_prepares(*(this->connection), root / "prepares.toml");
 }
 
 void ashoka::postgresql::SchemaDao::execute(const std::string &script) const
 {
     BOOST_LOG_TRIVIAL(debug) << script;
-    pqxx::work tx(*(this->connection->context));
+    pqxx::work tx(*(this->connection));
     tx.exec(script);
     tx.commit();
 }
 std::optional<boost::posix_time::ptime> ashoka::postgresql::SchemaDao::run_at(const std::string &version) const
 {
-
-    pqxx::work tx(*(this->connection->context));
+    pqxx::work tx(*(this->connection));
     pqxx::result rst = tx.exec_prepared("schema_migrations.find-by-version", version);
     tx.commit();
 
@@ -101,14 +112,14 @@ std::optional<boost::posix_time::ptime> ashoka::postgresql::SchemaDao::run_at(co
 }
 void ashoka::postgresql::SchemaDao::delete_(const std::string &version) const
 {
-    pqxx::work tx(*(this->connection->context));
+    pqxx::work tx(*(this->connection));
     pqxx::result rst = tx.exec_prepared("schema_migrations.delete-by-version", version);
     tx.commit();
 }
 void ashoka::postgresql::SchemaDao::insert(const std::string &version) const
 {
 
-    pqxx::work tx(*(this->connection->context));
+    pqxx::work tx(*(this->connection));
     pqxx::result rst = tx.exec_prepared("schema_migrations.insert", version);
     tx.commit();
 }
@@ -159,9 +170,10 @@ ashoka::postgresql::Config::Config(const toml::table &root)
     std::optional<size_t> pool_size = root["pool-size"].value<size_t>();
     this->pool_size = pool_size.value_or(20);
 }
-std::shared_ptr<ashoka::pool::Pool<ashoka::postgresql::Connection>> ashoka::postgresql::Config::open()
+
+std::shared_ptr<ashoka::pool::Pool<ashoka::postgresql::Connection>> ashoka::postgresql::Config::open(const std::optional<std_fs::path> &prepares)
 {
-    std::shared_ptr<ashoka::postgresql::Factory> factory(new ashoka::postgresql::Factory(this->host, this->port, this->db, this->user, this->password));
+    std::shared_ptr<ashoka::postgresql::Factory> factory(new ashoka::postgresql::Factory(this->host, this->port, this->db, this->user, this->password, prepares));
     std::shared_ptr<ashoka::pool::Pool<ashoka::postgresql::Connection>> pool(new ashoka::pool::Pool<ashoka::postgresql::Connection>(this->pool_size, factory));
     return pool;
 }

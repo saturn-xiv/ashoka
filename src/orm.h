@@ -15,6 +15,7 @@
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/log/trivial.hpp>
+#include <boost/format.hpp>
 
 #include "env.h"
 #include "crypt.h"
@@ -66,12 +67,12 @@ namespace ashoka
             void rollback();
             friend std::ostream &operator<<(std::ostream &out, const SchemaDao &self)
             {
-                out << "VERSION\t\t"
-                    << "NAME\t\t"
-                    << "RUN AT" << std::endl;
+                const std::string fmt = "%1$-15s %2$-24s ";
+
+                out << (boost::format(fmt) % "VERSION" % "NAME") << "RUN AT" << std::endl;
                 for (auto it = self.migrations.begin(); it != self.migrations.end(); it++)
                 {
-                    out << it->version << "\t" << it->name << "\t";
+                    out << (boost::format(fmt) % it->version % it->name);
                     if (it->run_at)
                     {
                         out << boost::posix_time::to_iso_extended_string(it->run_at.value());

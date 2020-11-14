@@ -12,12 +12,12 @@ namespace ashoka
 {
     namespace postgresql
     {
+        void load_prepares(pqxx::connection &connection, const std_fs::path &path);
 
         class Connection : public ashoka::pool::Connection
         {
         public:
-            ~Connection();
-            void load(const std_fs::path &prepares);
+            ~Connection() override;
 
             friend class Factory;
             std::shared_ptr<pqxx::connection> context;
@@ -32,7 +32,8 @@ namespace ashoka
                     const unsigned short int port,
                     const std::string db,
                     const std::string user,
-                    const std::optional<std::string> password);
+                    const std::optional<std::string> password,
+                    const std::optional<std_fs::path> prepares);
             std::shared_ptr<ashoka::pool::Connection> create() override;
             std::string name() const override;
 
@@ -42,6 +43,7 @@ namespace ashoka
             const std::string user;
             const std::optional<std::string> password;
             const std::string db;
+            const std::optional<std_fs::path> prepares;
         };
 
         class Config : public ashoka::env::Config
@@ -52,7 +54,7 @@ namespace ashoka
 
             operator toml::table() const override;
             std::string name() const override;
-            std::shared_ptr<ashoka::pool::Pool<Connection>> open();
+            std::shared_ptr<ashoka::pool::Pool<Connection>> open(const std::optional<std_fs::path> &prepares);
 
         private:
             std::string host;
@@ -66,7 +68,7 @@ namespace ashoka
         class SchemaDao : public ashoka::orm::SchemaDao
         {
         public:
-            SchemaDao(const std::shared_ptr<Connection> connection);
+            SchemaDao(const std::shared_ptr<pqxx::connection> connection);
 
             void execute(const std::string &script) const override;
             void delete_(const std::string &version) const override;
@@ -74,7 +76,7 @@ namespace ashoka
             std::optional<boost::posix_time::ptime> run_at(const std::string &version) const override;
 
         private:
-            const std::shared_ptr<Connection> connection;
+            const std::shared_ptr<pqxx::connection> connection;
         };
 
     } // namespace postgresql

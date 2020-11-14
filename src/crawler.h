@@ -14,7 +14,16 @@ namespace askhoka
 {
     namespace crawler
     {
-        class Crawler
+
+        class Connection
+        {
+        public:
+            virtual ~Connection() = 0;
+            virtual std::string name() const = 0;
+            virtual std::string url() const = 0;
+        };
+
+        class Factory
         {
         public:
             virtual std::string name() const = 0;

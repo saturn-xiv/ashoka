@@ -24,7 +24,7 @@ namespace ashoka
         class Connection
         {
         public:
-            Connection(){};
+            // Connection(){};
             virtual ~Connection(){};
         };
         class Factory

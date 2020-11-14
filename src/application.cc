@@ -129,12 +129,11 @@ int ashoka::Application::run(int argc, char **argv)
     // std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>> redis = ashoka::redis::open(&cfg);
 
     auto cfg = ashoka::Config(root);
-    auto pg = cfg.postgresql.open();
     {
 
-        // pg.load(std_fs::path("db") / "schema" / "prepares.toml");
+        auto pg = cfg.postgresql.open(std::nullopt);
         auto db = pg->get();
-        ashoka::postgresql::SchemaDao dao(db);
+        ashoka::postgresql::SchemaDao dao(db->context);
         dao.load();
 
         if (vm.count("db-generate"))
@@ -160,6 +159,8 @@ int ashoka::Application::run(int argc, char **argv)
             return EXIT_SUCCESS;
         }
     }
+
+    auto pg = cfg.postgresql.open(std_fs::path("db") / "schema" / "prepares.toml");
     auto redis = cfg.redis.open();
     {
         auto it = redis.get();
