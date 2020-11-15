@@ -68,7 +68,7 @@ namespace ashoka
         class SchemaDao : public ashoka::orm::SchemaDao
         {
         public:
-            SchemaDao(const std::shared_ptr<pqxx::connection> connection);
+            SchemaDao(const std::shared_ptr<pqxx::connection> connection, const std_fs::path root);
 
             void execute(const std::string &script) const override;
             void delete_(const std::string &version) const override;

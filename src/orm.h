@@ -94,9 +94,7 @@ namespace ashoka
 
             std::vector<Migration> migrations;
             std::mutex locker;
-
-        private:
-            std_fs::path root() const;
+            std_fs::path root;
         };
     } // namespace orm
 } // namespace ashoka

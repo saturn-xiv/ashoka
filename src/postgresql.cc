@@ -78,16 +78,18 @@ std::string ashoka::postgresql::Factory::name() const
 }
 
 // ------------------------------
-ashoka::postgresql::SchemaDao::SchemaDao(const std::shared_ptr<pqxx::connection> connection) : connection(connection)
+ashoka::postgresql::SchemaDao::SchemaDao(const std::shared_ptr<pqxx::connection> connection, const std_fs::path root)
+    : connection(connection)
 {
-    const auto root = std_fs::path("db") / "schema";
+    this->root = root;
+    const auto schema = this->root / "schema";
     {
-        std::ifstream sqlf(root / "up.sql");
+        std::ifstream sqlf(schema / "up.sql");
         const std::string sql((std::istreambuf_iterator<char>(sqlf)),
                               std::istreambuf_iterator<char>());
         this->execute(sql);
     }
-    ashoka::postgresql::load_prepares(*(this->connection), root / "prepares.toml");
+    ashoka::postgresql::load_prepares(*(this->connection), schema / "prepares.toml");
 }
 
 void ashoka::postgresql::SchemaDao::execute(const std::string &script) const

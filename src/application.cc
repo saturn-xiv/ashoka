@@ -67,7 +67,7 @@ int ashoka::Application::run(int argc, char **argv)
     global.add_options()("config,c", boost::program_options::value<std::string>()->default_value("config"), "configuration file(toml)")("debug,d", boost::program_options::bool_switch(), "debug mode");
 
     boost::program_options::options_description db("PostgreSQL options");
-    db.add_options()("db-generate", boost::program_options::value<std::string>(), "generate migratation by name")("db-migrate", boost::program_options::bool_switch(), "migrate database to latest migration")("db-rollback", boost::program_options::bool_switch(), "rollback database the last migration")("db-status", boost::program_options::bool_switch(), "show database schema status");
+    db.add_options()("db-schema", boost::program_options::value<std::string>()->default_value("db"), "db schema folder")("db-generate", boost::program_options::value<std::string>(), "generate migratation by name")("db-migrate", boost::program_options::bool_switch(), "migrate database to latest migration")("db-rollback", boost::program_options::bool_switch(), "rollback database the last migration")("db-status", boost::program_options::bool_switch(), "show database schema status");
 
     boost::program_options::options_description crawler("Crawler options");
     crawler.add_options()("crawler-all", boost::program_options::bool_switch(), "run all crawler")("crawler-name", boost::program_options::value<std::string>(), "run crawler by name");
@@ -109,6 +109,7 @@ int ashoka::Application::run(int argc, char **argv)
     BOOST_LOG_TRIVIAL(info) << ASHOKA_PROJECT_NAME << "(" << ASHOKA_VERSION << ")";
     BOOST_LOG_TRIVIAL(debug) << "run in debug mode";
     const std::string config = vm["config"].as<std::string>() + ".toml";
+    const std::string db_schema = vm["db-schema"].as<std::string>();
     BOOST_LOG_TRIVIAL(info) << "load from " << config;
     toml::table root = toml::parse_file(config);
 
@@ -133,7 +134,7 @@ int ashoka::Application::run(int argc, char **argv)
 
         auto pg = cfg.postgresql.open(std::nullopt);
         auto db = pg->get();
-        ashoka::postgresql::SchemaDao dao(db->context);
+        ashoka::postgresql::SchemaDao dao(db->context, std_fs::path(db_schema));
         dao.load();
 
         if (vm.count("db-generate"))
@@ -160,7 +161,7 @@ int ashoka::Application::run(int argc, char **argv)
         }
     }
 
-    auto pg = cfg.postgresql.open(std_fs::path("db") / "prepares.toml");
+    auto pg = cfg.postgresql.open(std_fs::path(db_schema) / "prepares.toml");
 
     {
         auto db = pg->get();

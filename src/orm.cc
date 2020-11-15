@@ -1,5 +1,7 @@
 #include "orm.h"
 
+#define ASHOKA_DB_MIGRATIONS_NAME "migrations"
+
 ashoka::orm::Migration::Migration(const std::string version,
                                   const std::string name,
                                   const std::string up,
@@ -48,7 +50,7 @@ void ashoka::orm::SchemaDao::rollback()
 
 void ashoka::orm::SchemaDao::generate(const std::string &name) const
 {
-    const auto root = this->root() / (ashoka::crypt::timestamp() + "-" + name);
+    const auto root = this->root / ASHOKA_DB_MIGRATIONS_NAME / (ashoka::crypt::timestamp() + "-" + name);
     std_fs::create_directories(root);
 
     for (auto it : {"up.sql", "down.sql"})
@@ -63,7 +65,7 @@ void ashoka::orm::SchemaDao::load()
 {
     std::lock_guard<std::mutex> lock(this->locker);
 
-    for (const auto &dir : std_fs::directory_iterator(this->root()))
+    for (const auto &dir : std_fs::directory_iterator(this->root / ASHOKA_DB_MIGRATIONS_NAME))
     {
         const auto root = dir.path();
         const std::string fn = root.filename().string();
@@ -79,9 +81,4 @@ void ashoka::orm::SchemaDao::load()
         this->migrations.push_back(Migration(version, name, up, down, this->run_at(version)));
     }
     std::sort(this->migrations.begin(), this->migrations.end());
-}
-
-std_fs::path ashoka::orm::SchemaDao::root() const
-{
-    return (std_fs::path("db") / "migrations");
 }
