@@ -9,7 +9,7 @@ hosts = [
     'deploy20',
     'root21'
 ]
-tasks = ['ping', 'hi']
+tasks = ['/ping.sh', '/hi.sh']
 [groups.g1.env]
 'group.1.1' = 'group 1-1'
 'group.1.2' = 'group 1-2'
@@ -20,7 +20,7 @@ hosts = [
     'deploy20',
     'root22'
 ]
-tasks = ['hi', 'ping']
+tasks = ['/hi.sh', '/ping.sh']
 [groups.g2.env]
 'group.2.1' = 'group 2-1'
 'group.2.2' = 'group 2-2'

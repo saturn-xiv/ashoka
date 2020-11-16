@@ -5,17 +5,17 @@
 
 namespace ashoka
 {
-    class HttpServer
-    {
-    public:
-        HttpServer(unsigned short int port);
-        ~HttpServer();
+  class HttpServer
+  {
+  public:
+    HttpServer(unsigned short int port);
+    ~HttpServer();
 
-        void listen();
+    void listen();
 
-    private:
-        const unsigned short int port;
-    };
+  private:
+    const unsigned short int port;
+  };
 } // namespace ashoka
 
 #endif

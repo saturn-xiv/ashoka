@@ -7,41 +7,41 @@
 
 namespace ashoka
 {
-    namespace hardware
+  namespace hardware
+  {
+    class Tty
     {
-        class Tty
-        {
-        public:
-            void send(const std::string &buf);
-            void receive(const std::string &buf);
-        };
+    public:
+      void send(const std::string &buf);
+      void receive(const std::string &buf);
+    };
 
-        class Audio
-        {
-        public:
-            void play(const std::string &file);
-            void stop();
-        };
+    class Audio
+    {
+    public:
+      void play(const std::string &file);
+      void stop();
+    };
 
-        class Tts
-        {
-        public:
-            void send(const std::string &buf);
-        };
+    class Tts
+    {
+    public:
+      void send(const std::string &buf);
+    };
 
-        class Video
-        {
-        };
+    class Video
+    {
+    };
 
-        class Queue
-        {
-        public:
-            Queue();
-            ~Queue();
+    class Queue
+    {
+    public:
+      Queue();
+      ~Queue();
 
-        private:
-        };
-    } // namespace hardware
+    private:
+    };
+  } // namespace hardware
 
 } // namespace ashoka
 

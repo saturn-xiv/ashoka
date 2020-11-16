@@ -1,19 +1,30 @@
 #ifndef ASHOKA_DEPLOYMENT_H_
 #define ASHOKA_DEPLOYMENT_H_
 
+#include <algorithm>
+#include <atomic>
+#include <chrono>
+#include <cstdio>
+#include <cstdlib>
 #include <ctime>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <optional>
 #include <sstream>
 #include <string>
+#include <thread>
+#include <utility>
 #include <vector>
 
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/exception/diagnostic_information.hpp>
 #include <boost/log/trivial.hpp>
 #include <inja/inja.hpp>
 #include <nlohmann/json.hpp>
 
+#include "crypt.h"
 #include "env.h"
 
 namespace ashoka
@@ -27,8 +38,6 @@ namespace ashoka
             public:
                 Client(std::string name, toml::table &table);
                 ~Client() {}
-                bool is_local();
-                void ping();
 
                 friend std::ostream &operator<<(std::ostream &out, const Client &self)
                 {
@@ -55,7 +64,8 @@ namespace ashoka
                 }
                 bool operator==(const Client &self) const
                 {
-                    return this->host == self.host && this->port == self.port && this->user == self.user;
+                    return this->host == self.host && this->port == self.port &&
+                           this->user == self.user;
                 }
                 bool operator==(const std::string &self) const
                 {
@@ -64,9 +74,9 @@ namespace ashoka
                     return buf.str() == self;
                 }
 
-            private:
-                void log(const std::string &message);
+                friend class Recipe;
 
+            private:
                 std::string name;
                 std::string host;
                 std::optional<unsigned short> port;
@@ -102,6 +112,8 @@ namespace ashoka
                     return out;
                 }
 
+                friend class Recipe;
+
             private:
                 std::string name;
                 std::vector<std::string> hosts;
@@ -109,13 +121,36 @@ namespace ashoka
                 std::map<std::string, std::string> env;
             };
 
+            class Task
+            {
+            public:
+                Task(const std::string host, std::optional<unsigned short> port,
+                     std::optional<std::string> user, std::optional<std::string> key);
+                void execute() const;
+                void log(const std::string &message) const;
+                friend class Recipt;
+
+                std::vector<
+                    std::pair<std::vector<std::string>, std::map<std::string, std::string>>>
+                    recipes;
+
+                const std::string host;
+                const unsigned short port;
+                const std::string user;
+                const std::string key;
+
+            private:
+                void execute(const std::string &recipe,
+                             const std::map<std::string, std::string> &env) const;
+                bool is_local() const;
+            };
             class Recipe
             {
             public:
                 Recipe(std::string file);
                 Recipe(std::string name, toml::table &root);
                 ~Recipe() {}
-                void execute();
+                void execute() const;
 
                 friend std::ostream &operator<<(std::ostream &out, const Recipe &self)
                 {
@@ -149,13 +184,6 @@ namespace ashoka
                 std::map<std::string, std::string> env;
             };
 
-            void execute(
-                std::string host,
-                std::optional<unsigned short> port,
-                std::optional<std::string> user,
-                std::optional<std::string> key,
-                std::map<std::string, std::string> env);
-
         } // namespace deploy
 
         namespace email
@@ -173,6 +201,21 @@ namespace ashoka
             {
             };
         } // namespace vpn
-    }     // namespace ops
+        namespace systemd
+        {
+            namespace network
+            {
+                class Wifi
+                {
+                };
+                class Dhcp
+                {
+                };
+                class Static
+                {
+                };
+            } // namespace network
+        }     // namespace systemd
+    }         // namespace ops
 } // namespace ashoka
 #endif

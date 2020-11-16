@@ -2,6 +2,6 @@
 
 set -e 
 
-echo "Hello, ${USER}@${HOST}"
+echo "Hello, ${USER}@${HOST}, {{ deploy-secret }}."
 
 exit 0

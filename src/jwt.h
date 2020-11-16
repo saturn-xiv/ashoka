@@ -11,17 +11,17 @@
 
 namespace ashoka
 {
-    class Jwt
-    {
-    public:
-        Jwt();
-        ~Jwt();
+  class Jwt
+  {
+  public:
+    Jwt();
+    ~Jwt();
 
-        std::string sum();
-        bool verify(const std::string &token);
+    std::string sum();
+    bool verify(const std::string &token);
 
-    private:
-    };
+  private:
+  };
 } // namespace ashoka
 
 #endif

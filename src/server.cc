@@ -5,19 +5,17 @@
 
 void ashoka::HttpServer::listen() {}
 
-ashoka::HttpServer::HttpServer(unsigned short int port) : port(port)
-{
-}
+ashoka::HttpServer::HttpServer(unsigned short int port) : port(port) {}
 
 ashoka::HttpServer::~HttpServer()
 {
-    // Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(port));
+  // Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(port));
 
-    // auto opts = Pistache::Http::Endpoint::options().threads(1);
-    // Pistache::Http::Endpoint server(addr);
-    // server.init(opts);
-    // server.setHandler(std::make_shared<ashoka::nut::HomeHandler>());
-    // server.serve();
+  // auto opts = Pistache::Http::Endpoint::options().threads(1);
+  // Pistache::Http::Endpoint server(addr);
+  // server.init(opts);
+  // server.setHandler(std::make_shared<ashoka::nut::HomeHandler>());
+  // server.serve();
 }
 
 // void ashoka::ServerApplication::initialize(Poco::Util::Application &self)
@@ -53,7 +51,8 @@ ashoka::HttpServer::~HttpServer()
 //                 this, &ServerApplication::handleVersion)));
 // }
 
-// void ashoka::ServerApplication::handleHelp(const std::string &name, const std::string &value)
+// void ashoka::ServerApplication::handleHelp(const std::string &name, const
+// std::string &value)
 // {
 //     command = ashoka::Command::HELP;
 //     Poco::Util::HelpFormatter helpFormatter(options());
@@ -64,7 +63,8 @@ ashoka::HttpServer::~HttpServer()
 //     stopOptionsProcessing();
 // }
 
-// void ashoka::ServerApplication::handleVersion(const std::string &name, const std::string &value)
+// void ashoka::ServerApplication::handleVersion(const std::string &name, const
+// std::string &value)
 // {
 //     command = ashoka::Command::VERSION;
 //     std::cout << ASHOKA_GIT_VERSION << std::endl;
@@ -79,10 +79,12 @@ ashoka::HttpServer::~HttpServer()
 
 //     if (command == Command::HTTP)
 //     {
-//         BOOST_LOG_TRIVIAL(info) << ASHOKA_PROJECT_NAME << "(" << ASHOKA_VERSION << ")";
+//         BOOST_LOG_TRIVIAL(info) << ASHOKA_PROJECT_NAME << "(" <<
+//         ASHOKA_VERSION << ")";
 
-//         unsigned short port = static_cast<unsigned short>(config().getInt("http.port", 80));
-//         std::string secrets(config().getString("http.secrets"));
+//         unsigned short port = static_cast<unsigned
+//         short>(config().getInt("http.port", 80)); std::string
+//         secrets(config().getString("http.secrets"));
 
 //         ashoka::Redis *redis = new ashoka::Redis(config());
 //         std::string postgresql(config().getString("postgresql.url"));

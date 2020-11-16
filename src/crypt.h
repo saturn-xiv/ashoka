@@ -7,6 +7,7 @@
 #include <sstream>
 #include <stdexcept>
 
+#include <boost/beast/core/detail/base64.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>

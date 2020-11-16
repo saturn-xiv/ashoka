@@ -6,14 +6,14 @@
 namespace ashoka
 {
 
-    class HttpRouter
-    {
-    public:
-        HttpRouter();
-        ~HttpRouter();
+  class HttpRouter
+  {
+  public:
+    HttpRouter();
+    ~HttpRouter();
 
-    private:
-    };
+  private:
+  };
 
 } // namespace ashoka
 
