@@ -21,3 +21,5 @@ $ openssl rand -base64 32 # generate a random 32-bit base64 encoded key
 - [toml](https://toml.io/en/)
 - [strftime](http://www.cplusplus.com/reference/ctime/strftime/)
 - [crontab guru](https://crontab.guru/)
+- [libsodium](https://doc.libsodium.org/)
+- [A Template Engine for Modern C++](https://pantor.github.io/inja/)
