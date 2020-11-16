@@ -65,7 +65,7 @@ ashoka::crawler::Crawler::latest(const std::string &name) const
 void ashoka::crawler::Crawler::execute(const std::string &name,
                                        const std::string &url) const
 {
-  BOOST_LOG_TRIVIAL(debug) << "fetch " << name << " from " << url;
+  BOOST_LOG_TRIVIAL(info) << "fetch " << name << " from " << url;
 
   web::http::client::http_client_config cfg;
   cfg.set_validate_certificates(false);
