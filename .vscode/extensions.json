@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "ms-vscode.cpptools-extension-pack",
+        "vscode-icons-team.vscode-icons",
+        "hookyqr.beautify",
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "bungcip.better-toml",
+        "adpyke.vscode-sql-formatter",
+    ]
+}
