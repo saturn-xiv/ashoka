@@ -5,9 +5,11 @@
 #include "postgresql.h"
 #include "rabbitmq.h"
 #include "redis.h"
+#include "router.h"
 
 namespace ashoka
 {
+
   class Config
   {
   public:
@@ -20,6 +22,7 @@ namespace ashoka
     ashoka::rabbitmq::Config rabbitmq;
     ashoka::redis::Config redis;
     ashoka::postgresql::Config postgresql;
+    ashoka::api::Config http;
   };
 
   class Application

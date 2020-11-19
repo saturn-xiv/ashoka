@@ -3,7 +3,7 @@
 set -e
 
 if [ $# -ne 2 ] ; then
-    echo 'Please specify your arch(x64, linaro) AND project name'
+    echo 'Please specify your arch(x64, mingw, linaro) AND project name'
     exit 1
 fi
 
@@ -15,14 +15,15 @@ mkdir -pv $BUILD_ROOT
 cd $BUILD_ROOT
 
 # sudo apt update
-if [ $1 = "linaro" ]
+sudo apt -y install g++-9 mingw-w64
+if [ $1 = "linaro" ] || [ $1 = "mingw" ]
 then
     # apt --yes --force-yes -o Dpkg::Options::="--force-confnew" upgrade
     conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/$1 --build=missing
-    cmake -DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/$1.cmake -DCMAKE_BUILD_TYPE=Release $WORKSPACE
+    cmake -DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/$1.cmake -DCMAKE_BUILD_TYPE=Release $WORKSPACE 
 else
     # https://github.com/microsoft/cpprestsdk/pull/1462
-    sudo apt -y install g++-9
+    sudo apt -y install 
     conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/gcc9 --build=missing
     cmake -DCMAKE_C_COMPILER=gcc-9 -DCMAKE_CXX_COMPILER=g++-9 -DCMAKE_BUILD_TYPE=Release $WORKSPACE
 fi

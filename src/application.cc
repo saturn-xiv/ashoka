@@ -10,6 +10,14 @@
 ashoka::Config::Config(const toml::table &root)
 {
   {
+    auto node = root["http"];
+    if (node.is_table())
+    {
+      auto table = node.as_table();
+      this->http = ashoka::api::Config(*table);
+    }
+  }
+  {
     auto node = root["postgresql"];
     if (node.is_table())
     {
@@ -38,6 +46,10 @@ ashoka::Config::Config(const toml::table &root)
 ashoka::Config::operator toml::table() const
 {
   toml::table root;
+  {
+    toml::table node = this->http;
+    root.insert("http", node);
+  }
   {
     toml::table node = this->postgresql;
     root.insert("postgresql", node);
@@ -217,7 +229,7 @@ int ashoka::Application::run(int argc, char **argv)
     auto it = redis.get();
   }
 
-  auto server = ashoka::HttpServer(8080);
+  auto server = ashoka::api::Server(cfg.http.get_port());
   server.listen();
   return EXIT_SUCCESS;
 }
