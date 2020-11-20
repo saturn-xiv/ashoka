@@ -43,7 +43,8 @@ mkdir -pv $TARGET/etc/ashoka
 cp $WORKSPACE/LICENSE $WORKSPACE/config.toml $TARGET/etc/ashoka/
 
 cd $WORKSPACE
-dpkg -b ubuntu $2-$1-$(lsb_release -cs)-$(git describe --tags --always --dirty --first-parent).deb
+# $(lsb_release -cs)-
+dpkg -b ubuntu $2-$1-$(git describe --tags --always --dirty --first-parent).deb
 
 echo 'done'
 
