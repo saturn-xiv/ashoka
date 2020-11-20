@@ -2,9 +2,6 @@
 
 set -e
 
-
-
-
 if [ $# -ne 1 ]
 then
     echo 'please specify your profile'
