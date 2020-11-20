@@ -12,7 +12,6 @@ int main(int argc, char **argv)
   }
   catch (...)
   {
-    BOOST_LOG_TRIVIAL(fatal)
-        << boost::current_exception_diagnostic_information();
+    BOOST_LOG_TRIVIAL(fatal) << boost::current_exception_diagnostic_information();
   }
 }

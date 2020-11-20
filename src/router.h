@@ -16,6 +16,7 @@
 #include <tuple>
 
 #include <boost/log/trivial.hpp>
+#include <boost/exception/diagnostic_information.hpp>
 #include <cpprest/asyncrt_utils.h>
 #include <cpprest/containerstream.h>
 #include <cpprest/filestream.h>
@@ -23,6 +24,8 @@
 #include <cpprest/json.h>
 #include <cpprest/producerconsumerstream.h>
 #include <cpprest/uri.h>
+#include <inja/inja.hpp>
+#include <nlohmann/json.hpp>
 
 #include "crypt.h"
 #include "env.h"
@@ -61,14 +64,29 @@ namespace ashoka
       bool is_put() const;
       bool is_patch() const;
       bool is_delete() const;
+
+      // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+      void html(const std::string &tpl, const nlohmann::json &arg) const;
+      void json(const web::json::value &arg) const;
+      void plain_text(const std::string &tpl, const nlohmann::json &arg) const;
+      void not_found() const;
+      void internal_server_error() const;
+      void bad_request() const;
+      void unauthorized() const;
+      void forbidden() const;
+      void moved_permanently(const std::string uri) const;
+      void temporary_redirect(const std::string uri) const;
+
       friend class Router;
 
     private:
+      std::string render(const std::string &tpl, const nlohmann::json &arg) const;
+
       web::http::http_request request;
       const std::string secrets;
     };
 
-    class Route
+    class Handler
     {
     public:
       virtual void execute(Context &context) const = 0;
@@ -89,7 +107,7 @@ namespace ashoka
       Router(const std::string secrets, const std::string &host = "127.0.0.1", const short int port = 8080);
       Router(const Config &config);
       ~Router();
-      void append(const Method method, const std::string path, const std::shared_ptr<Route>);
+      void append(const Method method, const std::string path, const std::shared_ptr<Handler>);
       void start();
 
     private:
@@ -97,7 +115,7 @@ namespace ashoka
       void open(const std::string host, const short int port);
 
       web::http::experimental::listener::http_listener listener;
-      std::vector<std::tuple<Method, std::string, std::shared_ptr<Route>>> routes;
+      std::vector<std::tuple<Method, std::string, std::shared_ptr<Handler>>> routes;
       const std::string secrets;
     };
   } // namespace api

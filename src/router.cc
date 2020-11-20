@@ -42,6 +42,57 @@ std::map<std::string, std::string> ashoka::api::Context::query() const
 {
     return web::http::uri::split_query(web::http::uri::decode(request.request_uri().query()));
 }
+
+void ashoka::api::Context::html(const std::string &tpl, const nlohmann::json &arg) const
+{
+    request.reply(web::http::status_codes::OK, this->render(tpl, arg), ASHOKA_TEXT_HTML_UTF8);
+}
+
+void ashoka::api::Context::plain_text(const std::string &tpl, const nlohmann::json &arg) const
+{
+    request.reply(web::http::status_codes::OK, this->render(tpl, arg));
+}
+
+std::string ashoka::api::Context::render(const std::string &tpl, const nlohmann::json &arg) const
+{
+    BOOST_LOG_TRIVIAL(debug) << "render " << tpl << " " << arg;
+    inja::Environment env{"templates"};
+    return env.render_file(tpl, arg);
+}
+
+void ashoka::api::Context::json(const web::json::value &body) const
+{
+    request.reply(web::http::status_codes::OK, body);
+}
+void ashoka::api::Context::not_found() const
+{
+    request.reply(web::http::status_codes::NotFound);
+}
+void ashoka::api::Context::internal_server_error() const
+{
+    request.reply(web::http::status_codes::InternalError);
+}
+void ashoka::api::Context::bad_request() const
+{
+    request.reply(web::http::status_codes::BadRequest);
+}
+void ashoka::api::Context::unauthorized() const
+{
+    request.reply(web::http::status_codes::Unauthorized);
+}
+void ashoka::api::Context::forbidden() const
+{
+    request.reply(web::http::status_codes::Forbidden);
+}
+void ashoka::api::Context::moved_permanently(const std::string uri) const
+{
+    request.reply(web::http::status_codes::MovedPermanently, uri);
+}
+void ashoka::api::Context::temporary_redirect(const std::string uri) const
+{
+    request.reply(web::http::status_codes::TemporaryRedirect, uri);
+}
+
 // --------------------------
 
 ashoka::api::Config::Config() : port(8080), secrets(ashoka::crypt::random_base64_string(32)) {}
@@ -85,9 +136,9 @@ void ashoka::api::Router::open(const std::string host, const short int port)
     listener.support(std::bind(&ashoka::api::Router::handle, this, std::placeholders::_1));
 }
 
-void ashoka::api::Router::append(const ashoka::api::Method method, const std::string path, const std::shared_ptr<ashoka::api::Route> route)
+void ashoka::api::Router::append(const ashoka::api::Method method, const std::string path, const std::shared_ptr<ashoka::api::Handler> route)
 {
-    this->routes.push_back(std::tuple<ashoka::api::Method, std::string, std::shared_ptr<ashoka::api::Route>>(method, path, route));
+    this->routes.push_back(std::tuple<ashoka::api::Method, std::string, std::shared_ptr<ashoka::api::Handler>>(method, path, route));
 }
 
 void ashoka::api::Router::handle(web::http::http_request request)
@@ -116,14 +167,23 @@ void ashoka::api::Router::handle(web::http::http_request request)
             std::smatch result;
             if (std::regex_match(path.cbegin(), path.cend(), result, regex))
             {
-                BOOST_LOG_TRIVIAL(info) << "MATCH: " << pattern;
+                BOOST_LOG_TRIVIAL(info) << "match: " << pattern;
                 const auto handler = std::get<2>(it);
-                handler->execute(ctx);
+                try
+                {
+                    handler->execute(ctx);
+                }
+                catch (...)
+                {
+                    BOOST_LOG_TRIVIAL(error) << boost::current_exception_diagnostic_information();
+                    ctx.internal_server_error();
+                }
                 return;
             }
         }
     }
-    request.reply(web::http::status_codes::NotFound);
+    BOOST_LOG_TRIVIAL(info) << "not match";
+    ctx.not_found();
 }
 
 void ashoka::api::Router::start()
