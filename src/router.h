@@ -40,6 +40,7 @@ namespace ashoka
       operator toml::table() const override;
       std::string name() const override;
       unsigned short get_port() { return port; }
+      friend class Router;
 
     private:
       unsigned short port;
@@ -70,29 +71,33 @@ namespace ashoka
     class Route
     {
     public:
-      virtual void handle(const std::smatch &match, Context &context) const = 0;
+      virtual void execute(Context &context) const = 0;
+    };
+
+    enum Method
+    {
+      GET,
+      POST,
+      PUT,
+      PATCH,
+      DELETE
     };
 
     class Router
     {
     public:
       Router(const std::string secrets, const std::string &host = "127.0.0.1", const short int port = 8080);
+      Router(const Config &config);
       ~Router();
-      pplx::task<void> open();
-      pplx::task<void> close();
-      void append(const web::http::methods method, const std::string path, const std::shared_ptr<Route>);
+      void append(const Method method, const std::string path, const std::shared_ptr<Route>);
+      void start();
 
     private:
       void handle(web::http::http_request request);
-      // void handle_get(web::http::http_request request);
-      // void handle_post(web::http::http_request request);
-      // void handle_put(web::http::http_request request);
-      // void handle_patch(web::http::http_request request);
-      // void handle_delete(web::http::http_request request);
-      // void handle_error(pplx::task<void> &t);
+      void open(const std::string host, const short int port);
 
       web::http::experimental::listener::http_listener listener;
-      std::vector<std::tuple<web::http::methods, std::string, std::shared_ptr<Route>>> routes;
+      std::vector<std::tuple<Method, std::string, std::shared_ptr<Route>>> routes;
       const std::string secrets;
     };
   } // namespace api

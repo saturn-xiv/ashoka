@@ -3,7 +3,7 @@
 #include "crypt.h"
 #include "ops.h"
 #include "redis.h"
-#include "server.h"
+#include "router.h"
 #include "twilio.h"
 #include "utils.h"
 
@@ -167,7 +167,7 @@ int ashoka::Application::run(int argc, char **argv)
     }
   }
 
-  auto cfg = ashoka::Config(root);
+  const auto cfg = ashoka::Config(root);
   {
 
     auto pg = cfg.postgresql.open(std::nullopt);
@@ -229,7 +229,7 @@ int ashoka::Application::run(int argc, char **argv)
     auto it = redis.get();
   }
 
-  auto server = ashoka::api::Server(cfg.http.get_port());
-  server.listen();
+  auto router = ashoka::api::Router(cfg.http);
+  router.start();
   return EXIT_SUCCESS;
 }

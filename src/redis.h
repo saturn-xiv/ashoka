@@ -42,7 +42,7 @@ namespace ashoka
     public:
       Config();
       Config(const toml::table &root);
-      std::shared_ptr<ashoka::pool::Pool<Connection>> open();
+      std::shared_ptr<ashoka::pool::Pool<Connection>> open() const;
       operator toml::table() const override;
       std::string name() const override;
 

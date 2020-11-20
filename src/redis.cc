@@ -96,7 +96,7 @@ std::string ashoka::redis::Config::name() const { return "redis"; }
 // ---------------------------
 
 std::shared_ptr<ashoka::pool::Pool<ashoka::redis::Connection>>
-ashoka::redis::Config::open()
+ashoka::redis::Config::open() const
 {
   std::shared_ptr<ashoka::redis::Factory> factory(new ashoka::redis::Factory(
       this->host, this->port, this->db, this->prefix));

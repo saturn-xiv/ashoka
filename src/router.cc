@@ -65,116 +65,79 @@ std::string ashoka::api::Config::name() const
 }
 
 // -------------------------
+ashoka::api::Router::Router(const ashoka::api::Config &config)
+    : secrets(config.secrets), routes(0)
+{
+    this->open("127.0.0.1", config.port);
+}
 ashoka::api::Router::Router(const std::string secrets, const std::string &host, const short int port)
     : secrets(secrets), routes(0)
 {
+    this->open(host, port);
+}
+ashoka::api::Router::~Router() {}
 
+void ashoka::api::Router::open(const std::string host, const short int port)
+{
     std::stringstream ss;
     ss << "http://" << host << ":" << port;
     listener = web::http::experimental::listener::http_listener(U(ss.str()));
     listener.support(std::bind(&ashoka::api::Router::handle, this, std::placeholders::_1));
-    // listener.support(web::http::methods::GET, std::bind(&ashoka::api::Router::handle_get, this, std::placeholders::_1));
-    // listener.support(web::http::methods::PUT, std::bind(&ashoka::api::Router::handle_put, this, std::placeholders::_1));
-    // listener.support(web::http::methods::POST, std::bind(&ashoka::api::Router::handle_post, this, std::placeholders::_1));
-    // listener.support(web::http::methods::DEL, std::bind(&ashoka::api::Router::handle_delete, this, std::placeholders::_1));
 }
-ashoka::api::Router::~Router() {}
 
-void ashoka::api::Router::append(const web::http::methods method, const std::string path, const std::shared_ptr<ashoka::api::Route> route)
+void ashoka::api::Router::append(const ashoka::api::Method method, const std::string path, const std::shared_ptr<ashoka::api::Route> route)
 {
-    this->routes.push_back(std::tuple<web::http::methods, std::string, std::shared_ptr<ashoka::api::Route>>(method, path, route));
+    this->routes.push_back(std::tuple<ashoka::api::Method, std::string, std::shared_ptr<ashoka::api::Route>>(method, path, route));
 }
 
 void ashoka::api::Router::handle(web::http::http_request request)
 {
     ashoka::api::Context ctx(request, this->secrets);
+    const auto rqm = request.method();
+    const auto path = ctx.path();
+
     BOOST_LOG_TRIVIAL(info) << ctx.request.method() << " " << ctx.uri();
     for (const auto &it : this->routes)
     {
-        // const web::http::method method = std::get<0>(it);
-        const std::string regex = std::get<1>(it);
-        const auto handler = std::get<2>(it);
-        // if (method != ctx.request.method())
-        // {
-        //     continue;
-        // }
-        std::smatch match;
-        const auto uri = ctx.path();
-        // std::regex_match()
+        {
+            const auto rtm = std::get<0>(it);
+            if ((rqm == web::http::methods::GET && rtm != ashoka::api::Method::GET) ||
+                (rqm == web::http::methods::POST && rtm != ashoka::api::Method::POST) ||
+                (rqm == web::http::methods::PUT && rtm != ashoka::api::Method::PUT) ||
+                (rqm == web::http::methods::PATCH && rtm != ashoka::api::Method::PATCH) ||
+                (rqm == web::http::methods::DEL && rtm != ashoka::api::Method::DELETE))
+            {
+                continue;
+            }
+        }
+        {
+            const auto pattern = std::get<1>(it);
+            const std::regex regex(pattern);
+            std::smatch result;
+            if (std::regex_match(path.cbegin(), path.cend(), result, regex))
+            {
+                BOOST_LOG_TRIVIAL(info) << "MATCH: " << pattern;
+                const auto handler = std::get<2>(it);
+                handler->execute(ctx);
+                return;
+            }
+        }
     }
     request.reply(web::http::status_codes::NotFound);
 }
-// void ashoka::api::Router::handle_get(web::http::http_request request)
-// {
-//     BOOST_LOG_TRIVIAL(debug) << "GET";
-//     const auto uri = request.request_uri(); //web::http::uri::decode(request.relative_uri());
-//     const std::vector<std::string> paths = web::http::uri::split_path(web::http::uri::decode(uri.path()));
-//     const std::map<std::string, std::string> query = web::http::uri::split_query(web::http::uri::decode(uri.query()));
-//     std::cout << "### "
-//               << uri.to_string() << std::endl;
 
-//     for (auto const &it : paths)
-//     {
-//         std::cout << "P " << it << std::endl;
-//     }
-
-//     for (auto const &it : query)
-//     {
-//         std::cout << "Q " << it.first << "=" << it.second << std::endl;
-//     }
-
-//     request.reply(web::http::status_codes::OK, "HI, GET");
-// }
-// void ashoka::api::Router::handle_put(web::http::http_request request)
-// {
-//     this->handle(ashoka::api::Method::PUT, request);
-// }
-// void ashoka::api::Router::handle_post(web::http::http_request request)
-// {
-//     this->handle(ashoka::api::Method::POST, request);
-// }
-// void ashoka::api::Router::handle_patch(web::http::http_request request)
-// {
-//     this->handle(ashoka::api::Method::PATCH, request);
-// }
-// void ashoka::api::Router::handle_delete(web::http::http_request request)
-// {
-//     this->handle(ashoka::api::Method::DELETE, request);
-// }
-// void ashoka::api::Router::handle_error(pplx::task<void> &t)
-// {
-//     try
-//     {
-//         t.get();
-//     }
-//     catch (...)
-//     {
-//         BOOST_LOG_TRIVIAL(debug) << "ERROR";
-//     }
-// }
-
-pplx::task<void> ashoka::api::Router::open()
+void ashoka::api::Router::start()
 {
-    return listener.open();
+    listener.open().wait();
+    BOOST_LOG_TRIVIAL(info) << "wait(input quit/exit to exit)..." << std::endl;
+    std::string line;
+    for (;;)
+    {
+        std::getline(std::cin, line);
+        if (line == "quit" || line == "exit")
+        {
+            break;
+        }
+    }
+    listener.close().wait();
 }
-pplx::task<void> ashoka::api::Router::close()
-{
-    return listener.close();
-}
-
-// Poco::Net::HTTPRequestHandler
-// *ashoka::RequestHandlerFactory::createRequestHandler(const
-// Poco::Net::HTTPServerRequest &request)
-// {
-
-//     auto method = request.getMethod();
-//     auto uri = request.getURI();
-//     auto client = request.clientAddress();
-
-//     BOOST_LOG_TRIVIAL(info) << client.toString() << " " <<
-//     request.getVersion() << " " << method << " " << uri; if (uri == "/cbeta")
-//     {
-//         return new ashoka::cbeta::HomeRequestHandler();
-//     }
-//     return NULL;
-// }

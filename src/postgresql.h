@@ -53,7 +53,7 @@ namespace ashoka
       operator toml::table() const override;
       std::string name() const override;
       std::shared_ptr<ashoka::pool::Pool<Connection>>
-      open(const std::optional<std_fs::path> &prepares);
+      open(const std::optional<std_fs::path> &prepares) const;
 
     private:
       std::string host;

@@ -12,8 +12,16 @@ docker run --rm -it --network host -v `pwd`:/workspace ashoka-xenial # bionic, f
 ./docker/scripts/deb.sh linaro demo # build for arm7hf
 ```
 
+- generate a random 32-bit base64 encoded key
+
 ```bash
-openssl rand -base64 32 # generate a random 32-bit base64 encoded key
+openssl rand -base64 32
+```
+
+- enable sudo with-out-password
+
+```bash
+echo 'deploy ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/101-deploy
 ```
 
 ## Documents
