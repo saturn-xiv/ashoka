@@ -65,14 +65,17 @@ RUN sh -c ". $HOME/.profile \
 
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 
-ENV ASHOKA_HOME $HOME/workspace/ashoka
-RUN git clone -b cpp https://github.com/saturn-xiv/ashoka.git $ASHOKA_HOME
-RUN cd $WORKSPACE/docker/conan/recipes \
-    && ./build.sh $ASHOKA_HOME/docker/conan/profiles/gcc9
-RUN sh -c ". $HOME/.profile \
-    conan install $ASHOKA_HOME --profile=$ASHOKA_HOME/docker/conan/profiles/gcc9 --build=missing"
-
-RUN /ashoka/cross-chain.sh
+RUN  sh -c ". $HOME/.profile \
+    && git clone -b cpp https://github.com/saturn-xiv/ashoka.git $HOME/ashoka \
+    && cd $HOME/ashoka/docker/conan/recipes \
+    && ./build.sh $HOME/ashoka/docker/conan/profiles/gcc9 \
+    && ./build.sh $HOME/ashoka/docker/conan/profiles/linaro \
+    && mkdir $HOME/ashoka/build/gcc9 \
+    && cd $HOME/ashoka/build/gcc9 \
+    && conan install ../.. --profile=../../docker/conan/profiles/gcc9 --build=missing \
+    && mkdir $HOME/ashoka/build/linaro \
+    && cd $HOME/ashoka/build/linaro \
+    && conan install ../.. --profile=../../docker/conan/profiles/linaro --build=missing"
 
 VOLUME /workspace
 WORKDIR /workspace
