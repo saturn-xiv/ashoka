@@ -11,7 +11,9 @@ apt update
 apt -y install zsh git locales rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget yasm \
     build-essential pkg-config libtool automake autoconf binutils cmake clang \
-    binutils-multiarch g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf \
+    binutils-multiarch \
+    g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf \
+    mingw-w64 mingw-w64-tools binutils-mingw-w64 \
     python3.10 python3.10-distutils python3.10-dev    
 
 # https://wiki.ubuntu.com/ToolChain

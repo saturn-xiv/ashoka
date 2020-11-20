@@ -14,6 +14,8 @@ conan_basic_setup()
 find_package(OpenSSL REQUIRED Crypto SSL)
 find_package(Boost REQUIRED log_setup log thread system filesystem regex timer date_time chrono random  program_options unit_test_framework)
 
+option(ASHOKA_BUILD_STATIC "build all static binary" OFF)
+
 file(GLOB ASHOKA_HEADERS src/*.h)
 file(GLOB ASHOKA_SOURCES src/*.cc)
 execute_process(COMMAND git describe --tags --always --dirty
@@ -29,11 +31,11 @@ include_directories(
 add_executable(ashoka src/main.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
 set_target_properties(ashoka PROPERTIES LINK_FLAGS_RELEASE -s)
 
-if(CMAKE_CROSSCOMPILING)
+if(CMAKE_CROSSCOMPILING OR ASHOKA_BUILD_STATIC)
     SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
     SET(CMAKE_EXE_LINKER_FLAGS "-static")
     SET_TARGET_PROPERTIES(ashoka PROPERTIES LINK_SEARCH_END_STATIC 1)
-endif(CMAKE_CROSSCOMPILING)
+endif(CMAKE_CROSSCOMPILING OR ASHOKA_BUILD_STATIC)
  
 target_link_libraries(ashoka 
     # ${CMAKE_THREAD_LIBS_INIT}

@@ -6,7 +6,7 @@ os_build=Linux
 arch=x86_64
 arch_build=x86_64
 compiler=gcc
-compiler.version=7.3
+compiler.version=9.3
 compiler.libcxx=libstdc++11
 build_type=Release
 
@@ -21,6 +21,7 @@ AR=$target_host-ar
 AS=$target_host-as
 RANLIB=$target_host-ranlib
 STRIP=$target_host-strip
+RC=$target_host-windres
 LD=$target_host-ld
 CC=$target_host-gcc
 CXX=$target_host-g++
