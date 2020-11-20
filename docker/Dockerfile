@@ -70,10 +70,10 @@ RUN  sh -c ". $HOME/.profile \
     && cd $HOME/ashoka/docker/conan/recipes \
     && ./build.sh $HOME/ashoka/docker/conan/profiles/gcc9 \
     && ./build.sh $HOME/ashoka/docker/conan/profiles/linaro \
-    && mkdir $HOME/ashoka/build/gcc9 \
+    && mkdir -pv $HOME/ashoka/build/gcc9 \
     && cd $HOME/ashoka/build/gcc9 \
     && conan install ../.. --profile=../../docker/conan/profiles/gcc9 --build=missing \
-    && mkdir $HOME/ashoka/build/linaro \
+    && mkdir -pv $HOME/ashoka/build/linaro \
     && cd $HOME/ashoka/build/linaro \
     && conan install ../.. --profile=../../docker/conan/profiles/linaro --build=missing"
 
