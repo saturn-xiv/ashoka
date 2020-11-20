@@ -15,6 +15,18 @@ namespace ashoka
             void execute(ashoka::api::Context &context) const override;
         };
 
+        class RobotsTxtHandler : public ashoka::api::Handler
+        {
+        public:
+            void execute(ashoka::api::Context &context) const override;
+        };
+
+        class Plugin : public ashoka::api::Plugin
+        {
+        public:
+            void mount(ashoka::api::Router &router) const override;
+        };
+
     } // namespace nut
 } // namespace ashoka
 

@@ -118,6 +118,12 @@ namespace ashoka
       std::vector<std::tuple<Method, std::string, std::shared_ptr<Handler>>> routes;
       const std::string secrets;
     };
+
+    class Plugin
+    {
+    public:
+      virtual void mount(Router &router) const = 0;
+    };
   } // namespace api
 
 } // namespace ashoka

@@ -232,7 +232,8 @@ int ashoka::Application::run(int argc, char **argv)
 
   auto router = ashoka::api::Router(cfg.http);
   {
-    router.append(ashoka::api::Method::GET, "^/$", std::make_shared<ashoka::nut::HomeHandler>(ashoka::nut::HomeHandler()));
+    ashoka::nut::Plugin nut;
+    nut.mount(router);
   }
   router.start();
   return EXIT_SUCCESS;
