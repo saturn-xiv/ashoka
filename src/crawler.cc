@@ -1,5 +1,7 @@
 #include "crawler.h"
 
+ashoka::crawler::Crawler::Crawler(const std::shared_ptr<pqxx::connection> connection,
+                                  std::vector<std::pair<std::string, std::string>> sources) : connection(connection), sources(sources) {}
 ashoka::crawler::Crawler::Crawler(
     const std::shared_ptr<pqxx::connection> connection, const toml::table &root)
     : connection(connection), sources(0)

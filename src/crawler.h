@@ -25,6 +25,8 @@ namespace ashoka
     {
     public:
       Crawler(const std::shared_ptr<pqxx::connection> connection,
+              std::vector<std::pair<std::string, std::string>> sources);
+      Crawler(const std::shared_ptr<pqxx::connection> connection,
               const toml::table &root);
       void execute() const;
       void execute(const std::string &name) const;
