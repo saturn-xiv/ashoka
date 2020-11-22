@@ -1,3 +1,11 @@
 [crawlers_logs]
-"find.by-name" = "SELECT body, created_at FROM crawlers_logs WHERE name = $1 ORDER BY created_at DESC LIMIT 1"
+"find.all" = "SELECT name, body, created_at FROM crawlers_logs ORDER BY created_at DESC LIMIT $1"
+"find.by-name" = "SELECT body, created_at FROM crawlers_logs WHERE name = $1 LIMIT 1"
 "insert" = "INSERT INTO crawlers_logs(name, url, body) VALUES($1, $2, $3)"
+"delete.by-id" = "DELETE FROM crawlers_logs WHERE id = $1"
+
+[cron_jobs]
+"find.all" = 'SELECT name, "user", home, command, run_at, updated_at FROM cron_jobs ORDER BY name ASC'
+"find.by-name" = 'SELECT "user", home, command, run_at, updated_at FROM cron_jobs WHERE name = $1 LIMIT 1'
+"insert" = 'INSERT INTO cron_jobs(name, "user", home, command, run_at, updated_at) VALUES($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)'
+"delete.by-id" = "DELETE FROM cron_jobs WHERE id = $1"
