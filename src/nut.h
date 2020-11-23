@@ -12,13 +12,13 @@ namespace ashoka
         class HomeHandler : public ashoka::api::Handler
         {
         public:
-            void execute(ashoka::api::Context &context) const override;
+            void execute(ashoka::api::Context &context, const std::smatch &match) const override;
         };
 
         class RobotsTxtHandler : public ashoka::api::Handler
         {
         public:
-            void execute(ashoka::api::Context &context) const override;
+            void execute(ashoka::api::Context &context, const std::smatch &match) const override;
         };
 
         class Plugin : public ashoka::api::Plugin

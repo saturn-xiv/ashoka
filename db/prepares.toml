@@ -9,3 +9,6 @@
 "find.by-name" = 'SELECT "user", home, command, run_at, updated_at FROM cron_jobs WHERE name = $1 LIMIT 1'
 "insert" = 'INSERT INTO cron_jobs(name, "user", home, command, run_at, updated_at) VALUES($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)'
 "delete.by-id" = "DELETE FROM cron_jobs WHERE id = $1"
+
+
+

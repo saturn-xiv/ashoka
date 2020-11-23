@@ -171,7 +171,7 @@ void ashoka::api::Router::handle(web::http::http_request request)
                 const auto handler = std::get<2>(it);
                 try
                 {
-                    handler->execute(ctx);
+                    handler->execute(ctx, result);
                 }
                 catch (...)
                 {

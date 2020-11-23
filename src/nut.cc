@@ -1,12 +1,12 @@
 #include "nut.h"
 
-void ashoka::nut::HomeHandler::execute(ashoka::api::Context &context) const
+void ashoka::nut::HomeHandler::execute(ashoka::api::Context &context, const std::smatch &match) const
 {
     nlohmann::json buf;
     context.html("/home.html", buf);
 }
 
-void ashoka::nut::RobotsTxtHandler::execute(ashoka::api::Context &context) const
+void ashoka::nut::RobotsTxtHandler::execute(ashoka::api::Context &context, const std::smatch &match) const
 {
     nlohmann::json buf;
     context.html("/robots.txt", buf);

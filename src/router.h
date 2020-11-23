@@ -89,7 +89,7 @@ namespace ashoka
     class Handler
     {
     public:
-      virtual void execute(Context &context) const = 0;
+      virtual void execute(Context &context, const std::smatch &match) const = 0;
     };
 
     enum Method
