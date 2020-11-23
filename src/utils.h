@@ -17,6 +17,8 @@
 #include <boost/log/sources/logger.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/local_time/local_time.hpp>
 
 namespace ashoka
 {
@@ -27,6 +29,7 @@ namespace ashoka
         void watchdog(int dur);
 
         boost::posix_time::ptime str2time(const std::string &time, const std::string &format);
+        boost::local_time::local_date_time str2time(const std::string &time, const std::string &format, const std::string &timezone);
         unsigned long str2ul(const std::string &s);
 
     } // namespace utils

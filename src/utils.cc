@@ -68,9 +68,27 @@ boost::posix_time::ptime ashoka::utils::str2time(const std::string &time, const 
   std::istringstream is(time);
   is.imbue(loc);
 
-  boost::posix_time::ptime t;
-  is >> t;
-  return t;
+  boost::posix_time::ptime it;
+  is >> it;
+  return it;
+}
+
+boost::local_time::local_date_time ashoka::utils::str2time(const std::string &time, const std::string &format, const std::string &timezone)
+{
+  const std::locale loc = std::locale(std::locale::classic(), new boost::posix_time::time_input_facet(format));
+  std::istringstream is(time);
+  is.imbue(loc);
+
+  boost::posix_time::ptime cur;
+  is >> cur;
+
+  boost::local_time::time_zone_ptr utc(new boost::local_time::posix_time_zone("UTC"));
+  boost::local_time::local_date_time dt(cur, utc);
+
+  boost::local_time::tz_database tzd;
+  tzd.load_from_file("date_time_zonespec.csv");
+  boost::local_time::time_zone_ptr tz = tzd.time_zone_from_region(timezone);
+  return dt.local_time_in(tz);
 }
 
 unsigned long ashoka::utils::str2ul(const std::string &s)
