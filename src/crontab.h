@@ -38,7 +38,6 @@ namespace ashoka
                 return out;
             }
 
-        private:
             const std::string name;
             const std::string user;
             const std::string home;
