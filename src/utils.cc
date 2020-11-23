@@ -61,3 +61,22 @@ void ashoka::utils::watchdog(int dur)
     sleep(dur);
   }
 }
+
+boost::posix_time::ptime ashoka::utils::str2time(const std::string &time, const std::string &format)
+{
+  const std::locale loc = std::locale(std::locale::classic(), new boost::posix_time::time_input_facet(format));
+  std::istringstream is(time);
+  is.imbue(loc);
+
+  boost::posix_time::ptime t;
+  is >> t;
+  return t;
+}
+
+unsigned long ashoka::utils::str2ul(const std::string &s)
+{
+  unsigned long v;
+  std::istringstream ss(s);
+  ss >> v;
+  return v;
+}

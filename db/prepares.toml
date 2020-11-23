@@ -1,6 +1,6 @@
 [crawlers_logs]
 "find.all" = "SELECT name, body, created_at FROM crawlers_logs ORDER BY created_at DESC LIMIT $1"
-"find.by-name" = "SELECT body, created_at FROM crawlers_logs WHERE name = $1 LIMIT 1"
+"find.by-name" = "SELECT body, created_at FROM crawlers_logs WHERE name = $1 ORDER BY created_at DESC LIMIT 1"
 "insert" = "INSERT INTO crawlers_logs(name, url, body) VALUES($1, $2, $3)"
 "delete.by-id" = "DELETE FROM crawlers_logs WHERE id = $1"
 

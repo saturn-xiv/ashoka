@@ -16,6 +16,7 @@
 #include <boost/log/sinks/syslog_backend.hpp>
 #include <boost/log/sources/logger.hpp>
 #include <boost/log/trivial.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 namespace ashoka
 {
@@ -24,6 +25,9 @@ namespace ashoka
     {
         void init_logging(bool daemon, bool debug);
         void watchdog(int dur);
+
+        boost::posix_time::ptime str2time(const std::string &time, const std::string &format);
+        unsigned long str2ul(const std::string &s);
 
     } // namespace utils
 

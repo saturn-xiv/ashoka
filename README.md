@@ -29,5 +29,6 @@ echo 'deploy ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/101-deploy
 - [toml](https://toml.io/en/)
 - [strftime](http://www.cplusplus.com/reference/ctime/strftime/)
 - [crontab guru](https://crontab.guru/)
+- [time.is](https://time.is/)
 - [libsodium](https://doc.libsodium.org/)
 - [A Template Engine for Modern C++](https://pantor.github.io/inja/)
