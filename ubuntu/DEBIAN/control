@@ -1,0 +1,12 @@
+Package: ashoka
+Version: 2020-11-23
+Section: net
+Priority: optional
+Depends: nginx, ssh, rsync, nodejs, yarnpkg
+Suggests: 
+Architecture: amd64
+Installed-Size: 66666
+Maintainer: Jeremy Zheng
+Provides: saturn-xiv
+Description: https://github.com/saturn-xiv/ashoka
+

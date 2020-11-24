@@ -5,7 +5,6 @@
 
 set -e
 
-# export RUSTFLAGS="-C target-feature=+crt-static"
 cargo build --release
 
 if [ ! -d node_modules ]
@@ -21,10 +20,21 @@ fi
 yarn build
 cd ..
 
-export TARGET=tmp/$(git describe --tags --always --dirty)
-cp target/release/arete $TARGET/
-strip -s $TARGET/arete
-cp -r dashboard/build $TARGET/dashboard
+mkdir -pv ubuntu/usr/bin
+cp -v target/release/arete ubuntu/usr/bin/
+strip -s ubuntu/usr/bin/arete
+
+mkdir -pv ubuntu/var/lib/ashoka
+cp -r package.json dashboard/build ubuntu/var/lib/ashoka/dashboard
+
+export VERSION=$(git describe --tags --always --dirty)
+echo "$VERSION $(date -R)" > ubuntu/etc/ashoka/VERSION
+cp config.toml README.md LICENCE ubuntu/etc/ashoka/
+
+if [ $(lsb_release -is) = "Ubuntu" ]
+then
+    dpkg -b ubuntu ashoka-$VERSION.deb
+fi
 
 echo "Done! $TARGET"
 

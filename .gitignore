@@ -1,2 +1,8 @@
-/target/
 /tmp/
+
+/node_modules/
+/target/
+
+/ubuntu/var/lib/ashoka/
+/ubuntu/usr/bin/
+/ubuntu/etc/ashoka/
