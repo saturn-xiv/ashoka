@@ -498,6 +498,7 @@ dependencies = [
  "actix-session",
  "actix-utils",
  "actix-web",
+ "amq-protocol-uri",
  "askama",
  "base64 0.13.0",
  "bytesize",
@@ -519,7 +520,6 @@ dependencies = [
  "hex",
  "humantime",
  "jsonwebtoken",
- "juniper",
  "lapin",
  "lettre",
  "lettre_email",
@@ -1420,8 +1420,12 @@ version = "1.4.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3e2de9deab977a153492a1468d1b1c0662c1cf39e5ea87d0c060ecd59ef18d8c"
 dependencies = [
+ "bitflags",
  "byteorder",
+ "chrono",
  "diesel_derives",
+ "pq-sys",
+ "r2d2",
 ]
 
 [[package]]
@@ -2307,7 +2311,6 @@ checksum = "55e2e4c765aa53a0424761bf9f41aa7a6ac1efa87238f59560640e27fca028f2"
 dependencies = [
  "autocfg 1.0.1",
  "hashbrown",
- "serde",
 ]
 
 [[package]]
@@ -2385,33 +2388,6 @@ dependencies = [
  "serde",
  "serde_json",
  "simple_asn1",
-]
-
-[[package]]
-name = "juniper"
-version = "0.14.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f662ba51e2fbc3d6dd1ca66be70b44963606a34473156abddcb0351fc6caa668"
-dependencies = [
- "chrono",
- "fnv",
- "indexmap",
- "juniper_codegen",
- "serde",
- "serde_derive",
- "url 2.2.0",
- "uuid 0.7.4",
-]
-
-[[package]]
-name = "juniper_codegen"
-version = "0.14.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d40af234d8e971a9d7dda93ffbcc8a44a93f17e69e3067f72ce7a6894c41d51b"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -3224,6 +3200,15 @@ name = "ppv-lite86"
 version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ac74c624d6b2d21f425f752262f42188365d7b8ff1aff74c82e45136510a4857"
+
+[[package]]
+name = "pq-sys"
+version = "0.4.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6ac25eee5a0582f45a67e837e350d784e7003bd29a5f460796772061ca49ffda"
+dependencies = [
+ "vcpkg",
+]
 
 [[package]]
 name = "proc-macro-error"
