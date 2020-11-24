@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# https://yarnpkg.com/getting-started/install
-# https://create-react-app.dev/docs/adding-typescript/
-
 set -e
 
 cargo build --release
@@ -25,7 +22,8 @@ cp -v target/release/arete ubuntu/usr/bin/
 strip -s ubuntu/usr/bin/arete
 
 mkdir -pv ubuntu/var/lib/ashoka
-cp -r package.json dashboard/build ubuntu/var/lib/ashoka/dashboard
+cp -a node_modules package.json package-lock.json ubuntu/var/lib/ashoka/
+cp -a dashboard/build ubuntu/var/lib/ashoka/dashboard
 
 export VERSION=$(git describe --tags --always --dirty)
 echo "$VERSION $(date -R)" > ubuntu/etc/ashoka/VERSION

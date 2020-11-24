@@ -2,7 +2,7 @@ Package: ashoka
 Version: 2020-11-23
 Section: net
 Priority: optional
-Depends: nginx, ssh, rsync, nodejs, yarnpkg
+Depends: nginx, ssh, rsync
 Suggests: 
 Architecture: amd64
 Installed-Size: 66666

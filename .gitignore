@@ -1,8 +1,11 @@
-/tmp/
-
+# dependencies
 /node_modules/
-/target/
 
+# production
+/target/
 /ubuntu/var/lib/ashoka/
 /ubuntu/usr/bin/
 /ubuntu/etc/ashoka/
+
+# misc
+/tmp/

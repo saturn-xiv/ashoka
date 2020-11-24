@@ -2,8 +2,4 @@
 
 set -e
 
-cd /var/lib/ashoka
-echo "install assets"
-npm install
-
 exit 0

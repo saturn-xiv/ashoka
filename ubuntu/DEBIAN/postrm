@@ -2,7 +2,4 @@
 
 set -e
 
-echo "clean node_modules"
-rm -rf /var/lib/ashoka/node_modules
-
 exit 0

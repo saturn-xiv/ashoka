@@ -2,9 +2,8 @@
 
 set -e
 
-# yarn create react-app dashboard --template typescript
-
-yarn add \
+# https://create-react-app.dev/docs/adding-typescript/
+npm install --save \
     urijs @types/urijs \
     js-cookie  @types/js-cookie \
     jwt-decode @types/jwt-decode \
