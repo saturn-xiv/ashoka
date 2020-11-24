@@ -2,7 +2,7 @@ use clap::{App, SubCommand};
 
 use super::super::super::{errors::Result, orm::Connection};
 
-pub const COMMAND_NAME: &str = "database:status";
+pub const COMMAND_NAME: &str = "db:status";
 
 pub fn command<'a, 'b>() -> App<'a, 'b> {
     SubCommand::with_name(COMMAND_NAME).about("Show database schema status")

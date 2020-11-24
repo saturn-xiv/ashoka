@@ -262,3 +262,13 @@ allow_tables_to_appear_in_same_query!(
     users,
     votes,
 );
+table! {
+    schema_migrations (id) {
+        id -> Int8,
+        name -> Varchar,
+        version -> Varchar,
+        up -> Text,
+        down -> Text,
+        created_at -> Timestamp,
+    }
+}

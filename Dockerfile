@@ -3,7 +3,8 @@ LABEL maintainer="Jeremy Zheng"
 
 RUN apk update
 RUN apk add git curl vim zsh pwgen sudo build-base \
-    musl-dev libgcc libgc++ openssl-dev
+    nodejs npm \
+    musl-dev libgcc libgc++ openssl-dev postgresql-dev
 
 # deploy user
 RUN adduser -s /bin/bash -D deploy

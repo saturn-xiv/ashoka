@@ -1,3 +1,4 @@
+pub mod migration;
 pub mod schema;
 
 use std::default::Default;
