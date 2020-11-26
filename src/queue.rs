@@ -48,7 +48,6 @@ pub trait Handler: Sync + Send {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-#[serde(rename_all = "camelCase")]
 pub struct Config {
     pub host: String,
     pub port: u16,

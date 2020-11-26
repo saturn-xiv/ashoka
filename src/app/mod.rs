@@ -1,7 +1,9 @@
-// pub mod database;
-// pub mod generate;
+pub mod database;
+pub mod generate;
 // pub mod http;
 // pub mod i18n;
+
+use std::path::Path;
 
 use actix_web::http::StatusCode;
 use clap::{App, Arg};
@@ -27,12 +29,6 @@ pub fn launch() -> Result<()> {
                 .default_value("config")
                 .takes_value(true),
         )
-        .arg(
-            Arg::new("debug")
-                .short('d')
-                .long("debug")
-                .about("Run on debug mode"),
-        )
         .subcommand(
             App::new("db")
                 .about("Database operations")
@@ -40,11 +36,22 @@ pub fn launch() -> Result<()> {
                     Arg::new("folder")
                         .long("folder")
                         .short('f')
-                        .default_value("migrations")
+                        .default_value("db")
                         .about("Migrations folder")
                         .takes_value(true),
                 )
-                .subcommand(App::new("generate").about("Create a new migration"))
+                .subcommand(
+                    App::new("generate")
+                        .arg(
+                            Arg::new("name")
+                                .long("name")
+                                .short('n')
+                                .required(true)
+                                .about("Migration name")
+                                .takes_value(true),
+                        )
+                        .about("Create a new migration"),
+                )
                 .subcommand(App::new("migrate").about("Migrate database to latest migration"))
                 .subcommand(App::new("rollback").about("Rollback database the last migration"))
                 .subcommand(App::new("status").about("Show database schema status")),
@@ -56,19 +63,62 @@ pub fn launch() -> Result<()> {
                 .subcommand(App::new("clear").about("Remove all keys")),
         )
         .subcommand(
+            App::new("crawler").about("Run crawler").arg(
+                Arg::new("name")
+                    .long("name")
+                    .short('n')
+                    .about("Crawler name")
+                    .takes_value(true),
+            ),
+        )
+        .subcommand(
             App::new("generate")
                 .about("Generate files")
-                .arg(
-                    Arg::new("target")
-                        .short('t')
-                        .long("target")
-                        .default_value("tmp")
-                        .takes_value(true)
-                        .about("Target folder"),
+                .subcommand(
+                    App::new("config")
+                        .arg(
+                            Arg::new("name")
+                                .short('n')
+                                .long("name")
+                                .required(true)
+                                .takes_value(true)
+                                .about("Name"),
+                        )
+                        .about("Generate config.toml"),
                 )
-                .subcommand(App::new("config").about("Generate config.toml"))
-                .subcommand(App::new("nginx").about("Generate nginx.conf"))
-                .subcommand(App::new("systemd").about("Generate systemd service.conf")),
+                .subcommand(
+                    App::new("nginx")
+                        .arg(
+                            Arg::new("domain")
+                                .short('d')
+                                .long("domain")
+                                .required(true)
+                                .takes_value(true)
+                                .about("Domain name"),
+                        )
+                        .arg(
+                            Arg::new("port")
+                                .short('p')
+                                .long("port")
+                                .required(true)
+                                .default_value("8080")
+                                .takes_value(true)
+                                .about("Listen port"),
+                        )
+                        .about("Generate nginx.conf"),
+                )
+                .subcommand(
+                    App::new("systemd")
+                        .arg(
+                            Arg::new("name")
+                                .short('n')
+                                .long("name")
+                                .required(true)
+                                .takes_value(true)
+                                .about("Name"),
+                        )
+                        .about("Generate systemd service.conf"),
+                ),
         )
         .subcommand(
             App::new("i18n")
@@ -140,6 +190,53 @@ pub fn launch() -> Result<()> {
                 .subcommand(App::new("server").about("Start http listener")),
         )
         .get_matches();
+    if sodiumoxide::init().is_err() {
+        return Err(Error::Http(
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Some("init sodium".to_string()),
+        ));
+    }
+
+    debug!("run on debug mode");
+    if let Some(matches) = matches.subcommand_matches("generate") {
+        if let Some(matches) = matches.subcommand_matches("config") {
+            let name = matches.value_of("name").unwrap();
+            return generate::config::run::<&str, env::Config>(name);
+        }
+        if let Some(matches) = matches.subcommand_matches("nginx") {
+            let domain = matches.value_of("domain").unwrap();
+            let port = matches.value_of("port").unwrap().parse()?;
+            return generate::nginx::run(domain, port);
+        }
+        if let Some(matches) = matches.subcommand_matches("systemd") {
+            let name = matches.value_of("name").unwrap();
+            return generate::systemd::run(name);
+        }
+    }
+
+    let config = matches.value_of("config").unwrap();
+    info!("load configuration from {}", config);
+    let config: env::Config = parser::from_toml(config)?;
+    if let Some(matches) = matches.subcommand_matches("db") {
+        let folder = matches.value_of("folder").unwrap();
+        info!("using  db folder {}", folder);
+        if let Some(_) = matches.subcommand_matches("generate") {
+            info!("generate migrations");
+            return Ok(());
+        }
+        if let Some(_) = matches.subcommand_matches("migrate") {
+            info!("migrate");
+            return Ok(());
+        }
+        if let Some(_) = matches.subcommand_matches("rollback") {
+            info!("rollback");
+            return Ok(());
+        }
+        if let Some(_) = matches.subcommand_matches("status") {
+            info!("status");
+            return Ok(());
+        }
+    }
     // let cfg = "config.toml";
     // let matches = clap::App::new(env::NAME)
     //     .version(env!("CARGO_PKG_VERSION"))
@@ -163,13 +260,6 @@ pub fn launch() -> Result<()> {
     //     return http::routes::run();
     // }
 
-    // if sodiumoxide::init().is_err() {
-    //     return Err(Error::Http(
-    //         StatusCode::INTERNAL_SERVER_ERROR,
-    //         Some("init sodium".to_string()),
-    //     ));
-    // }
-
     // if matches.subcommand_matches(generate::config::NAME).is_some() {
     //     return generate::config::run::<&'static str, env::Config>(cfg);
     // }
@@ -179,9 +269,6 @@ pub fn launch() -> Result<()> {
     // {
     //     return generate::systemd::run();
     // }
-
-    // info!("load configuration from {}", cfg);
-    // let cfg: env::Config = parser::from_toml(cfg)?;
 
     // if let Some(matches) = matches.subcommand_matches(generate::nginx::COMMAND_NAME) {
     //     let name = matches.value_of(generate::nginx::ARG_SERVER_NAME).unwrap();

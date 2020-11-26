@@ -9,6 +9,7 @@ pub type Result<T> = StdResult<T, Error>;
 pub enum Error {
     StdStringFromUtf8(std::string::FromUtf8Error),
     StdIo(std::io::Error),
+    StdNumParseInt(std::num::ParseIntError),
 
     Askama(askama::Error),
     ActixMultipart(actix_multipart::MultipartError),
@@ -47,6 +48,7 @@ impl fmt::Display for Error {
         match self {
             Self::StdStringFromUtf8(v) => v.fmt(f),
             Self::StdIo(v) => v.fmt(f),
+            Self::StdNumParseInt(v) => v.fmt(f),
 
             Self::Askama(v) => v.fmt(f),
             Self::ActixMultipart(v) => v.fmt(f),
@@ -94,6 +96,12 @@ impl From<std::string::FromUtf8Error> for Error {
 impl From<std::io::Error> for Error {
     fn from(err: std::io::Error) -> Self {
         Self::StdIo(err)
+    }
+}
+
+impl From<std::num::ParseIntError> for Error {
+    fn from(err: std::num::ParseIntError) -> Self {
+        Self::StdNumParseInt(err)
     }
 }
 

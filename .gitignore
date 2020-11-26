@@ -4,6 +4,7 @@
 # production
 /target/
 /ubuntu/var/lib/ashoka/
+/ubuntu/usr/share/ashoka/
 /ubuntu/usr/bin/
 /ubuntu/etc/ashoka/
 
