@@ -1,9 +1,8 @@
-pub mod database;
 pub mod generate;
 // pub mod http;
 // pub mod i18n;
 
-use std::path::Path;
+use std::ops::Deref;
 
 use actix_web::http::StatusCode;
 use clap::{App, Arg};
@@ -11,6 +10,7 @@ use clap::{App, Arg};
 use super::{
     env,
     errors::{Error, Result},
+    orm::migration::Schema as MigrationSchema,
     parser,
 };
 
@@ -26,7 +26,7 @@ pub fn launch() -> Result<()> {
                 .short('c')
                 .long("config")
                 .about("Config file(.toml)")
-                .default_value("config")
+                .default_value("config.toml")
                 .takes_value(true),
         )
         .subcommand(
@@ -47,7 +47,7 @@ pub fn launch() -> Result<()> {
                                 .long("name")
                                 .short('n')
                                 .required(true)
-                                .about("Migration name")
+                                .about("Name")
                                 .takes_value(true),
                         )
                         .about("Create a new migration"),
@@ -218,23 +218,23 @@ pub fn launch() -> Result<()> {
     info!("load configuration from {}", config);
     let config: env::Config = parser::from_toml(config)?;
     if let Some(matches) = matches.subcommand_matches("db") {
-        let folder = matches.value_of("folder").unwrap();
-        info!("using  db folder {}", folder);
-        if let Some(_) = matches.subcommand_matches("generate") {
-            info!("generate migrations");
-            return Ok(());
+        let root = matches.value_of("folder").unwrap();
+        let db = config.database.open()?;
+        let db = db.get()?;
+        info!("using folder {}", root);
+        let it = MigrationSchema::new(&root, db.deref())?;
+        if let Some(matches) = matches.subcommand_matches("generate") {
+            let name = matches.value_of("name").unwrap();
+            return it.generate(&name);
         }
         if let Some(_) = matches.subcommand_matches("migrate") {
-            info!("migrate");
-            return Ok(());
+            return it.migrate();
         }
         if let Some(_) = matches.subcommand_matches("rollback") {
-            info!("rollback");
-            return Ok(());
+            return it.rollback();
         }
         if let Some(_) = matches.subcommand_matches("status") {
-            info!("status");
-            return Ok(());
+            return it.status();
         }
     }
     // let cfg = "config.toml";
