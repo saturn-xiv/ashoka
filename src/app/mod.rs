@@ -227,13 +227,13 @@ pub fn launch() -> Result<()> {
             let name = matches.value_of("name").unwrap();
             return it.generate(&name);
         }
-        if let Some(_) = matches.subcommand_matches("migrate") {
+        if matches.subcommand_matches("migrate").is_some() {
             return it.migrate();
         }
-        if let Some(_) = matches.subcommand_matches("rollback") {
+        if matches.subcommand_matches("rollback").is_some() {
             return it.rollback();
         }
-        if let Some(_) = matches.subcommand_matches("status") {
+        if matches.subcommand_matches("status").is_some() {
             return it.status();
         }
     }

@@ -1,4 +1,5 @@
 pub mod courses;
+pub mod deploy;
 pub mod forum;
 pub mod iapt;
 pub mod mail;

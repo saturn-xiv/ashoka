@@ -83,8 +83,7 @@ impl<'a> Schema<'a> {
         let root = self
             .root
             .join(Self::MIGRATIONS)
-            .join(format!("{}-{}", version, name))
-            .to_path_buf();
+            .join(format!("{}-{}", version, name));
         if !root.exists() {
             create_dir_all(&root)?;
         }

@@ -7,9 +7,11 @@ pub type Result<T> = StdResult<T, Error>;
 
 #[derive(Debug)]
 pub enum Error {
-    StdStringFromUtf8(std::string::FromUtf8Error),
     StdIo(std::io::Error),
+    StdNetAddrParse(std::net::AddrParseError),
     StdNumParseInt(std::num::ParseIntError),
+    StdStrUtf8(std::str::Utf8Error),
+    StdStringFromUtf8(std::string::FromUtf8Error),
 
     Askama(askama::Error),
     ActixMultipart(actix_multipart::MultipartError),
@@ -24,6 +26,9 @@ pub enum Error {
     LettreSmtp(lettre::smtp::error::Error),
     MimeFromStr(mime::FromStrError),
     Nix(nix::Error),
+    HandlebarsRender(handlebars::RenderError),
+    HandlebarsTemplate(handlebars::TemplateError),
+    HandlebarsTemplateRender(handlebars::TemplateRenderError),
     R2d2(r2d2::Error),
     Redis(redis::RedisError),
     Reqwest(reqwest::Error),
@@ -46,9 +51,11 @@ pub enum Error {
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::StdStringFromUtf8(v) => v.fmt(f),
             Self::StdIo(v) => v.fmt(f),
+            Self::StdNetAddrParse(v) => v.fmt(f),
             Self::StdNumParseInt(v) => v.fmt(f),
+            Self::StdStrUtf8(v) => v.fmt(f),
+            Self::StdStringFromUtf8(v) => v.fmt(f),
 
             Self::Askama(v) => v.fmt(f),
             Self::ActixMultipart(v) => v.fmt(f),
@@ -63,6 +70,9 @@ impl fmt::Display for Error {
             Self::LettreSmtp(v) => v.fmt(f),
             Self::MimeFromStr(v) => v.fmt(f),
             Self::Nix(v) => v.fmt(f),
+            Self::HandlebarsRender(v) => v.fmt(f),
+            Self::HandlebarsTemplate(v) => v.fmt(f),
+            Self::HandlebarsTemplateRender(v) => v.fmt(f),
             Self::R2d2(v) => v.fmt(f),
             Self::Redis(v) => v.fmt(f),
             Self::Reqwest(v) => v.fmt(f),
@@ -102,6 +112,18 @@ impl From<std::io::Error> for Error {
 impl From<std::num::ParseIntError> for Error {
     fn from(err: std::num::ParseIntError) -> Self {
         Self::StdNumParseInt(err)
+    }
+}
+
+impl From<std::str::Utf8Error> for Error {
+    fn from(err: std::str::Utf8Error) -> Self {
+        Self::StdStrUtf8(err)
+    }
+}
+
+impl From<std::net::AddrParseError> for Error {
+    fn from(err: std::net::AddrParseError) -> Self {
+        Self::StdNetAddrParse(err)
     }
 }
 
@@ -272,6 +294,23 @@ impl From<actix_multipart::MultipartError> for Error {
     }
 }
 
+impl From<handlebars::RenderError> for Error {
+    fn from(err: handlebars::RenderError) -> Self {
+        Self::HandlebarsRender(err)
+    }
+}
+
+impl From<handlebars::TemplateError> for Error {
+    fn from(err: handlebars::TemplateError) -> Self {
+        Self::HandlebarsTemplate(err)
+    }
+}
+
+impl From<handlebars::TemplateRenderError> for Error {
+    fn from(err: handlebars::TemplateRenderError) -> Self {
+        Self::HandlebarsTemplateRender(err)
+    }
+}
 impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
         HttpResponseBuilder::new(self.status_code())

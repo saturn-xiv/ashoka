@@ -14,11 +14,7 @@ struct Config<'a> {
 }
 
 pub fn run(domain: &str, port: u16) -> Result<()> {
-    let tpl = Config {
-        domain: domain,
-        port,
-    }
-    .render()?;
+    let tpl = Config { domain, port }.render()?;
 
     let file = format!("{}.conf", domain);
     info!("generate file {}", file);

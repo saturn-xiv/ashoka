@@ -162,8 +162,8 @@ impl Token {
         let bearer = "Bearer ";
         if let Some(it) = headers.get(AUTHORIZATION) {
             if let Ok(it) = it.to_str() {
-                if it.starts_with(bearer) {
-                    return Some(it[bearer.len()..].to_string());
+                if let Some(it) = it.strip_prefix(bearer) {
+                    return Some(it.to_string());
                 }
             }
         }
