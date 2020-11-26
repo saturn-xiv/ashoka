@@ -1,5 +1,5 @@
+use std::fmt;
 use std::fs::{create_dir_all, read_dir, read_to_string, OpenOptions};
-use std::io::prelude::*;
 use std::os::unix::fs::OpenOptionsExt;
 use std::path::{Path, PathBuf};
 
@@ -8,6 +8,7 @@ use diesel::{
     connection::{Connection as DieselConnection, SimpleConnection},
     delete, insert_into,
     prelude::*,
+    update,
 };
 
 use super::super::errors::{Error, Result};
@@ -21,38 +22,60 @@ pub struct Item {
     pub version: String,
     pub up: String,
     pub down: String,
+    pub run_at: Option<NaiveDateTime>,
     pub created_at: NaiveDateTime,
 }
 
+impl fmt::Display for Item {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        write!(fmt, "{}-{}", self.version, self.name)
+    }
+}
 pub struct Schema<'a> {
     connection: &'a Connection,
     root: PathBuf,
-    migrations: Vec<Item>,
 }
 
 impl<'a> Schema<'a> {
     const MIGRATIONS: &'static str = "migrations";
     pub fn new<P: AsRef<Path>>(root: P, connection: &'a Connection) -> Result<Self> {
         let root = root.as_ref().to_path_buf();
-        let migrations = Vec::new();
         connection.transaction::<_, Error, _>(|| {
             let sql = read_to_string(root.join("schema").join("up.sql"))?;
             connection.batch_execute(&sql)?;
             Ok(())
         })?;
-        Ok(Self {
-            root,
-            connection,
-            migrations,
-        })
+        Ok(Self { root, connection })
     }
     pub fn migrate(&self) -> Result<()> {
+        self.load()?;
+        let items = Dao::all(self.connection)?;
+        for it in items {
+            if it.run_at.is_none() {
+                info!("migrate {}", it);
+                self.connection.transaction::<_, Error, _>(|| {
+                    self.connection.batch_execute(&it.up)?;
+                    Dao::set_run_at(self.connection, it.id)?;
+                    Ok(())
+                })?;
+            }
+        }
         Ok(())
     }
     pub fn rollback(&self) -> Result<()> {
+        self.load()?;
+        if let Ok(it) = Dao::latest(self.connection) {
+            info!("rollback {}", it);
+            self.connection.transaction::<_, Error, _>(|| {
+                self.connection.batch_execute(&it.down)?;
+                Dao::delete(self.connection, it.id)?;
+                Ok(())
+            })?;
+        }
         Ok(())
     }
     pub fn status(&self) -> Result<()> {
+        self.load()?;
         Ok(())
     }
     pub fn generate(&self, name: &str) -> Result<()> {
@@ -80,7 +103,7 @@ impl<'a> Schema<'a> {
         Ok(())
     }
 
-    fn load(&mut self) -> Result<()> {
+    fn load(&self) -> Result<()> {
         let root = self.root.join(Self::MIGRATIONS);
         if !root.exists() {
             create_dir_all(&root)?;
@@ -90,7 +113,7 @@ impl<'a> Schema<'a> {
             let it = it.path();
             if it.is_dir() {
                 if let Some(name) = it.file_name() {
-                    if let Some(name) = it.to_str() {
+                    if let Some(name) = name.to_str() {
                         const AT: usize = 17;
                         if name.len() > (AT + 1) {
                             let up = read_to_string(it.join("up.sql"))?;
@@ -98,7 +121,7 @@ impl<'a> Schema<'a> {
                             debug!("find migration {}", name);
                             let version = &name[..AT];
                             let name = &name[(AT + 1)..];
-                            if Dao::exists(self.connection, version)? {
+                            if Dao::exists(self.connection, version, name)? {
                                 continue;
                             }
                             Dao::create(self.connection, name, version, &up, &down)?;
@@ -124,19 +147,21 @@ pub trait Dao {
     fn all(&self) -> Result<Vec<Item>>;
     fn latest(&self) -> Result<Item>;
     fn create(&self, name: &str, version: &str, up: &str, down: &str) -> Result<()>;
-    fn exists(&self, version: &str) -> Result<bool>;
+    fn exists(&self, version: &str, name: &str) -> Result<bool>;
     fn delete(&self, id: i64) -> Result<()>;
+    fn set_run_at(&self, id: i64) -> Result<()>;
 }
 
 impl Dao for Connection {
     fn all(&self) -> Result<Vec<Item>> {
         let items = schema_migrations::dsl::schema_migrations
-            .order(schema_migrations::dsl::created_at.desc())
+            .order(schema_migrations::dsl::created_at.asc())
             .load::<Item>(self)?;
         Ok(items)
     }
     fn latest(&self) -> Result<Item> {
         let it = schema_migrations::dsl::schema_migrations
+            .filter(schema_migrations::dsl::run_at.is_not_null())
             .order(schema_migrations::dsl::created_at.desc())
             .first::<Item>(self)?;
         Ok(it)
@@ -152,12 +177,22 @@ impl Dao for Connection {
             .execute(self)?;
         Ok(())
     }
-    fn exists(&self, version: &str) -> Result<bool> {
+    fn exists(&self, version: &str, name: &str) -> Result<bool> {
         let cnt: i64 = schema_migrations::dsl::schema_migrations
             .count()
             .filter(schema_migrations::dsl::version.eq(version))
+            .filter(schema_migrations::dsl::name.eq(name))
             .get_result(self)?;
         Ok(cnt > 0)
+    }
+    fn set_run_at(&self, id: i64) -> Result<()> {
+        let now = Utc::now().naive_utc();
+        let it =
+            schema_migrations::dsl::schema_migrations.filter(schema_migrations::dsl::id.eq(id));
+        update(it)
+            .set(schema_migrations::dsl::run_at.eq(&now))
+            .execute(self)?;
+        Ok(())
     }
     fn delete(&self, id: i64) -> Result<()> {
         delete(schema_migrations::dsl::schema_migrations.filter(schema_migrations::dsl::id.eq(id)))

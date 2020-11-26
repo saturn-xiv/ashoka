@@ -2,11 +2,9 @@ use std::env::current_dir;
 use std::fs;
 use std::io::prelude::*;
 use std::os::unix::fs::OpenOptionsExt;
-use std::path::PathBuf;
 
 use actix_web::http::StatusCode;
 use askama::Template;
-use clap::App;
 use nix::unistd::{Gid, Group, Uid, User};
 
 use super::super::super::{

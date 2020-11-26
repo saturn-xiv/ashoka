@@ -55,6 +55,29 @@ table! {
 }
 
 table! {
+    crawlers_logs (id) {
+        id -> Int8,
+        name -> Varchar,
+        url -> Varchar,
+        body -> Text,
+        created_at -> Timestamp,
+    }
+}
+
+table! {
+    cron_jobs (id) {
+        id -> Int8,
+        name -> Varchar,
+        user -> Varchar,
+        home -> Varchar,
+        command -> Varchar,
+        run_at -> Varchar,
+        updated_at -> Timestamp,
+        created_at -> Timestamp,
+    }
+}
+
+table! {
     forum_posts (id) {
         id -> Int8,
         user_id -> Int8,
@@ -171,6 +194,18 @@ table! {
 }
 
 table! {
+    schema_migrations (id) {
+        id -> Int8,
+        version -> Varchar,
+        name -> Varchar,
+        up -> Text,
+        down -> Text,
+        run_at -> Nullable<Timestamp>,
+        created_at -> Timestamp,
+    }
+}
+
+table! {
     settings (id) {
         id -> Int8,
         key -> Varchar,
@@ -247,6 +282,8 @@ allow_tables_to_appear_in_same_query!(
     cards,
     categories,
     category_resources,
+    crawlers_logs,
+    cron_jobs,
     forum_posts,
     forum_topics,
     friend_links,
@@ -256,19 +293,10 @@ allow_tables_to_appear_in_same_query!(
     logs,
     notifications,
     policies,
+    schema_migrations,
     settings,
     tag_resources,
     tags,
     users,
     votes,
 );
-table! {
-    schema_migrations (id) {
-        id -> Int8,
-        name -> Varchar,
-        version -> Varchar,
-        up -> Text,
-        down -> Text,
-        created_at -> Timestamp,
-    }
-}
