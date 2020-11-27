@@ -17,7 +17,6 @@ pub enum Error {
     ActixMultipart(actix_multipart::MultipartError),
     ActixWebBlockingSerdeJson(actix_web::error::BlockingError<serde_json::Error>),
     Base64Decode(base64::DecodeError),
-    DieselMigrationsRun(diesel_migrations::RunMigrationsError),
     DieselResult(diesel::result::Error),
     IniParse(ini::ParseError),
     JsonWebToken(jsonwebtoken::errors::Error),
@@ -61,7 +60,6 @@ impl fmt::Display for Error {
             Self::ActixMultipart(v) => v.fmt(f),
             Self::ActixWebBlockingSerdeJson(v) => v.fmt(f),
             Self::Base64Decode(v) => v.fmt(f),
-            Self::DieselMigrationsRun(v) => v.fmt(f),
             Self::DieselResult(v) => v.fmt(f),
             Self::IniParse(v) => v.fmt(f),
             Self::JsonWebToken(v) => v.fmt(f),
@@ -178,12 +176,6 @@ impl From<rusoto_core::RusotoError<rusoto_s3::CreateBucketError>> for Error {
 impl From<diesel::result::Error> for Error {
     fn from(err: diesel::result::Error) -> Self {
         Self::DieselResult(err)
-    }
-}
-
-impl From<diesel_migrations::RunMigrationsError> for Error {
-    fn from(err: diesel_migrations::RunMigrationsError) -> Self {
-        Self::DieselMigrationsRun(err)
     }
 }
 
