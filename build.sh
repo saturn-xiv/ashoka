@@ -33,7 +33,8 @@ cp -a dashboard/build ubuntu/usr/share/ashoka/dashboard
 rm -rf ubuntu/etc/ashoka
 mkdir -pv ubuntu/etc/ashoka
 echo "$VERSION $(date -R)" > ubuntu/etc/ashoka/VERSION
-cp -r config.toml db README.md LICENSE ubuntu/etc/ashoka/
+cp -r db README.md LICENSE ubuntu/etc/ashoka/
+target/release/ashoka generate config -n ubuntu/etc/ashoka/config.toml
 
 rm -rf ubuntu/var/lib/ashoka
 mkdir -p ubuntu/var/lib/ashoka
