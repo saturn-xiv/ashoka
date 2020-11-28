@@ -46,21 +46,22 @@ USER deploy
 # https://github.com/ohmyzsh/ohmyzsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# https://www.rust-lang.org/tools/install
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-RUN sh -c ". $HOME/.profile \
-    rustup target add armv7-unknown-linux-gnueabihf"
-
 # https://github.com/nvm-sh/nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | sh
 RUN sh -c ". $HOME/.profile \
     && nvm install node"
+RUN sh -c ". $HOME/.profile \
+    && npm install -g yarn"
+
+# https://www.rust-lang.org/tools/install
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+RUN sh -c ". $HOME/.cargo/env \
+    && rustup target add armv7-unknown-linux-gnueabihf"
 
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 
-RUN  sh -c ". $HOME/.profile \
-    && git clone -b cpp https://github.com/saturn-xiv/ashoka.git $HOME/ashoka"
+RUN sh -c "git clone -b cpp https://github.com/saturn-xiv/ashoka.git $HOME/ashoka"
 
 VOLUME /workspace
 WORKDIR /workspace

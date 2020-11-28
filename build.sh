@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -15,8 +15,12 @@ fi
 rm -rf ubuntu/usr/bin
 mkdir -pv ubuntu/usr/bin
 
+export PKG_CONFIG_ALL_STATIC=1
+
 if [ $1 == "armv7" ]
 then
+    sudo apt -y install libssl-dev:armhf libsodium-dev:armhf libudev-dev:armhf \
+        libsqlite3-dev:armhf libpq-dev:armhf libmysqlclient-dev:armhf
     PKG_CONFIG_ALLOW_CROSS=1
     PKG_CONFIG_DIR=
     PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig
@@ -24,7 +28,7 @@ then
     cargo build --target armv7-unknown-linux-gnueabihf --release
     cp -v target/armv7-unknown-linux-gnueabihf/release/ashoka ubuntu/usr/bin/
     arm-linux-gnueabihf-strip -s ubuntu/usr/bin/ashoka
-elif [$1 == "x86_64" ]
+elif [ $1 == "x86_64" ]
 then
     sudo apt -y install libssl-dev libsodium-dev \
         libsqlite3-dev libpq-dev libmysqlclient-dev 
@@ -48,6 +52,7 @@ then
 fi
 npm run build
 
+cd $WORKSPACE
 rm -rf ubuntu/usr/share/ashoka
 mkdir -pv ubuntu/usr/share/ashoka
 cp -a views node_modules package.json package-lock.json ubuntu/usr/share/ashoka/
