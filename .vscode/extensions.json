@@ -1,15 +1,19 @@
 {
     "recommendations": [
         // "ms-vscode.cpptools-extension-pack",
-        "rust-lang.rust",
         "ms-azuretools.vscode-docker",
         "vscode-icons-team.vscode-icons",
+        "akamud.vscode-theme-onedark",
+
+        "rust-lang.rust",
         "ms-python.python",
         "hookyqr.beautify",
         "dbaeumer.vscode-eslint",
         "editorconfig.editorconfig",
-        "bungcip.better-toml",
+
+        "bungcip.better-toml",        
         "adpyke.vscode-sql-formatter",
-        "davidanson.vscode-markdownlint",
+        "yzhang.markdown-all-in-one",
+        "gruntfuggly.todo-tree",
     ]
 }
