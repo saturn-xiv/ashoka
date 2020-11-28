@@ -2,13 +2,25 @@ FROM ubuntu:latest
 LABEL maintainer="Jeremy Zheng"
 
 RUN apt update
-RUN apt -y upgrade
 RUN apt -y install software-properties-common
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
+RUN apt update
+RUN apt -y upgrade
 RUN apt -y install zsh git locales rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget yasm \
     build-essential pkg-config libtool automake autoconf binutils cmake \
-    python3 python3-pip \
-    libssl-dev libsqlite3-dev libpq-dev libmysqlclient-dev libsodium-dev
+    python3 python3-pip python3-distutils \
+    binutils-multiarch \
+    g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
+
+# https://wiki.ubuntu.com/ToolChain
+RUN dpkg --add-architecture armhf
+RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs) main restricted universe multiverse" > /etc/apt/sources.list
+RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs)-updates main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs)-security main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs) main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs)-security main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs)-updates main restricted universe multiverse" >> /etc/apt/sources.list
 
 RUN apt update
 RUN apt -y autoremove
@@ -36,6 +48,9 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 
 # https://www.rust-lang.org/tools/install
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+RUN sh -c ". $HOME/.profile \
+    rustup target add armv7-unknown-linux-gnueabihf"
 
 # https://github.com/nvm-sh/nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | sh

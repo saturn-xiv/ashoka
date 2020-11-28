@@ -5,7 +5,36 @@ set -e
 export WORKSPACE=$PWD
 export VERSION=$(git describe --tags --always --dirty)
 
-cargo build --release
+cd $WORKSPACE
+
+if [ $# -ne 1 ] ; then
+    echo "Please specify your arch(x86_64, armv7)"
+    exit 1
+fi
+
+rm -rf ubuntu/usr/bin
+mkdir -pv ubuntu/usr/bin
+
+if [ $1 == "armv7" ]
+then
+    PKG_CONFIG_ALLOW_CROSS=1
+    PKG_CONFIG_DIR=
+    PKG_CONFIG_LIBDIR=/usr/lib/arm-linux-gnueabihf/pkgconfig
+    export PKG_CONFIG_ALLOW_CROSS PKG_CONFIG_DIR PKG_CONFIG_LIBDIR
+    cargo build --target armv7-unknown-linux-gnueabihf --release
+    cp -v target/armv7-unknown-linux-gnueabihf/release/ashoka ubuntu/usr/bin/
+    arm-linux-gnueabihf-strip -s ubuntu/usr/bin/ashoka
+elif [$1 == "x86_64" ]
+then
+    sudo apt -y install libssl-dev libsodium-dev \
+        libsqlite3-dev libpq-dev libmysqlclient-dev 
+    cargo build --release
+    cp -v target/release/ashoka ubuntu/usr/bin/
+    strip -s ubuntu/usr/bin/ashoka
+else
+    echo "Unknown arch $1"
+    exit 1
+fi
 
 if [ ! -d node_modules ]
 then
@@ -18,12 +47,6 @@ then
     npm install
 fi
 npm run build
-
-cd $WORKSPACE
-rm -rf ubuntu/usr/bin
-mkdir -pv ubuntu/usr/bin
-cp -v target/release/ashoka ubuntu/usr/bin/
-strip -s ubuntu/usr/bin/ashoka
 
 rm -rf ubuntu/usr/share/ashoka
 mkdir -pv ubuntu/usr/share/ashoka
@@ -41,7 +64,7 @@ mkdir -p ubuntu/var/lib/ashoka
 
 if [ $(lsb_release -is) = "Ubuntu" ]
 then
-    dpkg -b ubuntu tmp/ashoka-$VERSION.deb
+    dpkg -b ubuntu tmp/ashoka-$VERSION-$1.deb
 fi
 
 echo "Done! $TARGET"

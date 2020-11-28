@@ -2,7 +2,7 @@ Package: ashoka
 Version: 2020-11-23
 Section: net
 Priority: optional
-Depends: nginx, ssh, rsync
+Depends: libpq5, libsqlite3-0, libmysqlclient21, libsodium23, libssl1.1, openssh-client, rsync
 Suggests: 
 Architecture: amd64
 Installed-Size: 66666
