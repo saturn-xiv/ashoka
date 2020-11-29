@@ -1,10 +1,10 @@
-FROM ubuntu:latest
+FROM ubuntu:xenial
 LABEL maintainer="Jeremy Zheng"
 
 RUN apt update
-RUN apt -y install software-properties-common
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
-RUN apt update
+# RUN apt -y install software-properties-common
+# RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
+# RUN apt update
 RUN apt -y upgrade
 RUN apt -y install zsh git locales rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget yasm \
@@ -66,8 +66,6 @@ RUN sh -c "git clone -b cpp https://github.com/saturn-xiv/ashoka.git $HOME/ashok
 VOLUME /workspace
 WORKDIR /workspace
 
-# # https://github.com/rust-lang/cargo/issues/7563
-# ENV RUSTFLAGS="-C target-feature=-crt-static"
 CMD ["/bin/zsh", "-l"]
 
 

@@ -539,12 +539,13 @@ dependencies = [
  "sodiumoxide",
  "ssh2",
  "tempfile",
- "toml",
+ "toml 0.5.7",
  "url 2.2.0",
  "uuid 0.8.1",
  "validator",
  "validator_derive",
  "xml-rs",
+ "zmq",
 ]
 
 [[package]]
@@ -590,7 +591,7 @@ dependencies = [
  "quote",
  "serde",
  "syn",
- "toml",
+ "toml 0.5.7",
 ]
 
 [[package]]
@@ -633,9 +634,9 @@ dependencies = [
 
 [[package]]
 name = "async-io"
-version = "1.2.0"
+version = "1.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "40a0b2bb8ae20fede194e779150fe283f65a4a08461b496de546ec366b174ad9"
+checksum = "458c8f66c246624e7cf87c01451f3392ab77d66a0f105a49d9353b30ea97ced8"
 dependencies = [
  "concurrent-queue",
  "fastrand",
@@ -1102,6 +1103,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4344512281c643ae7638bbabc3af17a11307803ec8f0fcad9fae512a8bf36467"
 dependencies = [
  "bitflags",
+]
+
+[[package]]
+name = "cmake"
+version = "0.1.45"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eb6210b637171dfba4cda12e579ac6dc73f5165ad56133e5d72ef3131f320855"
+dependencies = [
+ "cc",
 ]
 
 [[package]]
@@ -1639,6 +1649,12 @@ dependencies = [
  "regex",
  "termcolor",
 ]
+
+[[package]]
+name = "error-chain"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d9435d864e017c3c6afeac1654189b06cdb491cf2ff73dbf0d73b0f292f42ff8"
 
 [[package]]
 name = "error-chain"
@@ -2644,6 +2660,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "metadeps"
+version = "1.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "73b122901b3a675fac8cecf68dcb2f0d3036193bc861d1ac0e1c337f7d5254c2"
+dependencies = [
+ "error-chain 0.10.0",
+ "pkg-config",
+ "toml 0.2.1",
+]
+
+[[package]]
 name = "mime"
 version = "0.3.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2682,7 +2709,7 @@ dependencies = [
  "kernel32-sys",
  "libc",
  "log",
- "miow 0.2.1",
+ "miow 0.2.2",
  "net2",
  "slab",
  "winapi 0.2.8",
@@ -2726,9 +2753,9 @@ dependencies = [
 
 [[package]]
 name = "miow"
-version = "0.2.1"
+version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8c1f2f3b1cf331de6896aabf6e9d55dca90356cc9960cca7eaaf408a355ae919"
+checksum = "ebd808424166322d4a38da87083bfddd3ac4c131334ed55856112eb06d46944d"
 dependencies = [
  "kernel32-sys",
  "net2",
@@ -2786,9 +2813,9 @@ dependencies = [
 
 [[package]]
 name = "net2"
-version = "0.2.35"
+version = "0.2.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3ebc3ec692ed7c9a255596c67808dee269f64655d8baf7b4f0638e51ba1d6853"
+checksum = "d7cf75f38f16cb05ea017784dc6dbfd354f76c223dba37701734c4f5a9337d02"
 dependencies = [
  "cfg-if 0.1.10",
  "libc",
@@ -3272,7 +3299,7 @@ version = "1.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3bbaa49075179162b49acac1c6aa45fb4dafb5f13cf6794276d77bc7fd95757b"
 dependencies = [
- "error-chain",
+ "error-chain 0.12.4",
  "idna 0.2.0",
  "lazy_static",
  "regex",
@@ -4214,9 +4241,9 @@ checksum = "343f3f510c2915908f155e94f17220b19ccfacf2a64a2a5d8004f2c3e311e7fd"
 
 [[package]]
 name = "syn"
-version = "1.0.51"
+version = "1.0.52"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b4f34193997d92804d359ed09953e25d5138df6bcc055a71bf68ee89fdf9223"
+checksum = "6c1e438504729046a5cfae47f97c30d6d083c7d91d94603efdae3477fc070d4c"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4577,6 +4604,12 @@ dependencies = [
  "pin-project-lite 0.1.11",
  "tokio 0.2.23",
 ]
+
+[[package]]
+name = "toml"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "736b60249cb25337bc196faa43ee12c705e426f3d55c214d73a4e7be06f92cb4"
 
 [[package]]
 name = "toml"
@@ -5162,3 +5195,35 @@ name = "zeroize"
 version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "05f33972566adbd2d3588b0491eb94b98b43695c4ef897903470ede4f3f5a28a"
+
+[[package]]
+name = "zeromq-src"
+version = "0.1.10+4.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "df9133d366817fcffe22e4356043ba187ae122ec5db63d7ce73d1e6a18efa2f1"
+dependencies = [
+ "cmake",
+]
+
+[[package]]
+name = "zmq"
+version = "0.9.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "aad98a7a617d608cd9e1127147f630d24af07c7cd95ba1533246d96cbdd76c66"
+dependencies = [
+ "bitflags",
+ "libc",
+ "log",
+ "zmq-sys",
+]
+
+[[package]]
+name = "zmq-sys"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d33a2c51dde24d5b451a2ed4b488266df221a5eaee2ee519933dc46b9a9b3648"
+dependencies = [
+ "libc",
+ "metadeps",
+ "zeromq-src",
+]

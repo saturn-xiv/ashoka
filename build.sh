@@ -15,11 +15,16 @@ fi
 rm -rf ubuntu/usr/bin
 mkdir -pv ubuntu/usr/bin
 
+# https://doc.rust-lang.org/rustc/codegen-options/index.html#link-arg
+# export RUSTFLAGS="-C target-feature=+crt-static -C link-arg=-static"
+export OPENSSL_STATIC=1
+# export PQ_LIB_STATIC=1
+export SQLITE3_STATIC=1
 export PKG_CONFIG_ALL_STATIC=1
 
 if [ $1 == "armv7" ]
 then
-    sudo apt -y install libssl-dev:armhf libsodium-dev:armhf libudev-dev:armhf \
+    sudo apt -y install libssl-dev:armhf libudev-dev:armhf \
         libsqlite3-dev:armhf libpq-dev:armhf libmysqlclient-dev:armhf
     PKG_CONFIG_ALLOW_CROSS=1
     PKG_CONFIG_DIR=

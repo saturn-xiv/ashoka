@@ -83,6 +83,11 @@ features = ["serde"]
 version = "0.8"
 features = ["v4"]
 
+# https://github.com/zeromq/zmq.rs
+[dependencies.zmq]
+version = "0.9"
+features = ["vendored"]
+
 [dependencies.reqwest]
 version = "0.10"
 features = ["json"]
