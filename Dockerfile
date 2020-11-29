@@ -47,7 +47,7 @@ USER deploy
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # https://github.com/nvm-sh/nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | sh
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
 RUN sh -c ". $HOME/.profile \
     && nvm install node"
 RUN sh -c ". $HOME/.profile \
