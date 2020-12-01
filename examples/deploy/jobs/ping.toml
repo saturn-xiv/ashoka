@@ -1,0 +1,25 @@
+[vars]
+"job.name" = "Ping"
+
+
+[[tasks]]
+name = 'task 1'
+groups = ["nano-pi"]
+
+[[tasks.commands]]
+type = 'upload'
+src = 'scripts/hi'
+dest = '/tmp/hi.sh'
+
+[[tasks.commands]]
+type = 'download'
+src = '/proc/version'
+dest = 'proc/version'
+
+[[tasks.commands]]
+type = 'shell'
+script = 'scripts/hi.sh'
+
+[tasks.vars]
+"task key 1" = "task val 1"
+"task key 2" = "task val "

@@ -17,10 +17,10 @@ mkdir -pv ubuntu/usr/bin
 
 # https://doc.rust-lang.org/rustc/codegen-options/index.html#link-arg
 # export RUSTFLAGS="-C target-feature=+crt-static -C link-arg=-static"
-export OPENSSL_STATIC=1
+# export OPENSSL_STATIC=1
 # export PQ_LIB_STATIC=1
-export SQLITE3_STATIC=1
-export PKG_CONFIG_ALL_STATIC=1
+# export SQLITE3_STATIC=1
+# export PKG_CONFIG_ALL_STATIC=1
 
 if [ $1 == "armv7" ]
 then
@@ -35,7 +35,7 @@ then
     arm-linux-gnueabihf-strip -s ubuntu/usr/bin/ashoka
 elif [ $1 == "x86_64" ]
 then
-    sudo apt -y install libssl-dev libsodium-dev \
+    sudo apt -y install libssl-dev \
         libsqlite3-dev libpq-dev libmysqlclient-dev 
     cargo build --release
     cp -v target/release/ashoka ubuntu/usr/bin/

@@ -12,6 +12,7 @@ use super::{
     errors::{Error, Result},
     orm::migration::Schema as MigrationSchema,
     parser,
+    plugins::deploy,
 };
 
 pub fn launch() -> Result<()> {
@@ -129,20 +130,20 @@ pub fn launch() -> Result<()> {
             App::new("deploy")
                 .about("Run deploy tasks by ssh & rsync")
                 .arg(
-                    Arg::new("recipe")
-                        .short('r')
-                        .long("recipe")
+                    Arg::new("job")
+                        .short('j')
+                        .long("job")
                         .required(true)
                         .takes_value(true)
-                        .about("Recipe name"),
+                        .about("Job"),
                 )
                 .arg(
-                    Arg::new("cluster")
-                        .short('c')
-                        .long("cluster")
+                    Arg::new("inventory")
+                        .short('i')
+                        .long("inventory")
                         .required(true)
                         .takes_value(true)
-                        .about("Cluster name"),
+                        .about("Inventory"),
                 ),
         )
         .subcommand(
@@ -212,6 +213,12 @@ pub fn launch() -> Result<()> {
             let name = matches.value_of("name").unwrap();
             return generate::systemd::run(name);
         }
+    }
+
+    if let Some(matches) = matches.subcommand_matches("deploy") {
+        let job = matches.value_of("job").unwrap();
+        let inventory = matches.value_of("inventory").unwrap();
+        return deploy::run(&inventory, &job);
     }
 
     let config = matches.value_of("config").unwrap();
