@@ -2,6 +2,7 @@ Package: ashoka
 Version: 2020-11-23
 Section: net
 Priority: optional
+# libgit2-28 libpq5 libsqlite3-0 libmysqlclient21 libssl1.1
 Depends: openssh-client, rsync
 Build-Depends: libgit2-dev, libpq-dev, libsqlite3-dev, libmysqlclient-dev, libssl-dev
 Suggests: 

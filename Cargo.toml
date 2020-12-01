@@ -88,6 +88,10 @@ features = ["v4"]
 version = "0.9"
 features = ["vendored"]
 
+[dependencies.openssl]
+version = "0.10"
+features = ["vendored"]
+
 [dependencies.reqwest]
 version = "0.10"
 features = ["json"]

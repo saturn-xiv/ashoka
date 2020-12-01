@@ -17,10 +17,14 @@ mkdir -pv ubuntu/usr/bin
 
 # https://doc.rust-lang.org/rustc/codegen-options/index.html#link-arg
 # export RUSTFLAGS="-C target-feature=+crt-static -C link-arg=-static"
-# export OPENSSL_STATIC=1
+# https://github.com/sfackler/rust-openssl/issues/604
+# OPENSSL_INCLUDE_DIR=/usr/lib
+# OPENSSL_LIB_DIR=/usr/include
+# OPENSSL_STATIC=1
+# export OPENSSL_INCLUDE_DIR OPENSSL_LIB_DIR OPENSSL_STATIC
 # export PQ_LIB_STATIC=1
 # export SQLITE3_STATIC=1
-# export PKG_CONFIG_ALL_STATIC=1
+export PKG_CONFIG_ALL_STATIC=1
 
 if [ $1 == "armv7" ]
 then
