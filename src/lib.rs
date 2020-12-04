@@ -24,6 +24,7 @@ extern crate chrono;
 extern crate chrono_tz;
 extern crate clap;
 extern crate csv;
+extern crate elasticsearch;
 extern crate encoding_rs;
 extern crate eui48;
 extern crate futures;
@@ -80,5 +81,7 @@ pub mod request;
 pub mod settings;
 pub mod storage;
 pub mod theme;
+pub mod third;
+pub mod twilio;
 
 pub const XML_HEADER: &str = r###"<?xml version="1.0" encoding="utf-8" ?>"###;

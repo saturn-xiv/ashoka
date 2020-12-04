@@ -7,7 +7,7 @@ use std::process::{Command as ShellCommand, Stdio};
 
 use actix_web::http::StatusCode;
 use chrono::Utc;
-use handlebars::Handlebars;
+use handlebars::{no_escape, Handlebars};
 use rand::{distributions::Alphanumeric, thread_rng, Rng};
 use serde::de::DeserializeOwned;
 use toml::Value;
@@ -439,6 +439,7 @@ fn template_str(tpl: &str, vars: &Vars) -> Result<String> {
     let mut reg = Handlebars::new();
     let name = "";
     reg.set_strict_mode(true);
+    reg.register_escape_fn(no_escape);
     reg.register_template_string(name, tpl)?;
     Ok(reg.render(name, vars)?)
 }

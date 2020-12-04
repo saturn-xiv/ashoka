@@ -70,6 +70,7 @@ clap = "3.0.0-beta.2"
 tempfile = "3"
 amq-protocol-uri = "6.0.2"
 jsonwebtoken = "7"
+elasticsearch = "7.10.0-alpha.1"
 
 [dependencies.chrono]
 version = "0.4"
@@ -94,7 +95,7 @@ features = ["vendored"]
 
 [dependencies.reqwest]
 version = "0.10"
-features = ["json"]
+features = ["blocking", "json"]
 
 [dependencies.redis]
 version = "0.17"
