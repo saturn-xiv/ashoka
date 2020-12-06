@@ -7,7 +7,6 @@ RUN apt update
 RUN apt -y upgrade
 RUN apt -y install software-properties-common
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
-# RUN add-apt-repository ppa:deadsnakes/ppa -y
 RUN apt update
 RUN apt -y install zsh git locales rsync openssh-client \
     vim sudo tzdata pwgen curl zip unzip wget yasm \
@@ -15,16 +14,16 @@ RUN apt -y install zsh git locales rsync openssh-client \
     binutils-multiarch \
     g++-arm-linux-gnueabihf pkg-config-arm-linux-gnueabihf binutils-arm-linux-gnueabihf \
     mingw-w64 mingw-w64-tools binutils-mingw-w64 \
-    python3 python3-distutils python3-dev    
+    python3 python3-pip python3-distutils python3-dev    
 
 # https://wiki.ubuntu.com/ToolChain
-RUN dpkg --add-architecture armhf
-RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs) main restricted universe multiverse" > /etc/apt/sources.list
-RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs)-updates main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs)-security main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs) main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs)-security main restricted universe multiverse" >> /etc/apt/sources.list
-RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs)-updates main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN dpkg --add-architecture armhf
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs) main restricted universe multiverse" > /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs)-updates main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ $(lsb_release -cs)-security main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs) main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs)-security main restricted universe multiverse" >> /etc/apt/sources.list
+# RUN echo "deb [arch=armhf] http://ports.ubuntu.com/ $(lsb_release -cs)-updates main restricted universe multiverse" >> /etc/apt/sources.list
 
 RUN apt update
 RUN apt -y autoremove
@@ -47,34 +46,28 @@ RUN passwd -l deploy
 RUN echo 'deploy ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/101-deploy
 
 USER deploy
+# https://github.com/ohmyzsh/ohmyzsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-RUN curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
-RUN python3.10 /tmp/get-pip.py
-RUN sh -c ". $HOME/.profile \
-    && pip install --user cmake"
-RUN sh -c ". $HOME/.profile \
-    && pip install --user conan"
+RUN pip3 install --user conan
 
 # https://github.com/nvm-sh/nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
 RUN sh -c ". $HOME/.profile \
     && nvm install node"
-RUN sh -c ". $HOME/.profile \
-    && npm install -g yarn"
 
-ENV ANDROID_SDK_VERSION 6858069
-RUN wget -P $HOME/downloads https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip
-RUN mkdir -pv $HOME/local/android-sdk
-RUN unzip $HOME/downloads/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip -d $HOME/local/android-sdk
-RUN yes | $HOME/local/android-sdk/tools/bin/sdkmanager --licenses
+# ENV ANDROID_SDK_VERSION 6858069
+# RUN wget -P $HOME/downloads https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip
+# RUN mkdir -pv $HOME/local/android-sdk
+# RUN unzip $HOME/downloads/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip -d $HOME/local/android-sdk
+# RUN yes | $HOME/local/android-sdk/tools/bin/sdkmanager --licenses
 
-RUN curl -s "https://get.sdkman.io" | sh
-RUN sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
-RUN zsh -c "source $HOME/.zshrc \
-    && sdk install java 15.0.1-open \
-    && sdk install maven \
-    && sdk install gradle"
+# RUN curl -s "https://get.sdkman.io" | sh
+# RUN sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
+# RUN zsh -c "source $HOME/.zshrc \
+#     && sdk install java 15.0.1-open \
+#     && sdk install maven \
+#     && sdk install gradle"
 
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 
