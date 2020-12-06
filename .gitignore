@@ -1,5 +1,6 @@
 /build/
 /tmp/
+/etc/config.toml
 
 /ubuntu/etc/
 /ubuntu/usr/

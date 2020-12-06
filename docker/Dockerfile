@@ -60,9 +60,9 @@ ENV ANDROID_SDK_VERSION 6858069
 RUN wget -P $HOME/downloads https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip
 RUN mkdir -pv $HOME/local/android-sdk
 RUN unzip $HOME/downloads/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip -d $HOME/local/android-sdk
-RUN yes | $HOME/local/android-sdk/tools/bin/sdkmanager --licenses
+# RUN yes | $HOME/local/android-sdk/cmdline-tools/tools/bin/sdkmanager --licenses
 
-RUN curl -s "https://get.sdkman.io" | sh
+RUN curl -s "https://get.sdkman.io" | zsh
 RUN sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
 RUN zsh -c "source $HOME/.zshrc \
     && sdk install java 15.0.1-open \

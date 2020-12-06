@@ -9,7 +9,7 @@ cd build
 conan install .. --profile=../docker/conan/profiles/arch --build=missing
 CC=clang CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release ..
 
-# ln -s ../config.toml ../staging ../tasks ../db ../templates ../etc/* ./
+ln -s ../staging ../tasks ../db ../templates ../etc/* ./
 
 echo 'done.'
 

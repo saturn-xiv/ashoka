@@ -22,6 +22,25 @@
 #include <boost/log/trivial.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/program_options.hpp>
+#include <boost/exception/diagnostic_information.hpp>
+#include <Poco/Net/Context.h>
+#include <Poco/Net/HTTPClientSession.h>
+#include <Poco/Net/HTTPSClientSession.h>
+#include <Poco/Net/HTTPRequest.h>
+#include <Poco/Net/HTTPResponse.h>
+#include <Poco/Net/HTTPBasicCredentials.h>
+#include <Poco/Net/InvalidCertificateHandler.h>
+#include <Poco/Net/AcceptCertificateHandler.h>
+#include <Poco/Net/SSLManager.h>
+#include <Poco/Net/HTMLForm.h>
+#include <Poco/StreamCopier.h>
+#include <Poco/Path.h>
+#include <Poco/URI.h>
+#include <Poco/Exception.h>
+#include <Poco/JSON/Object.h>
+#include <Poco/JSON/Parser.h>
+#include <Poco/JSON/Array.h>
+#include <Poco/NumberParser.h>
 
 #include "config.h"
 
@@ -43,6 +62,14 @@ namespace std_fs = std::experimental::filesystem;
 
 namespace ashoka
 {
+    namespace env
+    {
+        class Config
+        {
+        public:
+            virtual operator toml::table() const = 0;
+        };
+    } // namespace env
 } // namespace ashoka
 
 #endif

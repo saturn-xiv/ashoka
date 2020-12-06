@@ -1,6 +1,14 @@
-#include "twilio.h"
+#include "application.h"
 
-int main()
+int main(int argc, char **argv)
 {
-    return 0;
+    ashoka::Application app;
+    try
+    {
+        return app.run(argc, argv);
+    }
+    catch (...)
+    {
+        BOOST_LOG_TRIVIAL(fatal) << boost::current_exception_diagnostic_information();
+    }
 }
