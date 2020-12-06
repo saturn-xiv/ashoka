@@ -56,32 +56,29 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | s
 RUN sh -c ". $HOME/.profile \
     && nvm install node"
 
-# ENV ANDROID_SDK_VERSION 6858069
-# RUN wget -P $HOME/downloads https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip
-# RUN mkdir -pv $HOME/local/android-sdk
-# RUN unzip $HOME/downloads/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip -d $HOME/local/android-sdk
-# RUN yes | $HOME/local/android-sdk/tools/bin/sdkmanager --licenses
+ENV ANDROID_SDK_VERSION 6858069
+RUN wget -P $HOME/downloads https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip
+RUN mkdir -pv $HOME/local/android-sdk
+RUN unzip $HOME/downloads/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip -d $HOME/local/android-sdk
+RUN yes | $HOME/local/android-sdk/tools/bin/sdkmanager --licenses
 
-# RUN curl -s "https://get.sdkman.io" | sh
-# RUN sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
-# RUN zsh -c "source $HOME/.zshrc \
-#     && sdk install java 15.0.1-open \
-#     && sdk install maven \
-#     && sdk install gradle"
+RUN curl -s "https://get.sdkman.io" | sh
+RUN sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
+RUN zsh -c "source $HOME/.zshrc \
+    && sdk install java 15.0.1-open \
+    && sdk install maven \
+    && sdk install gradle"
 
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 
-# RUN  sh -c ". $HOME/.profile \
-#     && git clone -b cpp https://github.com/saturn-xiv/ashoka.git $HOME/ashoka \
-#     && cd $HOME/ashoka/docker/conan/recipes \
-#     && ./build.sh $HOME/ashoka/docker/conan/profiles/gcc9 \
-#     && ./build.sh $HOME/ashoka/docker/conan/profiles/linaro \
-#     && mkdir -pv $HOME/ashoka/build/gcc9 \
-#     && cd $HOME/ashoka/build/gcc9 \
-#     && conan install ../.. --profile=../../docker/conan/profiles/gcc9 --build=missing \
-#     && mkdir -pv $HOME/ashoka/build/linaro \
-#     && cd $HOME/ashoka/build/linaro \
-#     && conan install ../.. --profile=../../docker/conan/profiles/linaro --build=missing"
+RUN  sh -c ". $HOME/.profile \
+    && git clone -b poco https://github.com/saturn-xiv/ashoka.git $HOME/ashoka \
+    && mkdir -pv $HOME/ashoka/build/gcc9 \
+    && cd $HOME/ashoka/build/gcc9 \
+    && conan install ../.. --profile=../../docker/conan/profiles/gcc9 --build=missing \
+    && mkdir -pv $HOME/ashoka/build/linaro \
+    && cd $HOME/ashoka/build/linaro \
+    && conan install ../.. --profile=../../docker/conan/profiles/linaro --build=missing"
 
 VOLUME /workspace
 WORKDIR /workspace

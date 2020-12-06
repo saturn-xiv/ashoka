@@ -17,15 +17,15 @@ cd $BUILD_ROOT
 # sudo apt update g++-mingw-w64
 # sudo apt -y install g++-9 
 # apt --yes --force-yes -o Dpkg::Options::="--force-confnew" upgrade
-if [[ $1 = "arm" ]]
+if [ $1 = "arm" ]
 then
     conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/linaro --build=missing
     cmake -DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/linaro.cmake -DCMAKE_BUILD_TYPE=Release $WORKSPACE
-else if [[ $1 = "win" ]]
+elif [ $1 = "win" ]
+then
     conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/mingw --build=missing
     cmake -DCMAKE_TOOLCHAIN_FILE=$WORKSPACE/mingw.cmake -DCMAKE_BUILD_TYPE=Release $WORKSPACE 
-then
-else if [[ $1 = "x64" ]]
+elif [ $1 = "x64" ]
 then
     # https://github.com/microsoft/cpprestsdk/pull/1462
     conan install $WORKSPACE --profile=$WORKSPACE/docker/conan/profiles/gcc9 --build=missing
