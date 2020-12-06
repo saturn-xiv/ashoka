@@ -47,9 +47,8 @@ target_link_libraries(ashoka
 include(CTest)
 enable_testing()
 
-add_executable(amqp_test src/amqp_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
-target_link_libraries(amqp_test ${CONAN_LIBS} stdc++fs)
-
+add_executable(queue_test src/queue_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
+target_link_libraries(queue_test ${CONAN_LIBS} stdc++fs)
 
 add_executable(audio_test src/audio_test.cpp ${ASHOKA_HEADERS} ${ASHOKA_SOURCES})
 target_link_libraries(audio_test ${CONAN_LIBS} stdc++fs)

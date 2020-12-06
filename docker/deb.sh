@@ -35,7 +35,7 @@ else
     exit 1
 fi
 
-make
+make ashoka
 
 export TARGET=$WORKSPACE/ubuntu
 rm -rfv $TARGET/usr
