@@ -45,7 +45,7 @@ RUN echo 'deploy ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/101-deploy
 USER deploy
 
 # https://github.com/ohmyzsh/ohmyzsh
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # https://github.com/nvm-sh/nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | sh
@@ -59,6 +59,21 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 RUN sh -c ". $HOME/.cargo/env \
     && rustup target add armv7-unknown-linux-gnueabihf"
+
+RUN mkdir $HOME/downloads
+
+ENV ANDROID_SDK_VERSION 4333796
+RUN wget -P $HOME/downloads https://dl.google.com/android/repository/sdk-tools-linux-$ANDROID_SDK_VERSION.zip
+RUN mkdir -pv $HOME/local/android-sdk
+RUN unzip $HOME/downloads/sdk-tools-linux-$ANDROID_SDK_VERSION.zip -d $HOME/local/android-sdk
+RUN yes | $HOME/local/android-sdk/tools/bin/sdkmanager --licenses
+
+RUN curl -s "https://get.sdkman.io" | zsh
+RUN sed -i -e 's/sdkman_auto_answer=false/sdkman_auto_answer=true/g' $HOME/.sdkman/etc/config
+RUN zsh -c "source $HOME/.zshrc \
+    && sdk install java 8.0.191-oracle \
+    && sdk install maven \
+    && sdk install gradle"
 
 RUN echo 'source $HOME/.profile' >> $HOME/.zshrc
 

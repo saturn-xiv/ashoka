@@ -26,7 +26,7 @@ mkdir -pv ubuntu/usr/bin
 # export SQLITE3_STATIC=1
 export PKG_CONFIG_ALL_STATIC=1
 
-if [ $1 == "armv7" ]
+if [[ $1 == "armv7" ]]
 then
     sudo apt -y install libssl-dev:armhf libudev-dev:armhf \
         libsqlite3-dev:armhf libpq-dev:armhf libmysqlclient-dev:armhf
@@ -37,7 +37,7 @@ then
     cargo build --target armv7-unknown-linux-gnueabihf --release
     cp -v target/armv7-unknown-linux-gnueabihf/release/ashoka ubuntu/usr/bin/
     arm-linux-gnueabihf-strip -s ubuntu/usr/bin/ashoka
-elif [ $1 == "x86_64" ]
+elif [[ $1 == "x86_64" ]]
 then
     sudo apt -y install libssl-dev \
         libsqlite3-dev libpq-dev libmysqlclient-dev 

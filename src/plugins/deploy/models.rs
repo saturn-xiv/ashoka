@@ -439,7 +439,6 @@ fn template_str(tpl: &str, vars: &Vars) -> Result<String> {
     let mut reg = Handlebars::new();
     let name = "";
     reg.set_strict_mode(true);
-    reg.register_escape_fn(no_escape);
     reg.register_template_string(name, tpl)?;
     Ok(reg.render(name, vars)?)
 }
